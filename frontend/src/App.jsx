@@ -2,54 +2,83 @@ import { useState, useCallback, useRef } from 'react'
 import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/maplibre'
 import * as turf from '@turf/turf'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { computeStations } from './transect.js'
 import './App.css'
 
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
-const STATION_COUNT = 10
-const INTERVAL_KM = turf.convertLength(300, 'miles', 'kilometers')
 
 const COMPASS_DIRS = [
   ['N', 0], ['NE', 45], ['E', 90], ['SE', 135],
   ['S', 180], ['SW', 225], ['W', 270], ['NW', 315],
 ]
 
-async function reverseGeocode(lat, lng) {
+// Returns { name, lat, lng, offset } where lat/lng is the snapped city
+// centroid if within radiusMiles, otherwise the original transect point.
+async function findNearbyCity(transectLat, transectLng, radiusMiles) {
   try {
     const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+      `https://nominatim.openstreetmap.org/reverse?lat=${transectLat}&lon=${transectLng}&format=json&zoom=10`,
       { headers: { 'Accept-Language': 'en' } }
     )
     const data = await res.json()
     const a = data.address || {}
-    return a.city || a.town || a.village || a.hamlet || a.county || a.state || `${lat.toFixed(2)}, ${lng.toFixed(2)}`
-  } catch {
-    return `${lat.toFixed(2)}, ${lng.toFixed(2)}`
-  }
-}
+    const name = a.city || a.town || a.village || a.hamlet || a.county || a.state
 
-function computeStations(startLng, startLat, heading) {
-  const stations = []
-  for (let i = 0; i < STATION_COUNT; i++) {
-    const pt = turf.destination(
-      turf.point([startLng, startLat]),
-      i * INTERVAL_KM,
-      heading,
-      { units: 'kilometers' }
+    const cityLat = parseFloat(data.lat)
+    const cityLng = parseFloat(data.lon)
+    const offsetMi = turf.distance(
+      [transectLng, transectLat],
+      [cityLng, cityLat],
+      { units: 'miles' }
     )
-    const [lng, lat] = pt.geometry.coordinates
-    stations.push({ id: i, lng, lat, name: null })
+
+    if (name && offsetMi <= radiusMiles) {
+      return { name, lat: cityLat, lng: cityLng, offset: Math.round(offsetMi) }
+    }
+    return {
+      name: `${transectLat.toFixed(2)}°, ${transectLng.toFixed(2)}°`,
+      lat: transectLat,
+      lng: transectLng,
+      offset: 0,
+    }
+  } catch {
+    return {
+      name: `${transectLat.toFixed(2)}°, ${transectLng.toFixed(2)}°`,
+      lat: transectLat,
+      lng: transectLng,
+      offset: 0,
+    }
   }
-  return stations
 }
 
 export default function App() {
   const [startPoint, setStartPoint] = useState(null)
   const [heading, setHeading] = useState(0)
+  const [headingInput, setHeadingInput] = useState('0')
+  const [cityRadius, setCityRadius] = useState(50)
   const [stations, setStations] = useState([])
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const searchTimer = useRef(null)
+
+  const setHeadingValue = (val) => {
+    setHeading(val)
+    setHeadingInput(String(val))
+  }
+
+  const handleHeadingText = (raw) => {
+    setHeadingInput(raw)
+    const n = parseInt(raw, 10)
+    if (!isNaN(n) && n >= 0 && n <= 359) setHeading(n)
+  }
+
+  const handleHeadingBlur = () => {
+    const n = parseInt(headingInput, 10)
+    const clamped = isNaN(n) ? heading : Math.max(0, Math.min(359, n))
+    setHeading(clamped)
+    setHeadingInput(String(clamped))
+  }
 
   const handleSearchInput = (q) => {
     setSearchQuery(q)
@@ -86,21 +115,28 @@ export default function App() {
     if (!startPoint) return
     setLoading(true)
     const raw = computeStations(startPoint.lng, startPoint.lat, heading)
-    // Show positions immediately, then fill in names one by one
     setStations(raw.map(s => ({ ...s, name: '…' })))
     const named = [...raw]
     for (let i = 0; i < named.length; i++) {
-      named[i] = { ...named[i], name: await reverseGeocode(named[i].lat, named[i].lng) }
+      const { name, lat, lng, offset } = await findNearbyCity(
+        named[i].transectLat,
+        named[i].transectLng,
+        cityRadius
+      )
+      named[i] = { ...named[i], name, lat, lng, offset }
       setStations([...named])
-      // Nominatim rate limit: 1 req/s
       if (i < named.length - 1) await new Promise(r => setTimeout(r, 1100))
     }
     setLoading(false)
   }
 
+  // The geometric line stays on the original transect points
   const lineGeoJSON = stations.length >= 2 ? {
     type: 'Feature',
-    geometry: { type: 'LineString', coordinates: stations.map(s => [s.lng, s.lat]) }
+    geometry: {
+      type: 'LineString',
+      coordinates: stations.map(s => [s.transectLng, s.transectLat]),
+    }
   } : null
 
   return (
@@ -139,13 +175,27 @@ export default function App() {
         </section>
 
         <section className="section">
-          <label className="field-label">Heading: {heading}°</label>
+          <div className="heading-header">
+            <label className="field-label">Heading</label>
+            <div className="heading-input-wrap">
+              <input
+                type="number"
+                className="degree-input"
+                min="0"
+                max="359"
+                value={headingInput}
+                onChange={e => handleHeadingText(e.target.value)}
+                onBlur={handleHeadingBlur}
+              />
+              <span className="degree-symbol">°</span>
+            </div>
+          </div>
           <div className="compass-grid">
             {COMPASS_DIRS.map(([label, deg]) => (
               <button
                 key={deg}
                 className={`compass-btn${heading === deg ? ' active' : ''}`}
-                onClick={() => setHeading(deg)}
+                onClick={() => setHeadingValue(deg)}
               >
                 {label}
               </button>
@@ -156,9 +206,27 @@ export default function App() {
             min="0"
             max="359"
             value={heading}
-            onChange={e => setHeading(Number(e.target.value))}
+            onChange={e => setHeadingValue(Number(e.target.value))}
             className="heading-slider"
           />
+        </section>
+
+        <section className="section">
+          <label className="field-label">City search radius: {cityRadius} mi</label>
+          <input
+            type="range"
+            min="0"
+            max="300"
+            step="10"
+            value={cityRadius}
+            onChange={e => setCityRadius(Number(e.target.value))}
+            className="heading-slider"
+          />
+          <p className="radius-hint">
+            {cityRadius === 0
+              ? 'Stations placed at exact transect points'
+              : `Snap to nearest city within ${cityRadius} mi of each point`}
+          </p>
         </section>
 
         <button
@@ -180,6 +248,9 @@ export default function App() {
                     <span className="station-name">{s.name}</span>
                     <span className="station-coords">
                       {s.lat.toFixed(3)}°, {s.lng.toFixed(3)}°
+                      {s.offset > 0 && (
+                        <span className="station-offset"> · {s.offset} mi off line</span>
+                      )}
                     </span>
                   </span>
                 </li>

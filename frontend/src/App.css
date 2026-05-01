@@ -103,6 +103,53 @@
 
 /* ── Compass / heading ───────────────────────────────────── */
 
+.heading-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heading-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.degree-input {
+  width: 56px;
+  background: #0f1015;
+  border: 1px solid #2a2d38;
+  color: #e0e0e0;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  text-align: right;
+  outline: none;
+  /* hide browser spin buttons */
+  appearance: textfield;
+}
+
+.degree-input::-webkit-inner-spin-button,
+.degree-input::-webkit-outer-spin-button {
+  display: none;
+}
+
+.degree-input:focus {
+  border-color: #f59e0b;
+}
+
+.degree-symbol {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.radius-hint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #555;
+  font-style: italic;
+}
+
 .compass-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -259,4 +306,8 @@
 .marker-station {
   background: #f59e0b;
   color: #000;
+}
+
+.station-offset {
+  color: #7c6a2e;
 }
