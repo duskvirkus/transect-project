@@ -111,6 +111,22 @@ export default function App() {
     setSearchResults([])
   }, [])
 
+  const saveTransect = () => {
+    const config = {
+      startPoint,
+      heading,
+      cityRadius,
+      stations,
+    }
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `transect-${heading}deg.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const generateTransect = async () => {
     if (!startPoint) return
     setLoading(true)
@@ -236,6 +252,16 @@ export default function App() {
         >
           {loading ? 'Geocoding stations…' : 'Generate Transect'}
         </button>
+
+        {stations.length > 0 && (
+          <button
+            className="save-btn"
+            onClick={saveTransect}
+            disabled={loading}
+          >
+            Save JSON
+          </button>
+        )}
 
         {stations.length > 0 && (
           <section className="section stations-section">

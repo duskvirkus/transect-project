@@ -209,6 +209,31 @@
   cursor: not-allowed;
 }
 
+/* ── Save button ─────────────────────────────────────────── */
+
+.save-btn {
+  background: transparent;
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s, color 0.15s;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #f59e0b;
+  color: #000;
+}
+
+.save-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* ── Station list ────────────────────────────────────────── */
 
 .stations-section {
