@@ -1,8 +1,11 @@
+## Purpose
+Defines requirements for the climate data page, which displays 30-year climate normals per station.
+## Requirements
 ### Requirement: Default dataset loads on home page
-The home page SHALL load and display climate data from the bundled default dataset without requiring any user action or network request.
+The climate data page SHALL load and display climate data from the bundled default dataset without requiring any user action or network request.
 
 #### Scenario: Default data visible on page load
-- **WHEN** a user navigates to `/`
+- **WHEN** a user navigates to `/climate-data`
 - **THEN** the page displays climate data for the 10 default transect stations immediately, without prompting for a file upload or making any API calls
 
 ### Requirement: User can upload a transect JSON
@@ -40,3 +43,4 @@ The home page SHALL provide a button to download the current dataset as a JSON f
 #### Scenario: Download unavailable during fetch
 - **WHEN** climate data is still being fetched
 - **THEN** the download button is disabled
+

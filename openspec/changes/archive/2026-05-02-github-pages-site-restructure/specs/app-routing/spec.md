@@ -27,8 +27,6 @@ The app SHALL use React Router to serve five routes: `/` (landing page), `/build
 - **WHEN** a user navigates to an unrecognized path
 - **THEN** the app redirects to `/`
 
-## MODIFIED Requirements
-
 ### Requirement: Navigation header links between pages
 The app SHALL display a persistent navigation header with links to Builder, Climate Data, and Analysis — in that order.
 
