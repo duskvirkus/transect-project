@@ -1,0 +1,100 @@
+{
+  "startPoint": {
+    "lat": 35.161852,
+    "lng": 138.6763863
+  },
+  "heading": 278,
+  "cityRadius": 100,
+  "stations": [
+    {
+      "id": 0,
+      "transectLat": 35.161852,
+      "transectLng": 138.6763863,
+      "lat": 35.161852,
+      "lng": 138.6763863,
+      "name": "Fuji",
+      "offset": 0
+    },
+    {
+      "id": 1,
+      "transectLat": 35.76613429698943,
+      "transectLng": 133.39727501004324,
+      "lat": 35.468115,
+      "lng": 133.048768,
+      "name": "Matsue",
+      "offset": 28
+    },
+    {
+      "id": 2,
+      "transectLat": 36.37041659397885,
+      "transectLng": 128.07790356459054,
+      "lat": 36.4104478,
+      "lng": 128.1590614,
+      "name": "Sangju-si",
+      "offset": 5
+    },
+    {
+      "id": 3,
+      "transectLat": 36.974698890968284,
+      "transectLng": 122.71705226364656,
+      "lat": 37.1649467,
+      "lng": 122.482296,
+      "name": "Rongcheng City",
+      "offset": 18
+    },
+    {
+      "id": 4,
+      "transectLat": 37.57898118795771,
+      "transectLng": 117.31346330870633,
+      "lat": 37.6319379,
+      "lng": 117.5974413,
+      "name": "Yangxin County",
+      "offset": 16
+    },
+    {
+      "id": 5,
+      "transectLat": 38.18326348494713,
+      "transectLng": 111.86583895045885,
+      "lat": 38.0691073,
+      "lng": 111.7981024,
+      "name": "Loufan",
+      "offset": 9
+    },
+    {
+      "id": 6,
+      "transectLat": 38.78754578193655,
+      "transectLng": 106.37283952976156,
+      "lat": 38.8401757,
+      "lng": 106.5323459,
+      "name": "Shizuishan",
+      "offset": 9
+    },
+    {
+      "id": 7,
+      "transectLat": 39.391828078925975,
+      "transectLng": 100.83308140422764,
+      "lat": 39.000167,
+      "lng": 100.51999,
+      "name": "Gansu",
+      "offset": 32
+    },
+    {
+      "id": 8,
+      "transectLat": 39.99611037591541,
+      "transectLng": 95.24513475212666,
+      "lat": 40.1411004,
+      "lng": 94.6607593,
+      "name": "Dunhuang City",
+      "offset": 32
+    },
+    {
+      "id": 9,
+      "transectLat": 40.600392672904825,
+      "transectLng": 89.60752124459134,
+      "lat": 40.4746583,
+      "lng": 90.8758839,
+      "name": "Lopnur",
+      "offset": 67
+    }
+  ]
+}
