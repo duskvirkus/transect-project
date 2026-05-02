@@ -33,12 +33,12 @@
 
 - [x] 6.1 Add CSS for the nav header (consistent with existing `App.css` style)
 - [x] 6.2 Add CSS for the home page station cards / climate data display
-- [ ] 6.3 Verify the builder still works correctly at `/builder` and the Save JSON download still functions
+- [x] 6.3 Verify the builder still works correctly at `/builder` and the Save JSON download still functions
 
 ## 7. Verification
 
-- [ ] 7.1 Confirm home page loads default data with no network requests
-- [ ] 7.2 Upload `transect-278deg.json` and verify all 10 stations fetch and display correctly
-- [ ] 7.3 Upload an invalid JSON and verify the error message appears without replacing the dataset
-- [ ] 7.4 Download enriched JSON and verify the schema includes `climateData` on each station with 12-value arrays
-- [ ] 7.5 Navigate between `/` and `/builder` and verify both routes render correctly
+- [x] 7.1 Confirm home page loads default data with no network requests
+- [x] 7.2 Upload `transect-278deg.json` and verify all 10 stations fetch and display correctly
+- [x] 7.3 Upload an invalid JSON and verify the error message appears without replacing the dataset
+- [x] 7.4 Download enriched JSON and verify the schema includes `climateData` on each station with 12-value arrays
+- [x] 7.5 Navigate between `/` and `/builder` and verify both routes render correctly
