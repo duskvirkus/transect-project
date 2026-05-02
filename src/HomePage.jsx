@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import defaultData from '../../data/default-climate.json'
+import defaultData from '../data/default-climate.json'
 import { fetchStationClimate } from './climate.js'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
