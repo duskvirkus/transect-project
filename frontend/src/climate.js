@@ -5,7 +5,7 @@
  *   - monthlyMinTemp: average daily min temperature (°C)
  *   - monthlyPrecip:  average monthly total precipitation (mm)
  */
-export async function fetchStationClimate(lat, lng) {
+export async function fetchStationClimate(lat, lng, onCountdown) {
   const url = new URL('https://archive-api.open-meteo.com/v1/archive')
   url.searchParams.set('latitude', lat)
   url.searchParams.set('longitude', lng)
@@ -14,7 +14,18 @@ export async function fetchStationClimate(lat, lng) {
   url.searchParams.set('daily', 'temperature_2m_max,temperature_2m_min,precipitation_sum')
   url.searchParams.set('timezone', 'UTC')
 
-  const res = await fetch(url)
+  let res
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    res = await fetch(url)
+    if (res.status !== 429) break
+    // Back off 15s, 30s, 45s, 60s — tick countdown each second
+    const waitSec = attempt * 15
+    for (let t = waitSec; t > 0; t--) {
+      onCountdown?.(t)
+      await new Promise(r => setTimeout(r, 1000))
+    }
+    onCountdown?.(0)
+  }
   if (!res.ok) throw new Error(`Open-Meteo error ${res.status} for (${lat}, ${lng})`)
 
   const data = await res.json()

@@ -461,6 +461,43 @@
   padding: 7px 14px;
 }
 
+.save-notice {
+  background: #0d2a1a;
+  border: 1px solid #22c55e44;
+  border-radius: 6px;
+  color: #4ade80;
+  font-size: 0.82rem;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.save-notice-dismiss {
+  background: none;
+  border: none;
+  color: #4ade80;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.save-notice-dismiss:hover {
+  opacity: 1;
+}
+
+.fetch-banner {
+  background: #2a2200;
+  border: 1px solid #f59e0b44;
+  border-radius: 6px;
+  color: #f59e0b;
+  font-size: 0.82rem;
+  padding: 10px 14px;
+}
+
 .stations-grid {
   display: flex;
   flex-direction: column;
@@ -506,11 +543,23 @@
 .fetch-status-loading {
   color: #f59e0b;
   background: #2a2200;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .fetch-status-error {
   color: #ef4444;
   background: #2a0a0a;
+}
+
+.fetch-status-retry {
+  color: #fb923c;
+  background: #2a1500;
+  animation: pulse 1s ease-in-out infinite;
 }
 
 .climate-table-wrap {

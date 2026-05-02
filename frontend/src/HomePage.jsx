@@ -25,6 +25,8 @@ export default function HomePage() {
     Object.fromEntries(defaultData.stations.map(s => [s.id, 'done']))
   )
   const [fetching, setFetching] = useState(false)
+  const [countdowns, setCountdowns] = useState({})
+  const [showSaveNotice, setShowSaveNotice] = useState(false)
   const [error, setError] = useState(null)
 
   const handleUpload = (e) => {
@@ -51,24 +53,32 @@ export default function HomePage() {
         ...parsed,
         stations: parsed.stations.map(({ climateData: _cd, ...s }) => s),
       }
-      setTransect(base)
+      // Show all stations immediately; update in-place as data arrives
+      const working = base.stations.map(s => ({ ...s }))
+      setTransect({ ...base, stations: working })
       setStatuses(Object.fromEntries(base.stations.map(s => [s.id, 'pending'])))
+      setCountdowns({})
       setFetching(true)
 
-      const enriched = { ...base, stations: [] }
-      for (const station of base.stations) {
+      for (let i = 0; i < working.length; i++) {
+        const station = working[i]
         setStatuses(prev => ({ ...prev, [station.id]: 'loading' }))
+        await new Promise(r => setTimeout(r, 150))
         try {
-          const climateData = await fetchStationClimate(station.lat, station.lng)
-          enriched.stations.push({ ...station, climateData })
-          setTransect({ ...enriched, stations: [...enriched.stations] })
+          const climateData = await fetchStationClimate(station.lat, station.lng, (t) => {
+            setCountdowns(prev => ({ ...prev, [station.id]: t || null }))
+          })
+          working[i] = { ...station, climateData }
+          setTransect(t => ({ ...t, stations: [...working] }))
           setStatuses(prev => ({ ...prev, [station.id]: 'done' }))
-        } catch (err) {
+          setCountdowns(prev => ({ ...prev, [station.id]: null }))
+        } catch {
           setStatuses(prev => ({ ...prev, [station.id]: 'error' }))
-          enriched.stations.push({ ...station })
         }
+        if (i < working.length - 1) await new Promise(r => setTimeout(r, 3000))
       }
       setFetching(false)
+      setShowSaveNotice(true)
       e.target.value = ''
     }
     reader.readAsText(file)
@@ -94,16 +104,30 @@ export default function HomePage() {
         </div>
         <button
           className="save-btn download-btn"
-          onClick={() => downloadJSON(transect)}
+          onClick={() => { downloadJSON(transect); setShowSaveNotice(false) }}
           disabled={fetching || !allDone}
         >
           Download JSON
         </button>
       </div>
 
+      {showSaveNotice && (
+        <div className="save-notice">
+          Download your JSON to save your climate data — it will be lost if you reload and you'll have to fetch it again.
+          <button className="save-notice-dismiss" onClick={() => setShowSaveNotice(false)}>✕</button>
+        </div>
+      )}
+
+      {fetching && (
+        <div className="fetch-banner">
+          Fetching climate data from Open-Meteo — this may take a few minutes. Please keep this tab open.
+        </div>
+      )}
+
       <div className="stations-grid">
         {transect.stations.map((station, i) => {
           const status = statuses[station.id] ?? 'pending'
+          const countdown = countdowns[station.id]
           const cd = station.climateData
           return (
             <div key={station.id} className="climate-card">
@@ -116,8 +140,12 @@ export default function HomePage() {
                   </span>
                 </div>
                 {status !== 'done' && (
-                  <span className={`fetch-status fetch-status-${status}`}>
-                    {status === 'loading' ? 'Fetching…' : status === 'error' ? 'Error' : 'Pending'}
+                  <span className={`fetch-status fetch-status-${countdown ? 'retry' : status}`}>
+                    {countdown
+                      ? `Rate limited — retrying in ${countdown}s`
+                      : status === 'loading' ? 'Fetching…'
+                      : status === 'error' ? 'Error'
+                      : 'Queued'}
                   </span>
                 )}
               </div>
