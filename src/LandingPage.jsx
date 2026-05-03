@@ -9,13 +9,15 @@ export default function LandingPage() {
       <div className="landing-overlay">
         <h1 className="landing-title">Transect Project</h1>
         <p className="landing-description">
-          This project analyzes climate data along a transect of weather stations on the
-          slopes of Mount Fuji (transect 278). Use the tools below to explore the default
-          dataset or build your own transect from scratch.
+          This is a project for my Meteorology class at{' '}
+          <a className="landing-link" href='https://www.frontrange.edu/'>Front Range Community College</a>.{' '}
+          The project analyzes the climate along a transect (or line). The one I selected
+          starts in Fuji, Japan and goes West 8° North, into South Korea and then China.
+          You can use this site to explore my transect or create your own.
         </p>
         <div className="landing-actions">
           <button className="btn-primary" onClick={() => navigate('/climate-data')}>
-            View Fuji 278 Transect
+            View Fuji Transect
           </button>
           <button className="btn-secondary" onClick={() => navigate('/create-a-transect')}>
             Create a Transect

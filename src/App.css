@@ -640,6 +640,16 @@
   line-height: 1.6;
 }
 
+.landing-link {
+  color: #f59e0b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.landing-link:hover {
+  color: #fbbf24;
+}
+
 .landing-actions {
   display: flex;
   gap: 12px;
