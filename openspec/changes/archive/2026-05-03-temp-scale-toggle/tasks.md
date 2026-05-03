@@ -35,7 +35,7 @@
 ## 7. Verification
 
 - [x] 7.1 Run existing tests and new unit tests (`npm test` or equivalent) — all pass
-- [ ] 7.2 Manually verify toggle renders fixed bottom-right on all pages
-- [ ] 7.3 Manually verify scale changes update climate table values and labels reactively
-- [ ] 7.4 Manually verify Felsius "What is Felsius?" link appears/disappears correctly
-- [ ] 7.5 Manually verify `/what-is-felsius` page renders with both external links
+- [x] 7.2 Manually verify toggle renders fixed bottom-right on all pages
+- [x] 7.3 Manually verify scale changes update climate table values and labels reactively
+- [x] 7.4 Manually verify Felsius "What is Felsius?" link appears/disappears correctly
+- [x] 7.5 Manually verify `/what-is-felsius` page renders with both external links
