@@ -7,6 +7,11 @@ export default function TempScaleToggle() {
 
   return (
     <div className="temp-scale-overlay">
+      {scale === 'felsius' && (
+        <Link to="/what-is-felsius" className="felsius-info-link">
+          What is Felsius?
+        </Link>
+      )}
       <div className="temp-scale-strip">
         {TEMP_SCALES.map(({ key, name, symbol }) => (
           <button
@@ -18,11 +23,6 @@ export default function TempScaleToggle() {
           </button>
         ))}
       </div>
-      {scale === 'felsius' && (
-        <Link to="/what-is-felsius" className="felsius-info-link">
-          What is Felsius?
-        </Link>
-      )}
     </div>
   )
 }
