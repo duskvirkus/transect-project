@@ -13,7 +13,7 @@ const STEPS = [
     title: 'Climate Data',
     path: '/climate-data',
     description:
-      'Upload your transect JSON to fetch 30-year climate normals (1991–2020) from Open-Meteo ERA5 for each station. Download the enriched dataset when complete.',
+      'Upload your transect JSON to fetch 30-year climate normals (1996–2025) from Open-Meteo ERA5 for each station. Download the enriched dataset when complete.',
   },
   {
     number: 3,

@@ -20,7 +20,6 @@ The project will cover all three parts of the assignment:
 ## Getting Started
 
 ```bash
-cd frontend
 npm install
 npm run dev
 ```
@@ -29,12 +28,12 @@ Open http://localhost:5173.
 
 ## Climate Data
 
-Available at `/` (home page). Displays 1991–2020 climatological normals (monthly average max temp, min temp, and precipitation) for each station, sourced from the Open-Meteo ERA5 reanalysis archive.
+Available at `/climate-data`. Displays 1996–2025 climatological normals (monthly average max temp, min temp, and precipitation) for each station, sourced from the Open-Meteo ERA5 reanalysis archive.
 
 The default view loads pre-fetched data for the included 278° transect instantly with no network requests. To use your own transect:
 
 1. Export a JSON from the Builder
-2. Upload it on the home page
+2. Upload it on the Collect Data page
 3. The app fetches ERA5 climate data for each station (takes a few minutes — no API key needed)
 4. Download the enriched JSON to save your results
 
@@ -56,14 +55,12 @@ Available at `/builder`. Pick a starting location and heading, and the app plots
 To regenerate the default climate data:
 
 ```bash
-cd frontend
 node scripts/fetch-default-climate.js
 ```
 
 ## Tests
 
 ```bash
-cd frontend
 npm test
 ```
 

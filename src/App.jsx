@@ -3,7 +3,7 @@ import { TempScaleProvider } from './TempScaleContext.jsx'
 import NavHeader from './NavHeader.jsx'
 import LandingPage from './LandingPage.jsx'
 import BuilderPage from './BuilderPage.jsx'
-import HomePage from './HomePage.jsx'
+import CollectDataPage from './CollectDataPage.jsx'
 import AnalysisPage from './AnalysisPage.jsx'
 import CreateATransectPage from './CreateATransectPage.jsx'
 import WhatIsFelsiusPage from './WhatIsFelsiusPage.jsx'
@@ -20,7 +20,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/builder" element={<BuilderPage />} />
-              <Route path="/climate-data" element={<HomePage />} />
+              <Route path="/climate-data" element={<CollectDataPage />} />
               <Route path="/analysis" element={<AnalysisPage />} />
               <Route path="/create-a-transect" element={<CreateATransectPage />} />
               <Route path="/what-is-felsius" element={<WhatIsFelsiusPage />} />

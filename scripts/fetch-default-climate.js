@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 // One-time script to pre-fetch climate data for the default transect.
-// Run from the frontend/ directory:
+// Run from the project root:
 //   node scripts/fetch-default-climate.js
-// Writes to src/data/default-climate.json
+// Writes to data/default-climate.json
 
 import { readFileSync, writeFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const transectPath = resolve(__dirname, '../../data/transect-278deg.json')
-const outputPath = resolve(__dirname, '../../data/default-climate.json')
+const transectPath = resolve(__dirname, '../data/transect-278deg.json')
+const outputPath = resolve(__dirname, '../data/default-climate.json')
 
 async function fetchStationClimate(lat, lng) {
   const url = new URL('https://archive-api.open-meteo.com/v1/archive')
   url.searchParams.set('latitude', lat)
   url.searchParams.set('longitude', lng)
-  url.searchParams.set('start_date', '1991-01-01')
-  url.searchParams.set('end_date', '2020-12-31')
+  url.searchParams.set('start_date', '1996-01-01')
+  url.searchParams.set('end_date', '2025-12-31')
   url.searchParams.set('daily', 'temperature_2m_max,temperature_2m_min,precipitation_sum')
   url.searchParams.set('timezone', 'UTC')
 
