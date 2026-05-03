@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTempScale } from './TempScaleContext.jsx'
-import { TEMP_SCALES } from './temperature.js'
+import { TEMP_SCALES } from '../lib/temperature.js'
 
 export default function TempScaleToggle() {
   const { scale, setScale } = useTempScale()

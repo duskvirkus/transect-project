@@ -2,8 +2,8 @@ import { useState, useCallback, useRef } from 'react'
 import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/maplibre'
 import * as turf from '@turf/turf'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { computeStations } from './transect.js'
-import transectData from '../data/transect.json'
+import { computeStations } from '../lib/transect.js'
+import transectData from '../../data/transect.json'
 
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
 

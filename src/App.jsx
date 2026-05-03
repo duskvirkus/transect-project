@@ -1,14 +1,13 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { TempScaleProvider } from './TempScaleContext.jsx'
-import NavHeader from './NavHeader.jsx'
-import LandingPage from './LandingPage.jsx'
-import BuilderPage from './BuilderPage.jsx'
-import CollectDataPage from './CollectDataPage.jsx'
-import AnalysisPage from './AnalysisPage.jsx'
-import CreateATransectPage from './CreateATransectPage.jsx'
-import WhatIsFelsiusPage from './WhatIsFelsiusPage.jsx'
-import TempScaleToggle from './TempScaleToggle.jsx'
-import './App.css'
+import { TempScaleProvider } from './components/TempScaleContext.jsx'
+import NavHeader from './components/NavHeader.jsx'
+import LandingPage from './pages/LandingPage.jsx'
+import BuilderPage from './pages/BuilderPage.jsx'
+import CollectDataPage from './pages/CollectDataPage.jsx'
+import AnalysisPage from './pages/AnalysisPage.jsx'
+import CreateATransectPage from './pages/CreateATransectPage.jsx'
+import WhatIsFelsiusPage from './pages/WhatIsFelsiusPage.jsx'
+import TempScaleToggle from './components/TempScaleToggle.jsx'
 
 export default function App() {
   return (

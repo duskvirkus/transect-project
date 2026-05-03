@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import defaultData from '../data/default-climate.json'
-import { fetchStationClimate } from './climate.js'
-import { useTempScale } from './TempScaleContext.jsx'
-import { convertTemp, TEMP_SCALES } from './temperature.js'
+import defaultData from '../../data/default-climate.json'
+import { fetchStationClimate } from '../lib/climate.js'
+import { useTempScale } from '../components/TempScaleContext.jsx'
+import { convertTemp, TEMP_SCALES } from '../lib/temperature.js'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
