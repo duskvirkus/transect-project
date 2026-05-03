@@ -1,6 +1,5 @@
-## Purpose
-Defines the client-side routing structure and navigation header for the app.
-## Requirements
+## MODIFIED Requirements
+
 ### Requirement: App uses client-side routing
 The app SHALL use React Router to serve six routes: `/` (landing page), `/builder` (transect builder), `/climate-data` (climate data page), `/analysis` (analysis placeholder), `/create-a-transect` (guided workflow), and `/what-is-felsius` (Felsius informational page).
 
@@ -31,15 +30,3 @@ The app SHALL use React Router to serve six routes: `/` (landing page), `/builde
 #### Scenario: Unknown route
 - **WHEN** a user navigates to an unrecognized path
 - **THEN** the app redirects to `/`
-
-### Requirement: Navigation header links between pages
-The app SHALL display a persistent navigation header with links to Builder, Climate Data, and Analysis — in that order.
-
-#### Scenario: Nav links are visible on all pages
-- **WHEN** the user is on any page
-- **THEN** the nav header shows links to Builder (`/builder`), Climate Data (`/climate-data`), and Analysis (`/analysis`) in that order
-
-#### Scenario: Active route is indicated
-- **WHEN** the user is on a given route
-- **THEN** that route's nav link is visually distinguished as active
-

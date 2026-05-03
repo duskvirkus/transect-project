@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import defaultData from '../data/default-climate.json'
 import { fetchStationClimate } from './climate.js'
+import { useTempScale } from './TempScaleContext.jsx'
+import { convertTemp, TEMP_SCALES } from './temperature.js'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -20,6 +22,8 @@ function validateTransect(obj) {
 }
 
 export default function HomePage() {
+  const { scale } = useTempScale()
+  const { symbol } = TEMP_SCALES.find(s => s.key === scale)
   const [transect, setTransect] = useState(defaultData)
   const [statuses, setStatuses] = useState(() =>
     Object.fromEntries(defaultData.stations.map(s => [s.id, 'done']))
@@ -161,15 +165,15 @@ export default function HomePage() {
                     </thead>
                     <tbody>
                       <tr>
-                        <td className="row-label">Max °C</td>
+                        <td className="row-label">Max {symbol}</td>
                         {cd.monthlyMaxTemp.map((v, m) => (
-                          <td key={m}>{v ?? '–'}</td>
+                          <td key={m}>{convertTemp(v, scale) ?? '–'}</td>
                         ))}
                       </tr>
                       <tr>
-                        <td className="row-label">Min °C</td>
+                        <td className="row-label">Min {symbol}</td>
                         {cd.monthlyMinTemp.map((v, m) => (
-                          <td key={m}>{v ?? '–'}</td>
+                          <td key={m}>{convertTemp(v, scale) ?? '–'}</td>
                         ))}
                       </tr>
                       <tr>
