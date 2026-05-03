@@ -21,7 +21,7 @@ function validateTransect(obj) {
   return obj.stations.every(s => typeof s.lat === 'number' && typeof s.lng === 'number' && s.name)
 }
 
-export default function HomePage() {
+export default function CollectDataPage() {
   const { scale } = useTempScale()
   const { symbol } = TEMP_SCALES.find(s => s.key === scale)
   const [transect, setTransect] = useState(defaultData)
@@ -91,9 +91,9 @@ export default function HomePage() {
   const allDone = transect.stations.every(s => statuses[s.id] === 'done')
 
   return (
-    <div className="home-page">
-      <div className="home-toolbar">
-        <div className="home-toolbar-left">
+    <div className="collect-data-page">
+      <div className="collect-data-toolbar">
+        <div className="collect-data-toolbar-left">
           <label className="upload-label">
             Upload Transect JSON
             <input

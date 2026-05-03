@@ -401,9 +401,9 @@
   color: #7c6a2e;
 }
 
-/* ── Home / climate page ─────────────────────────────────── */
+/* ── Collect Data / climate page ─────────────────────────── */
 
-.home-page {
+.collect-data-page {
   flex: 1;
   overflow-y: auto;
   background: #0f1015;
@@ -413,7 +413,7 @@
   gap: 16px;
 }
 
-.home-toolbar {
+.collect-data-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -421,7 +421,7 @@
   flex-wrap: wrap;
 }
 
-.home-toolbar-left {
+.collect-data-toolbar-left {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -568,9 +568,15 @@
 
 .climate-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 0.75rem;
   min-width: 600px;
+}
+
+.climate-table th:first-child,
+.climate-table td:first-child {
+  width: 9%;
 }
 
 .climate-table th {

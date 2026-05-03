@@ -1,5 +1,5 @@
 /**
- * Fetches 1991–2020 climatological normals for a given lat/lng using the
+ * Fetches 1996–2025 climatological normals for a given lat/lng using the
  * Open-Meteo ERA5 archive API. Returns 12-month arrays (Jan–Dec) for:
  *   - monthlyMaxTemp: average daily max temperature (°C)
  *   - monthlyMinTemp: average daily min temperature (°C)
@@ -9,8 +9,8 @@ export async function fetchStationClimate(lat, lng, onCountdown) {
   const url = new URL('https://archive-api.open-meteo.com/v1/archive')
   url.searchParams.set('latitude', lat)
   url.searchParams.set('longitude', lng)
-  url.searchParams.set('start_date', '1991-01-01')
-  url.searchParams.set('end_date', '2020-12-31')
+  url.searchParams.set('start_date', '1996-01-01')
+  url.searchParams.set('end_date', '2025-12-31')
   url.searchParams.set('daily', 'temperature_2m_max,temperature_2m_min,precipitation_sum')
   url.searchParams.set('timezone', 'UTC')
 
