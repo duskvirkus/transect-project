@@ -1,0 +1,100 @@
+{
+  "startPoint": {
+    "lat": 35.1613,
+    "lng": 138.6797
+  },
+  "heading": 278,
+  "cityRadius": 100,
+  "stations": [
+    {
+      "id": 0,
+      "transectLat": 35.1613,
+      "transectLng": 138.6797,
+      "lat": 35.1613,
+      "lng": 138.6797,
+      "name": "Fuji",
+      "offset": 0
+    },
+    {
+      "id": 1,
+      "transectLat": 35.7654,
+      "transectLng": 133.3997,
+      "lat": 35.4278,
+      "lng": 133.3311,
+      "name": "Yonago",
+      "offset": 24
+    },
+    {
+      "id": 2,
+      "transectLat": 36.3695,
+      "transectLng": 128.0787,
+      "lat": 36.1196,
+      "lng": 128.3446,
+      "name": "Gumi",
+      "offset": 23
+    },
+    {
+      "id": 3,
+      "transectLat": 36.9736,
+      "transectLng": 122.7157,
+      "lat": 37.15,
+      "lng": 122.42,
+      "name": "Rongcheng",
+      "offset": 22
+    },
+    {
+      "id": 4,
+      "transectLat": 37.5777,
+      "transectLng": 117.3097,
+      "lat": 37.3836,
+      "lng": 117.9724,
+      "name": "Binzhou",
+      "offset": 39
+    },
+    {
+      "id": 5,
+      "transectLat": 38.1818,
+      "transectLng": 111.8597,
+      "lat": 37.8706,
+      "lng": 112.5487,
+      "name": "Taiyuan",
+      "offset": 43
+    },
+    {
+      "id": 6,
+      "transectLat": 38.7859,
+      "transectLng": 106.3647,
+      "lat": 38.4681,
+      "lng": 106.2729,
+      "name": "Yinchuan",
+      "offset": 22
+    },
+    {
+      "id": 7,
+      "transectLat": 39.39,
+      "transectLng": 100.8227,
+      "lat": 38.9292,
+      "lng": 100.4556,
+      "name": "Zhangye",
+      "offset": 37
+    },
+    {
+      "id": 8,
+      "transectLat": 39.9941,
+      "transectLng": 95.2327,
+      "lat": 40.1427,
+      "lng": 94.6623,
+      "name": "Dunhuang",
+      "offset": 32
+    },
+    {
+      "id": 9,
+      "transectLat": 40.5982,
+      "transectLng": 89.5927,
+      "lat": 40.5982,
+      "lng": 89.5927,
+      "name": "40.60°, 89.59°",
+      "offset": 0
+    }
+  ]
+}

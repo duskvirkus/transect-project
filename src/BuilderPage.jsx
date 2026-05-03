@@ -3,6 +3,7 @@ import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/mapl
 import * as turf from '@turf/turf'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { computeStations } from './transect.js'
+import transectData from './data/transect.json'
 
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
 
@@ -49,13 +50,13 @@ async function findNearbyCity(transectLat, transectLng, radiusMiles) {
 }
 
 export default function BuilderPage() {
-  const [startPoint, setStartPoint] = useState(null)
-  const [heading, setHeading] = useState(0)
-  const [headingInput, setHeadingInput] = useState('0')
-  const [cityRadius, setCityRadius] = useState(50)
-  const [stations, setStations] = useState([])
+  const [startPoint, setStartPoint] = useState(transectData.startPoint)
+  const [heading, setHeading] = useState(transectData.heading)
+  const [headingInput, setHeadingInput] = useState(String(transectData.heading))
+  const [cityRadius, setCityRadius] = useState(transectData.cityRadius)
+  const [stations, setStations] = useState(transectData.stations)
   const [loading, setLoading] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('Fuji, Shizuoka Prefecture')
   const [searchResults, setSearchResults] = useState([])
   const searchTimer = useRef(null)
 
@@ -279,7 +280,7 @@ export default function BuilderPage() {
 
       <main className="map-container">
         <Map
-          initialViewState={{ longitude: -98, latitude: 38, zoom: 4 }}
+          initialViewState={{ longitude: 114, latitude: 38, zoom: 4 }}
           style={{ width: '100%', height: '100%' }}
           mapStyle={MAP_STYLE}
           onClick={handleMapClick}
