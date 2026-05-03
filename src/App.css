@@ -801,3 +801,158 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ── Temperature scale toggle overlay ───────────────────── */
+
+.temp-scale-overlay {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.temp-scale-strip {
+  display: flex;
+  background: #16181f;
+  border: 1px solid #2a2d38;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.temp-scale-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #2a2d38;
+  color: #777;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.1s, background 0.1s;
+}
+
+.temp-scale-btn:last-child {
+  border-right: none;
+}
+
+.temp-scale-btn:hover:not(.temp-scale-btn-active) {
+  color: #e0e0e0;
+  background: #1c1e27;
+}
+
+.temp-scale-btn-active {
+  background: #f59e0b;
+  color: #000;
+  font-weight: 700;
+}
+
+.felsius-info-link {
+  font-size: 0.72rem;
+  color: #f59e0b;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.1s;
+}
+
+.felsius-info-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ── What Is Felsius page ────────────────────────────────── */
+
+.what-is-felsius-page {
+  flex: 1;
+  overflow-y: auto;
+  background: #0f1015;
+  width: 100%;
+}
+
+.what-is-felsius-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.what-is-felsius-content h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f1f1f1;
+}
+
+.what-is-felsius-content p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #aaa;
+  line-height: 1.65;
+}
+
+.what-is-felsius-content a {
+  color: #f59e0b;
+  text-decoration: none;
+}
+
+.what-is-felsius-content a:hover {
+  text-decoration: underline;
+}
+
+.felsius-formula {
+  background: #16181f;
+  border: 1px solid #2a2d38;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: #f1f1f1;
+  font-family: ui-monospace, Consolas, monospace;
+  margin: 0;
+}
+
+.felsius-table {
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.felsius-table th {
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px 12px;
+  border-bottom: 1px solid #2a2d38;
+}
+
+.felsius-table td {
+  text-align: center;
+  padding: 4px 12px;
+  color: #ccc;
+  border-bottom: 1px solid #1c1e27;
+}
+
+.felsius-table td:last-child {
+  text-align: left;
+  color: #777;
+}
+
+.felsius-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.felsius-links .btn-secondary {
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: inline-block;
+}
