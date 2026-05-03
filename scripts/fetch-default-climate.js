@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const transectPath = resolve(__dirname, '../data/transect-278deg.json')
+const transectPath = resolve(__dirname, '../data/transect.json')
 const outputPath = resolve(__dirname, '../data/default-climate.json')
 
 async function fetchStationClimate(lat, lng) {

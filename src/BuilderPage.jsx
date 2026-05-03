@@ -3,7 +3,7 @@ import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/mapl
 import * as turf from '@turf/turf'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { computeStations } from './transect.js'
-import transectData from './data/transect.json'
+import transectData from '../data/transect.json'
 
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
 

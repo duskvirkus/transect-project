@@ -49,7 +49,7 @@ Available at `/builder`. Pick a starting location and heading, and the app plots
 
 ## Default Dataset
 
-`data/transect-278deg.json` — the source transect (278° heading from Mt. Fuji across China).
+`data/transect.json` — the source transect (278° heading from Mt. Fuji across China).
 `data/default-climate.json` — pre-fetched ERA5 climate normals for all 10 stations.
 
 To regenerate the default climate data:
