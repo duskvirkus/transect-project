@@ -8,7 +8,7 @@ The analysis of climate across the transect benefits greatly from a visual refer
 - New reusable React component `KoppenMap` renders a MapLibre GL map with a Koppen-Geiger classification raster overlay, opacity control, and a classification legend
 - `KoppenMap` accepts optional props to display transect station markers, enabling direct reuse on the Analysis page
 - Nav header gains a "Koppen" link
-- A one-time data processing step converts the Beck et al. (2018) 1 km resolution GeoTIFF into static XYZ tiles hosted externally (not bundled into the app repo)
+- A one-time data processing step converts the Beck et al. (2018) 1 km resolution GeoTIFF into a single georeferenced PNG bundled in the app's `public/` directory
 - New spec: `koppen-map` (the reusable component)
 - Modified spec: `app-routing` (new `/koppen` route + nav link)
 

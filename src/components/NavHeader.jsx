@@ -4,6 +4,7 @@ const NAV_LINKS = [
   { to: '/builder', label: 'Builder' },
   { to: '/climate-data', label: 'Climate Data' },
   { to: '/analysis', label: 'Analysis' },
+  { to: '/koppen', label: 'Koppen' },
 ]
 
 export default function NavHeader() {
