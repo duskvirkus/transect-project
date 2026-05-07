@@ -7,6 +7,7 @@ import CollectDataPage from './pages/CollectDataPage.jsx'
 import AnalysisPage from './pages/AnalysisPage.jsx'
 import CreateATransectPage from './pages/CreateATransectPage.jsx'
 import WhatIsFelsiusPage from './pages/WhatIsFelsiusPage.jsx'
+import KoppenViewerPage from './pages/KoppenViewerPage.jsx'
 import TempScaleToggle from './components/TempScaleToggle.jsx'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/analysis" element={<AnalysisPage />} />
               <Route path="/create-a-transect" element={<CreateATransectPage />} />
               <Route path="/what-is-felsius" element={<WhatIsFelsiusPage />} />
+              <Route path="/koppen" element={<KoppenViewerPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
