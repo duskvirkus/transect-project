@@ -25,7 +25,7 @@ body {
 
 .page-content {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -826,7 +826,7 @@ body {
 
 /* ── Temperature scale toggle overlay ───────────────────── */
 
-.temp-scale-overlay {
+.global-overlay {
   position: fixed;
   bottom: 16px;
   right: 16px;
@@ -1152,3 +1152,287 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ── Analysis Page ───────────────────────────────────────────────── */
+.analysis-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.analysis-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.analysis-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin: 0;
+}
+
+.analysis-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.analysis-error {
+  margin-bottom: 16px;
+}
+
+.analysis-section {
+  margin-bottom: 40px;
+}
+
+.analysis-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  border-bottom: 1px solid #2a2a3e;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.analysis-map-strip {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Charts */
+.analysis-charts-section .analysis-chart-section + .analysis-chart-section {
+  margin-top: 24px;
+}
+
+.analysis-chart-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #a0aec0;
+  margin: 0 0 8px;
+}
+
+/* Heatmap */
+.analysis-heatmap-wrap {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.analysis-heatmap-months {
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px; /* align with station label row */
+  flex-shrink: 0;
+}
+
+.analysis-heatmap-month-label {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #888;
+  width: 28px;
+}
+
+.analysis-heatmap-svg {
+  flex: 1;
+  min-width: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Station cards */
+.station-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.station-card {
+  background: #141422;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.station-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+}
+
+.station-elevation {
+  font-size: 0.72rem;
+  color: #64b5f6;
+  margin-top: 2px;
+}
+
+.station-koppen {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.koppen-swatch-small {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: block;
+  align-self: flex-end;
+}
+
+.koppen-code {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.koppen-name-small {
+  font-size: 0.65rem;
+  color: #777;
+  text-align: right;
+  max-width: 120px;
+}
+
+.station-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #1e1e2e;
+}
+
+.station-blurb {
+  font-size: 0.8rem;
+  color: #aab;
+  line-height: 1.5;
+  padding: 10px 12px 12px;
+  margin: 0;
+}
+
+/* 7-controls */
+.climate-control-section {
+  margin-bottom: 28px;
+}
+
+.climate-control-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  margin-bottom: 8px;
+}
+
+.climate-control-section p {
+  font-size: 0.88rem;
+  color: #9aa;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+/* Precip unit toggle */
+.precip-unit-strip {
+  display: flex;
+  border: 1px solid #3a3a5c;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.precip-unit-btn {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.precip-unit-btn:hover {
+  background: #2a2a40;
+  color: #ccc;
+}
+
+.precip-unit-btn-active {
+  background: #2d2d50;
+  color: #e0e0f0;
+}
+
+/* Bibliography */
+.bibliography-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+.bibliography-page h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin-bottom: 24px;
+}
+
+.bib-section {
+  margin-bottom: 36px;
+}
+
+.bib-section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  border-bottom: 1px solid #2a2a3e;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.bib-entry {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  scroll-margin-top: 80px;
+}
+
+.bib-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #555;
+  flex-shrink: 0;
+  font-family: ui-monospace, Consolas, monospace;
+  margin-top: 2px;
+}
+
+.bib-body {
+  font-size: 0.82rem;
+  color: #9aa;
+  line-height: 1.6;
+}
+
+.bib-authors { color: #bbc; }
+.bib-year { color: #888; }
+.bib-title { color: #c8d0e0; font-style: italic; }
+.bib-publisher { color: #888; }
+.bib-url { color: #64b5f6; word-break: break-all; }
+
+/* Cite component */
+.cite a {
+  color: #64b5f6;
+  font-size: 0.75em;
+  text-decoration: none;
+}
+.cite a:hover { text-decoration: underline; }
+.cite-unknown a, .cite-unknown { color: #888; }

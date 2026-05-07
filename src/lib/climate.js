@@ -29,6 +29,7 @@ export async function fetchStationClimate(lat, lng, onCountdown) {
   if (!res.ok) throw new Error(`Open-Meteo error ${res.status} for (${lat}, ${lng})`)
 
   const data = await res.json()
+  const elevation = data.elevation ?? null
   const { time, temperature_2m_max, temperature_2m_min, precipitation_sum } = data.daily
 
   // Accumulators for temperature (straight daily average per calendar month)
@@ -72,5 +73,5 @@ export async function fetchStationClimate(lat, lng, onCountdown) {
     return Math.round((totals.reduce((a, b) => a + b, 0) / totals.length) * 10) / 10
   })
 
-  return { monthlyMaxTemp, monthlyMinTemp, monthlyPrecip }
+  return { monthlyMaxTemp, monthlyMinTemp, monthlyPrecip, elevation }
 }

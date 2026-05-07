@@ -15,7 +15,7 @@ function blendWithWhite(hex, opacity) {
   return `rgb(${Math.round(opacity * r + (1 - opacity) * 255)},${Math.round(opacity * g + (1 - opacity) * 255)},${Math.round(opacity * b + (1 - opacity) * 255)})`
 }
 
-export default function KoppenMap({ stations = [], showTransect = false, initialViewState }) {
+export default function KoppenMap({ stations = [], showTransect = false, initialViewState, interactive = true }) {
   const [opacity, setOpacity] = useState(0.65)
   const [legendOpen, setLegendOpen] = useState(true)
 
@@ -61,6 +61,7 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
           initialViewState={initialViewState ?? DEFAULT_VIEW}
           style={{ width: '100%', height: '100%' }}
           mapStyle={MAP_STYLE}
+          interactive={interactive}
         >
           <NavigationControl position="top-right" />
 
