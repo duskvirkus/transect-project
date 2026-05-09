@@ -63,10 +63,11 @@ function TempHeatmap({ stations, scale }) {
   const minVal = Math.min(...allAvgs)
   const maxVal = Math.max(...allAvgs)
 
-  const cellW = 100 / stations.length
   const cellH = 28
-  const labelH = 40
-  const svgH = 12 * cellH + labelH
+  const svgH = 12 * cellH
+  // 30px SVG-unit padding on each side (half-cell) matches recharts band-scale edge padding
+  const padX = 30
+  const viewW = stations.length * 60 + padX * 2
 
   return (
     <div className="analysis-chart-section">
@@ -77,59 +78,58 @@ function TempHeatmap({ stations, scale }) {
             <div key={m} className="analysis-heatmap-month-label">{m}</div>
           ))}
         </div>
-        <svg
-          className="analysis-heatmap-svg"
-          viewBox={`0 0 ${stations.length * 60} ${svgH}`}
-          preserveAspectRatio="none"
-          style={{ width: '100%', height: `${svgH}px` }}
-        >
-          {/* Station name labels */}
-          {stations.map((st, si) => (
-            <text
-              key={st.id}
-              x={si * 60 + 30}
-              y={labelH - 6}
-              textAnchor="middle"
-              fontSize="10"
-              fill="#ccc"
-              className="heatmap-station-label"
-            >
-              {st.name}
-            </text>
-          ))}
-          {/* Cells */}
-          {MONTHS.map((_, mi) =>
-            stations.map((st, si) => {
-              const cd = st.climateData
-              if (!cd) return null
-              const avg = (cd.monthlyMaxTemp[mi] + cd.monthlyMinTemp[mi]) / 2
-              const val = convertTemp(avg, scale)
-              const color = tempColor(val, minVal, maxVal, scale)
-              return (
-                <g key={`${si}-${mi}`}>
-                  <rect
-                    x={si * 60 + 1}
-                    y={labelH + mi * cellH + 1}
-                    width={58}
-                    height={cellH - 2}
-                    fill={color}
-                    rx="2"
-                  />
-                  <text
-                    x={si * 60 + 30}
-                    y={labelH + mi * cellH + cellH / 2 + 4}
-                    textAnchor="middle"
-                    fontSize="8"
-                    fill={val > (minVal + maxVal) / 2 ? '#000' : '#fff'}
-                    opacity="0.8"
-                  >
-                    {val?.toFixed(1)}
-                  </text>
-                </g>
-              )
-            })
-          )}
-        </svg>
+        <div className="analysis-heatmap-right">
+          {/* Padding matches SVG padX inset so each flex item spans exactly one cell column */}
+          <div
+            className="analysis-heatmap-station-labels"
+            style={{ paddingLeft: `${(padX / viewW) * 100}%`, paddingRight: `${(padX / viewW) * 100}%` }}
+          >
+            {stations.map(st => (
+              <div key={st.id} className="analysis-heatmap-slabel-wrap">
+                <span className="analysis-heatmap-slabel">{st.name}</span>
+              </div>
+            ))}
+          </div>
+          <svg
+            className="analysis-heatmap-svg"
+            viewBox={`0 0 ${viewW} ${svgH}`}
+            preserveAspectRatio="none"
+            style={{ width: '100%', height: `${svgH}px` }}
+          >
+            {MONTHS.map((_, mi) =>
+              stations.map((st, si) => {
+                const cd = st.climateData
+                if (!cd) return null
+                const avg = (cd.monthlyMaxTemp[mi] + cd.monthlyMinTemp[mi]) / 2
+                const val = convertTemp(avg, scale)
+                const color = tempColor(val, minVal, maxVal, scale)
+                const cx = padX + si * 60
+                return (
+                  <g key={`${si}-${mi}`}>
+                    <rect
+                      x={cx + 1}
+                      y={mi * cellH + 1}
+                      width={58}
+                      height={cellH - 2}
+                      fill={color}
+                      rx="2"
+                    />
+                    <text
+                      x={cx + 30}
+                      y={mi * cellH + cellH / 2 + 4}
+                      textAnchor="middle"
+                      fontSize="8"
+                      fill={val > (minVal + maxVal) / 2 ? '#000' : '#fff'}
+                      opacity="0.8"
+                    >
+                      {val?.toFixed(1)}
+                    </text>
+                  </g>
+                )
+              })
+            )}
+          </svg>
+        </div>
       </div>
     </div>
   )
@@ -149,7 +149,7 @@ function PrecipChart({ stations, precipUnit }) {
       <ResponsiveContainer width="100%" height={260}>
         <BarChart data={stationTotals} margin={{ top: 4, right: 8, left: 8, bottom: 40 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
+          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} padding={{ left: 40, right: 40 }} />
           <YAxis tick={{ fill: '#ccc', fontSize: 11 }} label={{ value: precipUnit, angle: -90, position: 'insideLeft', fill: '#aaa', fontSize: 11 }} />
           <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid #444', color: '#fff' }} />
           {MONTHS.map((m, i) => (
@@ -179,7 +179,7 @@ function ElevationChart({ stations }) {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
+          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} padding={{ left: 40, right: 40 }} />
           <YAxis tick={{ fill: '#ccc', fontSize: 11 }} label={{ value: 'm', angle: -90, position: 'insideLeft', fill: '#aaa', fontSize: 11 }} />
           <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid #444', color: '#fff' }} formatter={v => [`${v} m`, 'Elevation']} />
           <Area type="monotone" dataKey="elevation" stroke="#64b5f6" fill="url(#elevGrad)" strokeWidth={2} dot={{ fill: '#64b5f6', r: 4 }} />
@@ -284,6 +284,7 @@ export default function AnalysisPage() {
   const stations = transect.stations
 
   return (
+    <div className="analysis-page-outer">
     <div className="analysis-page">
       <div className="analysis-toolbar">
         <h1 className="analysis-title">Transect Analysis Report</h1>
@@ -305,7 +306,8 @@ export default function AnalysisPage() {
             stations={stations}
             showTransect
             interactive={false}
-            initialViewState={{ longitude: 114, latitude: 37.5, zoom: 3.2 }}
+            bearing={188}
+            fitStations
           />
         </div>
       </section>
@@ -348,6 +350,7 @@ export default function AnalysisPage() {
           ))}
         </section>
       )}
+    </div>
     </div>
   )
 }

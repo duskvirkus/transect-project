@@ -30,6 +30,7 @@ export default function BibliographyPage() {
   const toolEntries = TOOLS.map(c => ({ citation: c, index: globalIndex++ }))
 
   return (
+    <div className="bibliography-page-outer">
     <div className="bibliography-page">
       <h1>Bibliography</h1>
 
@@ -46,6 +47,7 @@ export default function BibliographyPage() {
           <CitationEntry key={citation.id} citation={citation} index={index} />
         ))}
       </section>
+    </div>
     </div>
   )
 }
