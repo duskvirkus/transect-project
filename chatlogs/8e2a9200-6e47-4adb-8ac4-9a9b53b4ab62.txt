@@ -1,0 +1,1403 @@
+
+╭─── Claude Code v2.1.71 ──────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                 Welcome back Dawn!                 │ started                 │
+│                                                    │ Run /init to create a … │
+│                       ▐▛███▜▌                      │ ─────────────────────── │
+│                      ▝▜█████▛▘                     │ Recent activity         │
+│                        ▘▘ ▝▝                       │ No recent activity      │
+│                                                    │                         │
+│      Sonnet 4.6 · Claude Pro ·                     │                         │
+│ ~/Documents/frcc-met1050/transect/transect-project │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+❯ Why are there two data dirs /data and /src/data. Please refactor this so      
+there's just one.                                                               
+
+● Searched for 2 patterns (ctrl+o to expand)
+
+● Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+● Let me read both transect JSON files fully to understand if they're
+  duplicates.
+
+● Read 1 file (ctrl+o to expand)
+
+● Here's the situation:
+
+  - data/transect-278deg.json — authoritative, precise version used by
+  scripts/fetch-default-climate.js
+  - src/data/transect.json — slightly less precise older copy used by
+  BuilderPage.jsx
+  - data/default-climate.json — used by CollectDataPage.jsx via '../data/...'
+
+  The fix is: delete src/data/transect.json, rename transect-278deg.json →
+  transect.json (heading is already in the JSON), and update BuilderPage.jsx to
+  import from ../data/transect.json.
+
+● Read 1 file (ctrl+o to expand)
+
+● Now I have everything I need. The plan:
+
+  1. git mv data/transect-278deg.json data/transect.json
+  2. git rm src/data/transect.json
+  3. Update BuilderPage.jsx import path
+  4. Update scripts/fetch-default-climate.js path
+  5. Update README.md
+
+● Bash(git mv data/transect-278deg.json data/transect.json && git rm
+      src/data/transect.json)
+  ⎿  rm 'src/data/transect.json'
+
+● Update(README.md)
+  ⎿  Added 1 line, removed 1 line
+      49  
+      50  ## Default Dataset
+      51  
+      52 -`data/transect-278deg.json` — the source transect (278° heading
+         - from Mt. Fuji across China).                                  
+      52 +`data/transect.json` — the source transect (278° heading from M
+         +t. Fuji across China).                                         
+      53  `data/default-climate.json` — pre-fetched ERA5 climate normals 
+          for all 10 stations.
+      54  
+      55  To regenerate the default climate data:
+
+● Done. Changes made:
+
+  - data/transect-278deg.json → data/transect.json (renamed; heading is in the
+  JSON itself)
+  - src/data/transect.json — deleted (was a slightly less precise older copy)
+  - src/BuilderPage.jsx:6 — import updated to '../data/transect.json'
+  - scripts/fetch-default-climate.js:12 — path updated
+  - README.md:52 — reference updated
+
+  BuilderPage now initializes from the same authoritative file that
+  CollectDataPage and the fetch script use, so there's no longer any divergence
+  between what the builder shows by default and what the climate data page
+  shows.
+
+✻ Sautéed for 1m 24s
+
+❯ commit this                                                                   
+
+● Bash(git status && git diff HEAD)
+  ⎿  On branch main
+     Your branch is up to date with 'origin/main'.
+     … +65 lines (ctrl+o to expand)
+
+● Bash(git add README.md scripts/fetch-default-climate.js src/BuilderPage.jsx &&
+       git commit -m "$(cat <<'EOF'
+      Consolidate data dirs: merge src/data into data…)
+  ⎿  [main 1e67fcd] Consolidate data dirs: merge src/data into data
+      5 files changed, 3 insertions(+), 103 deletions(-)
+      rename data/{transect-278deg.json => transect.json} (100%)
+      delete mode 100644 src/data/transect.json
+
+● Committed.
+
+❯ Any other reasonable refactors like maybe consolidating all the react         
+components or something. Please come up with 3 possible ones unless you really  
+can't find any.                                                                 
+
+● Searched for 1 pattern, read 3 files (ctrl+o to expand)
+
+● Here are three:
+
+  ---
+  1. Delete unused Vite scaffold assets
+
+  src/assets/react.svg and src/assets/vite.svg are the default npm create vite
+  template files. Nothing in the project imports them. Pure dead weight.
+
+  ---
+  2. Merge App.css into index.css
+
+  There are two global CSS files with no meaningful distinction between them —
+  index.css has global/reset styles and App.css has app-shell styles, but
+  they're both flat global scope. Splitting them just means you have to look in
+  two places when hunting for a style rule. One CSS file is simpler.
+
+  ---
+  3. Organize src/ into subdirectories
+
+  All 10+ JSX files are flat in src/. A minimal split:
+
+  src/
+    pages/        ← LandingPage, BuilderPage, CollectDataPage,
+                     AnalysisPage, CreateATransectPage, WhatIsFelsiusPage
+    components/   ← NavHeader, TempScaleToggle, TempScaleContext
+    lib/          ← temperature.js, transect.js, climate.js (and their tests)
+    data/         (already gone)
+
+  Most invasive of the three since it touches every import, but it's the kind of
+   thing that becomes a bigger lift the longer you defer it. This project has 6
+  pages and will likely add more for Part III.
+
+  ---
+  Want me to do any of these?
+
+✻ Worked for 49s
+
+❯ do all 3                                                                      
+
+● Let me read the remaining files I haven't seen yet before making changes.
+
+● Read 2 files (ctrl+o to expand)
+
+● I have everything I need. Now I'll execute all three refactors.
+
+  Step 1: Delete unused Vite scaffold assets and create new subdirectories + 
+  move files
+
+● Bash(git rm src/assets/react.svg src/assets/vite.svg && mkdir -p src/pages
+      src/components src/lib)
+  ⎿  rm 'src/assets/react.svg'
+     rm 'src/assets/vite.svg'
+
+● Bash(git mv src/LandingPage.jsx src/pages/ && git mv src/BuilderPage.jsx
+      src/pages/ && git mv src/CollectDataPage.jsx src/pages/ && git mv
+      src/AnalysisPage.jsx src/p…)
+  ⎿  (No output)
+
+● Step 2: Merge App.css into index.css, then delete App.css
+
+● Now update all imports and merge the CSS simultaneously:
+
+● Write(src/index.css)
+  ⎿  Added 965 lines
+       13    height: 100vh;
+       14    width: 100vw;
+       15  }
+       16 +                                                              
+       17 +/* ── App shell ───────────────────────────────────────────── 
+          +*/                                                            
+       18 +                                                              
+       19 +.app-shell {                                                  
+       20 +  display: flex;                                              
+       21 +  flex-direction: column;                                     
+       22 +  height: 100vh;                                              
+       23 +  width: 100vw;                                               
+       24 +}                                                             
+       25 +                                                              
+       26 +.page-content {                                               
+       27 +  flex: 1;                                                    
+       28 +  overflow: hidden;                                           
+       29 +  display: flex;                                              
+       30 +  flex-direction: column;                                     
+       31 +}                                                             
+       32 +                                                              
+       33 +/* ── Nav header ──────────────────────────────────────────── 
+          +*/                                                            
+       34 +                                                              
+       35 +.nav-header {                                                 
+       36 +  flex-shrink: 0;                                             
+       37 +  height: 44px;                                               
+       38 +  background: #0f1015;                                        
+       39 +  border-bottom: 1px solid #2a2d38;                           
+       40 +  display: flex;                                              
+       41 +  align-items: center;                                        
+       42 +  padding: 0 16px;                                            
+       43 +  gap: 20px;                                                  
+       44 +}                                                             
+       45 +                                                              
+       46 +.nav-brand {                                                  
+       47 +  font-size: 0.8rem;                                          
+       48 +  font-weight: 600;                                           
+       49 +  color: #555;                                                
+       50 +  letter-spacing: 0.04em;                                     
+       51 +  margin-right: auto;                                         
+       52 +}                                                             
+       53 +                                                              
+       54 +.nav-links {                                                  
+       55 +  display: flex;                                              
+       56 +  gap: 4px;                                                   
+       57 +}                                                             
+       58 +                                                              
+       59 +.nav-link {                                                   
+       60 +  font-size: 0.8rem;                                          
+       61 +  font-weight: 500;                                           
+       62 +  color: #777;                                                
+       63 +  text-decoration: none;                                      
+       64 +  padding: 5px 10px;                                          
+       65 +  border-radius: 5px;                                         
+       66 +  transition: color 0.1s, background 0.1s;                    
+       67 +}                                                             
+       68 +                                                              
+       69 +.nav-link:hover {                                             
+       70 +  color: #e0e0e0;                                             
+       71 +  background: #1c1e27;                                        
+       72 +}                                                             
+       73 +                                                              
+       74 +.nav-link-active {                                            
+       75 +  color: #f59e0b;                                             
+       76 +  background: #1c1e27;                                        
+       77 +}                                                             
+       78 +                                                              
+       79 +/* ── Builder page ────────────────────────────────────────── 
+          +*/                                                            
+       80 +                                                              
+       81 +.app {                                                        
+       82 +  display: flex;                                              
+       83 +  height: 100%;                                               
+       84 +  width: 100%;                                                
+       85 +}                                                             
+       86 +                                                              
+       87 +/* ── Sidebar ─────────────────────────────────────────────── 
+          +*/                                                            
+       88 +                                                              
+       89 +.sidebar {                                                    
+       90 +  width: 300px;                                               
+       91 +  flex-shrink: 0;                                             
+       92 +  background: #16181f;                                        
+       93 +  border-right: 1px solid #2a2d38;                            
+       94 +  overflow-y: auto;                                           
+       95 +  padding: 16px;                                              
+       96 +  display: flex;                                              
+       97 +  flex-direction: column;                                     
+       98 +  gap: 16px;                                                  
+       99 +}                                                             
+      100 +                                                              
+      101 +.sidebar-header h1 {                                          
+      102 +  margin: 0 0 4px;                                            
+      103 +  font-size: 1.2rem;                                          
+      104 +  color: #f1f1f1;                                             
+      105 +  font-weight: 600;                                           
+      106 +}                                                             
+      107 +                                                              
+      108 +.subtitle {                                                   
+      109 +  margin: 0;                                                  
+      110 +  font-size: 0.75rem;                                         
+      111 +  color: #666;                                                
+      112 +}                                                             
+      113 +                                                              
+      114 +/* ── Form sections ───────────────────────────────────────── 
+          +*/                                                            
+      115 +                                                              
+      116 +.section {                                                    
+      117 +  display: flex;                                              
+      118 +  flex-direction: column;                                     
+      119 +  gap: 8px;                                                   
+      120 +}                                                             
+      121 +                                                              
+      122 +.field-label {                                                
+      123 +  font-size: 0.7rem;                                          
+      124 +  color: #888;                                                
+      125 +  text-transform: uppercase;                                  
+      126 +  letter-spacing: 0.08em;                                     
+      127 +  font-weight: 600;                                           
+      128 +}                                                             
+      129 +                                                              
+      130 +.text-input {                                                 
+      131 +  width: 100%;                                                
+      132 +  background: #0f1015;                                        
+      133 +  border: 1px solid #2a2d38;                                  
+      134 +  color: #e0e0e0;                                             
+      135 +  padding: 8px 10px;                                          
+      136 +  border-radius: 6px;                                         
+      137 +  font-size: 0.88rem;                                         
+      138 +  outline: none;                                              
+      139 +}                                                             
+      140 +                                                              
+      141 +.text-input:focus {                                           
+      142 +  border-color: #f59e0b;                                      
+      143 +}                                                             
+      144 +                                                              
+      145 +.search-wrapper {                                             
+      146 +  position: relative;                                         
+      147 +}                                                             
+      148 +                                                              
+      149 +.search-dropdown {                                            
+      150 +  position: absolute;                                         
+      151 +  top: calc(100% + 2px);                                      
+      152 +  left: 0;                                                    
+      153 +  right: 0;                                                   
+      154 +  background: #1c1e27;                                        
+      155 +  border: 1px solid #2a2d38;                                  
+      156 +  border-radius: 6px;                                         
+      157 +  list-style: none;                                           
+      158 +  margin: 0;                                                  
+      159 +  padding: 4px 0;                                             
+      160 +  z-index: 10;                                                
+      161 +  max-height: 200px;                                          
+      162 +  overflow-y: auto;                                           
+      163 +}                                                             
+      164 +                                                              
+      165 +.search-dropdown li {                                         
+      166 +  padding: 7px 10px;                                          
+      167 +  font-size: 0.8rem;                                          
+      168 +  cursor: pointer;                                            
+      169 +  color: #ccc;                                                
+      170 +  line-height: 1.3;                                           
+      171 +}                                                             
+      172 +                                                              
+      173 +.search-dropdown li:hover {                                   
+      174 +  background: #2a2d38;                                        
+      175 +}                                                             
+      176 +                                                              
+      177 +.coords {                                                     
+      178 +  margin: 0;                                                  
+      179 +  font-size: 0.72rem;                                         
+      180 +  color: #555;                                                
+      181 +  font-family: ui-monospace, Consolas, monospace;             
+      182 +}                                                             
+      183 +                                                              
+      184 +/* ── Compass / heading ───────────────────────────────────── 
+          +*/                                                            
+      185 +                                                              
+      186 +.heading-header {                                             
+      187 +  display: flex;                                              
+      188 +  align-items: center;                                        
+      189 +  justify-content: space-between;                             
+      190 +}                                                             
+      191 +                                                              
+      192 +.heading-input-wrap {                                         
+      193 +  display: flex;                                              
+      194 +  align-items: center;                                        
+      195 +  gap: 2px;                                                   
+      196 +}                                                             
+      197 +                                                              
+      198 +.degree-input {                                               
+      199 +  width: 56px;                                                
+      200 +  background: #0f1015;                                        
+      201 +  border: 1px solid #2a2d38;                                  
+      202 +  color: #e0e0e0;                                             
+      203 +  padding: 4px 6px;                                           
+      204 +  border-radius: 6px;                                         
+      205 +  font-size: 0.88rem;                                         
+      206 +  text-align: right;                                          
+      207 +  outline: none;                                              
+      208 +  /* hide browser spin buttons */                             
+      209 +  appearance: textfield;                                      
+      210 +}                                                             
+      211 +                                                              
+      212 +.degree-input::-webkit-inner-spin-button,                     
+      213 +.degree-input::-webkit-outer-spin-button {                    
+      214 +  display: none;                                              
+      215 +}                                                             
+      216 +                                                              
+      217 +.degree-input:focus {                                         
+      218 +  border-color: #f59e0b;                                      
+      219 +}                                                             
+      220 +                                                              
+      221 +.degree-symbol {                                              
+      222 +  font-size: 0.85rem;                                         
+      223 +  color: #888;                                                
+      224 +}                                                             
+      225 +                                                              
+      226 +.radius-hint {                                                
+      227 +  margin: 0;                                                  
+      228 +  font-size: 0.72rem;                                         
+      229 +  color: #555;                                                
+      230 +  font-style: italic;                                         
+      231 +}                                                             
+      232 +                                                              
+      233 +.compass-grid {                                               
+      234 +  display: grid;                                              
+      235 +  grid-template-columns: repeat(4, 1fr);                      
+      236 +  gap: 4px;                                                   
+      237 +}                                                             
+      238 +                                                              
+      239 +.compass-btn {                                                
+      240 +  background: #1c1e27;                                        
+      241 +  border: 1px solid #2a2d38;                                  
+      242 +  color: #aaa;                                                
+      243 +  padding: 6px 4px;                                           
+      244 +  border-radius: 4px;                                         
+      245 +  cursor: pointer;                                            
+      246 +  font-size: 0.78rem;                                         
+      247 +  font-weight: 500;                                           
+      248 +  transition: background 0.1s;                                
+      249 +}                                                             
+      250 +                                                              
+      251 +.compass-btn:hover:not(.active) {                             
+      252 +  background: #2a2d38;                                        
+      253 +  color: #e0e0e0;                                             
+      254 +}                                                             
+      255 +                                                              
+      256 +.compass-btn.active {                                         
+      257 +  background: #f59e0b;                                        
+      258 +  border-color: #f59e0b;                                      
+      259 +  color: #000;                                                
+      260 +}                                                             
+      261 +                                                              
+      262 +.heading-slider {                                             
+      263 +  width: 100%;                                                
+      264 +  accent-color: #f59e0b;                                      
+      265 +  cursor: pointer;                                            
+      266 +}                                                             
+      267 +                                                              
+      268 +/* ── Generate button ─────────────────────────────────────── 
+          +*/                                                            
+      269 +                                                              
+      270 +.generate-btn {                                               
+      271 +  background: #f59e0b;                                        
+      272 +  color: #000;                                                
+      273 +  border: none;                                               
+      274 +  padding: 10px;                                              
+      275 +  border-radius: 6px;                                         
+      276 +  font-size: 0.9rem;                                          
+      277 +  font-weight: 700;                                           
+      278 +  cursor: pointer;                                            
+      279 +  width: 100%;                                                
+      280 +  transition: background 0.15s;                               
+      281 +}                                                             
+      282 +                                                              
+      283 +.generate-btn:hover:not(:disabled) {                          
+      284 +  background: #fbbf24;                                        
+      285 +}                                                             
+      286 +                                                              
+      287 +.generate-btn:disabled {                                      
+      288 +  opacity: 0.4;                                               
+      289 +  cursor: not-allowed;                                        
+      290 +}                                                             
+      291 +                                                              
+      292 +/* ── Save button ─────────────────────────────────────────── 
+          +*/                                                            
+      293 +                                                              
+      294 +.save-btn {                                                   
+      295 +  background: transparent;                                    
+      296 +  color: #f59e0b;                                             
+      297 +  border: 1px solid #f59e0b;                                  
+      298 +  padding: 8px;                                               
+      299 +  border-radius: 6px;                                         
+      300 +  font-size: 0.85rem;                                         
+      301 +  font-weight: 600;                                           
+      302 +  cursor: pointer;                                            
+      303 +  width: 100%;                                                
+      304 +  transition: background 0.15s, color 0.15s;                  
+      305 +}                                                             
+      306 +                                                              
+      307 +.save-btn:hover:not(:disabled) {                              
+      308 +  background: #f59e0b;                                        
+      309 +  color: #000;                                                
+      310 +}                                                             
+      311 +                                                              
+      312 +.save-btn:disabled {                                          
+      313 +  opacity: 0.4;                                               
+      314 +  cursor: not-allowed;                                        
+      315 +}                                                             
+      316 +                                                              
+      317 +/* ── Station list ────────────────────────────────────────── 
+          +*/                                                            
+      318 +                                                              
+      319 +.stations-section {                                           
+      320 +  flex: 1;                                                    
+      321 +  min-height: 0;                                              
+      322 +}                                                             
+      323 +                                                              
+      324 +.station-list {                                               
+      325 +  list-style: none;                                           
+      326 +  margin: 0;                                                  
+      327 +  padding: 0;                                                 
+      328 +  display: flex;                                              
+      329 +  flex-direction: column;                                     
+      330 +  gap: 5px;                                                   
+      331 +}                                                             
+      332 +                                                              
+      333 +.station-item {                                               
+      334 +  display: flex;                                              
+      335 +  align-items: center;                                        
+      336 +  gap: 8px;                                                   
+      337 +  background: #1c1e27;                                        
+      338 +  border: 1px solid #2a2d38;                                  
+      339 +  border-radius: 6px;                                         
+      340 +  padding: 7px 10px;                                          
+      341 +}                                                             
+      342 +                                                              
+      343 +.station-badge {                                              
+      344 +  flex-shrink: 0;                                             
+      345 +  width: 22px;                                                
+      346 +  height: 22px;                                               
+      347 +  background: #f59e0b;                                        
+      348 +  color: #000;                                                
+      349 +  border-radius: 50%;                                         
+      350 +  font-size: 0.72rem;                                         
+      351 +  font-weight: 700;                                           
+      352 +  display: flex;                                              
+      353 +  align-items: center;                                        
+      354 +  justify-content: center;                                    
+      355 +}                                                             
+      356 +                                                              
+      357 +.station-item:first-child .station-badge {                    
+      358 +  background: #ef4444;                                        
+      359 +  color: #fff;                                                
+      360 +}                                                             
+      361 +                                                              
+      362 +.station-info {                                               
+      363 +  display: flex;                                              
+      364 +  flex-direction: column;                                     
+      365 +  gap: 1px;                                                   
+      366 +  min-width: 0;                                               
+      367 +}                                                             
+      368 +                                                              
+      369 +.station-name {                                               
+      370 +  font-size: 0.83rem;                                         
+      371 +  color: #e0e0e0;                                             
+      372 +  white-space: nowrap;                                        
+      373 +  overflow: hidden;                                           
+      374 +  text-overflow: ellipsis;                                    
+      375 +}                                                             
+      376 +                                                              
+      377 +.station-coords {                                             
+      378 +  font-size: 0.68rem;                                         
+      379 +  color: #555;                                                
+      380 +  font-family: ui-monospace, Consolas, monospace;             
+      381 +}                                                             
+      382 +                                                              
+      383 +/* ── Map ─────────────────────────────────────────────────── 
+          +*/                                                            
+      384 +                                                              
+      385 +.map-container {                                              
+      386 +  flex: 1;                                                    
+      387 +  position: relative;                                         
+      388 +}                                                             
+      389 +                                                              
+      390 +/* ── Map markers ─────────────────────────────────────────── 
+          +*/                                                            
+      391 +                                                              
+      392 +.marker {                                                     
+      393 +  width: 24px;                                                
+      394 +  height: 24px;                                               
+      395 +  border-radius: 50%;                                         
+      396 +  border: 2px solid rgba(255, 255, 255, 0.9);                 
+      397 +  display: flex;                                              
+      398 +  align-items: center;                                        
+      399 +  justify-content: center;                                    
+      400 +  font-size: 0.72rem;                                         
+      401 +  font-weight: 700;                                           
+      402 +  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);                   
+      403 +  cursor: default;                                            
+      404 +}                                                             
+      405 +                                                              
+      406 +.marker-start {                                               
+      407 +  background: #ef4444;                                        
+      408 +  color: #fff;                                                
+      409 +}                                                             
+      410 +                                                              
+      411 +.marker-station {                                             
+      412 +  background: #f59e0b;                                        
+      413 +  color: #000;                                                
+      414 +}                                                             
+      415 +                                                              
+      416 +.station-offset {                                             
+      417 +  color: #7c6a2e;                                             
+      418 +}                                                             
+      419 +                                                              
+      420 +/* ── Collect Data / climate page ─────────────────────────── 
+          +*/                                                            
+      421 +                                                              
+      422 +.collect-data-page {                                          
+      423 +  flex: 1;                                                    
+      424 +  overflow-y: auto;                                           
+      425 +  background: #0f1015;                                        
+      426 +  padding: 20px;                                              
+      427 +  display: flex;                                              
+      428 +  flex-direction: column;                                     
+      429 +  gap: 16px;                                                  
+      430 +}                                                             
+      431 +                                                              
+      432 +.collect-data-toolbar {                                       
+      433 +  display: flex;                                              
+      434 +  align-items: center;                                        
+      435 +  justify-content: space-between;                             
+      436 +  gap: 12px;                                                  
+      437 +  flex-wrap: wrap;                                            
+      438 +}                                                             
+      439 +                                                              
+      440 +.collect-data-toolbar-left {                                  
+      441 +  display: flex;                                              
+      442 +  align-items: center;                                        
+      443 +  gap: 12px;                                                  
+      444 +}                                                             
+      445 +                                                              
+      446 +.upload-label {                                               
+      447 +  display: inline-flex;                                       
+      448 +  align-items: center;                                        
+      449 +  gap: 8px;                                                   
+      450 +  background: transparent;                                    
+      451 +  color: #f59e0b;                                             
+      452 +  border: 1px solid #f59e0b;                                  
+      453 +  padding: 7px 14px;                                          
+      454 +  border-radius: 6px;                                         
+      455 +  font-size: 0.85rem;                                         
+      456 +  font-weight: 600;                                           
+      457 +  cursor: pointer;                                            
+      458 +  transition: background 0.15s, color 0.15s;                  
+      459 +}                                                             
+      460 +                                                              
+      461 +.upload-label:hover {                                         
+      462 +  background: #f59e0b;                                        
+      463 +  color: #000;                                                
+      464 +}                                                             
+      465 +                                                              
+      466 +.upload-input {                                               
+      467 +  display: none;                                              
+      468 +}                                                             
+      469 +                                                              
+      470 +.upload-error {                                               
+      471 +  font-size: 0.8rem;                                          
+      472 +  color: #ef4444;                                             
+      473 +}                                                             
+      474 +                                                              
+      475 +.download-btn {                                               
+      476 +  width: auto;                                                
+      477 +  padding: 7px 14px;                                          
+      478 +}                                                             
+      479 +                                                              
+      480 +.save-notice {                                                
+      481 +  background: #0d2a1a;                                        
+      482 +  border: 1px solid #22c55e44;                                
+      483 +  border-radius: 6px;                                         
+      484 +  color: #4ade80;                                             
+      485 +  font-size: 0.82rem;                                         
+      486 +  padding: 10px 14px;                                         
+      487 +  display: flex;                                              
+      488 +  align-items: center;                                        
+      489 +  justify-content: space-between;                             
+      490 +  gap: 12px;                                                  
+      491 +}                                                             
+      492 +                                                              
+      493 +.save-notice-dismiss {                                        
+      494 +  background: none;                                           
+      495 +  border: none;                                               
+      496 +  color: #4ade80;                                             
+      497 +  cursor: pointer;                                            
+      498 +  font-size: 0.9rem;                                          
+      499 +  padding: 0 2px;                                             
+      500 +  flex-shrink: 0;                                             
+      501 +  opacity: 0.7;                                               
+      502 +}                                                             
+      503 +                                                              
+      504 +.save-notice-dismiss:hover {                                  
+      505 +  opacity: 1;                                                 
+      506 +}                                                             
+      507 +                                                              
+      508 +.fetch-banner {                                               
+      509 +  background: #2a2200;                                        
+      510 +  border: 1px solid #f59e0b44;                                
+      511 +  border-radius: 6px;                                         
+      512 +  color: #f59e0b;                                             
+      513 +  font-size: 0.82rem;                                         
+      514 +  padding: 10px 14px;                                         
+      515 +}                                                             
+      516 +                                                              
+      517 +.stations-grid {                                              
+      518 +  display: flex;                                              
+      519 +  flex-direction: column;                                     
+      520 +  gap: 12px;                                                  
+      521 +}                                                             
+      522 +                                                              
+      523 +.climate-card {                                               
+      524 +  background: #16181f;                                        
+      525 +  border: 1px solid #2a2d38;                                  
+      526 +  border-radius: 8px;                                         
+      527 +  padding: 12px 14px;                                         
+      528 +  display: flex;                                              
+      529 +  flex-direction: column;                                     
+      530 +  gap: 10px;                                                  
+      531 +}                                                             
+      532 +                                                              
+      533 +.climate-card-header {                                        
+      534 +  display: flex;                                              
+      535 +  align-items: center;                                        
+      536 +  gap: 10px;                                                  
+      537 +}                                                             
+      538 +                                                              
+      539 +.climate-card-title {                                         
+      540 +  display: flex;                                              
+      541 +  flex-direction: column;                                     
+      542 +  gap: 1px;                                                   
+      543 +  flex: 1;                                                    
+      544 +  min-width: 0;                                               
+      545 +}                                                             
+      546 +                                                              
+      547 +.fetch-status {                                               
+      548 +  font-size: 0.72rem;                                         
+      549 +  font-weight: 600;                                           
+      550 +  padding: 2px 8px;                                           
+      551 +  border-radius: 4px;                                         
+      552 +}                                                             
+      553 +                                                              
+      554 +.fetch-status-pending {                                       
+      555 +  color: #555;                                                
+      556 +  background: #1c1e27;                                        
+      557 +}                                                             
+      558 +                                                              
+      559 +.fetch-status-loading {                                       
+      560 +  color: #f59e0b;                                             
+      561 +  background: #2a2200;                                        
+      562 +  animation: pulse 1s ease-in-out infinite;                   
+      563 +}                                                             
+      564 +                                                              
+      565 +@keyframes pulse {                                            
+      566 +  0%, 100% { opacity: 1; }                                    
+      567 +  50% { opacity: 0.4; }                                       
+      568 +}                                                             
+      569 +                                                              
+      570 +.fetch-status-error {                                         
+      571 +  color: #ef4444;                                             
+      572 +  background: #2a0a0a;                                        
+      573 +}                                                             
+      574 +                                                              
+      575 +.fetch-status-retry {                                         
+      576 +  color: #fb923c;                                             
+      577 +  background: #2a1500;                                        
+      578 +  animation: pulse 1s ease-in-out infinite;                   
+      579 +}                                                             
+      580 +                                                              
+      581 +.climate-table-wrap {                                         
+      582 +  overflow-x: auto;                                           
+      583 +}                                                             
+      584 +                                                              
+      585 +.climate-table {                                              
+      586 +  width: 100%;                                                
+      587 +  table-layout: fixed;                                        
+      588 +  border-collapse: collapse;                                  
+      589 +  font-size: 0.75rem;                                         
+      590 +  min-width: 600px;                                           
+      591 +}                                                             
+      592 +                                                              
+      593 +.climate-table th:first-child,                                
+      594 +.climate-table td:first-child {                               
+      595 +  width: 9%;                                                  
+      596 +}                                                             
+      597 +                                                              
+      598 +.climate-table th {                                           
+      599 +  color: #666;                                                
+      600 +  font-weight: 600;                                           
+      601 +  text-align: center;                                         
+      602 +  padding: 3px 6px;                                           
+      603 +  border-bottom: 1px solid #2a2d38;                           
+      604 +}                                                             
+      605 +                                                              
+      606 +.climate-table td {                                           
+      607 +  text-align: center;                                         
+      608 +  padding: 3px 6px;                                           
+      609 +  color: #ccc;                                                
+      610 +  border-bottom: 1px solid #1c1e27;                           
+      611 +}                                                             
+      612 +                                                              
+      613 +.climate-table .row-label {                                   
+      614 +  text-align: left;                                           
+      615 +  color: #777;                                                
+      616 +  font-weight: 600;                                           
+      617 +  white-space: nowrap;                                        
+      618 +  font-size: 0.7rem;                                          
+      619 +}                                                             
+      620 +                                                              
+      621 +.climate-table tbody tr:last-child td {                       
+      622 +  border-bottom: none;                                        
+      623 +}                                                             
+      624 +                                                              
+      625 +/* ── Landing page ────────────────────────────────────────── 
+          +*/                                                            
+      626 +                                                              
+      627 +.landing-page {                                               
+      628 +  flex: 1;                                                    
+      629 +  background-color: #0f1015;                                  
+      630 +  background-size: cover;                                     
+      631 +  background-position: center;                                
+      632 +  display: flex;                                              
+      633 +  align-items: center;                                        
+      634 +  justify-content: center;                                    
+      635 +}                                                             
+      636 +                                                              
+      637 +.landing-overlay {                                            
+      638 +  display: flex;                                              
+      639 +  flex-direction: column;                                     
+      640 +  align-items: center;                                        
+      641 +  text-align: center;                                         
+      642 +  padding: 40px 24px;                                         
+      643 +  max-width: 640px;                                           
+      644 +  background: rgba(10, 11, 16, 0.72);                         
+      645 +  border-radius: 12px;                                        
+      646 +  backdrop-filter: blur(4px);                                 
+      647 +  gap: 20px;                                                  
+      648 +}                                                             
+      649 +                                                              
+      650 +.landing-title {                                              
+      651 +  margin: 0;                                                  
+      652 +  font-size: 2.2rem;                                          
+      653 +  font-weight: 700;                                           
+      654 +  color: #f1f1f1;                                             
+      655 +  line-height: 1.2;                                           
+      656 +}                                                             
+      657 +                                                              
+      658 +.landing-description {                                        
+      659 +  margin: 0;                                                  
+      660 +  font-size: 1rem;                                            
+      661 +  color: #aaa;                                                
+      662 +  line-height: 1.6;                                           
+      663 +}                                                             
+      664 +                                                              
+      665 +.landing-link {                                               
+      666 +  color: #f59e0b;                                             
+      667 +  text-decoration: underline;                                 
+      668 +  text-underline-offset: 2px;                                 
+      669 +}                                                             
+      670 +                                                              
+      671 +.landing-link:hover {                                         
+      672 +  color: #fbbf24;                                             
+      673 +}                                                             
+      674 +                                                              
+      675 +.landing-actions {                                            
+      676 +  display: flex;                                              
+      677 +  gap: 12px;                                                  
+      678 +  flex-wrap: wrap;                                            
+      679 +  justify-content: center;                                    
+      680 +}                                                             
+      681 +                                                              
+      682 +.btn-primary {                                                
+      683 +  background: #f59e0b;                                        
+      684 +  color: #000;                                                
+      685 +  border: none;                                               
+      686 +  padding: 11px 22px;                                         
+      687 +  border-radius: 6px;                                         
+      688 +  font-size: 0.95rem;                                         
+      689 +  font-weight: 700;                                           
+      690 +  cursor: pointer;                                            
+      691 +  transition: background 0.15s;                               
+      692 +}                                                             
+      693 +                                                              
+      694 +.btn-primary:hover {                                          
+      695 +  background: #fbbf24;                                        
+      696 +}                                                             
+      697 +                                                              
+      698 +.btn-secondary {                                              
+      699 +  background: transparent;                                    
+      700 +  color: #f59e0b;                                             
+      701 +  border: 1px solid #f59e0b;                                  
+      702 +  padding: 11px 22px;                                         
+      703 +  border-radius: 6px;                                         
+      704 +  font-size: 0.95rem;                                         
+      705 +  font-weight: 600;                                           
+      706 +  cursor: pointer;                                            
+      707 +  transition: background 0.15s, color 0.15s;                  
+      708 +}                                                             
+      709 +                                                              
+      710 +.btn-secondary:hover {                                        
+      711 +  background: #f59e0b;                                        
+      712 +  color: #000;                                                
+      713 +}                                                             
+      714 +                                                              
+      715 +/* ── Create-a-transect page ──────────────────────────────── 
+          +*/                                                            
+      716 +                                                              
+      717 +.create-transect-page {                                       
+      718 +  flex: 1;                                                    
+      719 +  overflow-y: auto;                                           
+      720 +  background: #0f1015;                                        
+      721 +  padding: 32px 24px;                                         
+      722 +  display: flex;                                              
+      723 +  flex-direction: column;                                     
+      724 +  gap: 24px;                                                  
+      725 +  align-items: center;                                        
+      726 +}                                                             
+      727 +                                                              
+      728 +.create-transect-page > h1 {                                  
+      729 +  margin: 0;                                                  
+      730 +  font-size: 1.6rem;                                          
+      731 +  font-weight: 700;                                           
+      732 +  color: #f1f1f1;                                             
+      733 +}                                                             
+      734 +                                                              
+      735 +.create-transect-page > p {                                   
+      736 +  margin: 0;                                                  
+      737 +  color: #888;                                                
+      738 +  font-size: 0.95rem;                                         
+      739 +}                                                             
+      740 +                                                              
+      741 +.transect-steps {                                             
+      742 +  list-style: none;                                           
+      743 +  margin: 0;                                                  
+      744 +  padding: 0;                                                 
+      745 +  display: flex;                                              
+      746 +  flex-direction: column;                                     
+      747 +  gap: 16px;                                                  
+      748 +  width: 100%;                                                
+      749 +  max-width: 600px;                                           
+      750 +}                                                             
+      751 +                                                              
+      752 +.transect-step {                                              
+      753 +  background: #16181f;                                        
+      754 +  border: 1px solid #2a2d38;                                  
+      755 +  border-radius: 10px;                                        
+      756 +  padding: 20px;                                              
+      757 +  display: flex;                                              
+      758 +  flex-direction: column;                                     
+      759 +  gap: 10px;                                                  
+      760 +}                                                             
+      761 +                                                              
+      762 +.step-header {                                                
+      763 +  display: flex;                                              
+      764 +  align-items: center;                                        
+      765 +  gap: 12px;                                                  
+      766 +}                                                             
+      767 +                                                              
+      768 +.step-number {                                                
+      769 +  flex-shrink: 0;                                             
+      770 +  width: 32px;                                                
+      771 +  height: 32px;                                               
+      772 +  background: #f59e0b;                                        
+      773 +  color: #000;                                                
+      774 +  border-radius: 50%;                                         
+      775 +  font-size: 0.9rem;                                          
+      776 +  font-weight: 700;                                           
+      777 +  display: flex;                                              
+      778 +  align-items: center;                                        
+      779 +  justify-content: center;                                    
+      780 +}                                                             
+      781 +                                                              
+      782 +.step-header h2 {                                             
+      783 +  margin: 0;                                                  
+      784 +  font-size: 1.1rem;                                          
+      785 +  font-weight: 600;                                           
+      786 +  color: #f1f1f1;                                             
+      787 +}                                                             
+      788 +                                                              
+      789 +.transect-step > p {                                          
+      790 +  margin: 0;                                                  
+      791 +  font-size: 0.88rem;                                         
+      792 +  color: #888;                                                
+      793 +  line-height: 1.6;                                           
+      794 +}                                                             
+      795 +                                                              
+      796 +.transect-step .btn-secondary {                               
+      797 +  align-self: flex-start;                                     
+      798 +  padding: 8px 16px;                                          
+      799 +  font-size: 0.85rem;                                         
+      800 +}                                                             
+      801 +                                                              
+      802 +.transect-step-coming-soon {                                  
+      803 +  opacity: 0.5;                                               
+      804 +}                                                             
+      805 +                                                              
+      806 +.transect-step-coming-soon .step-number {                     
+      807 +  background: #444;                                           
+      808 +  color: #888;                                                
+      809 +}                                                             
+      810 +                                                              
+      811 +.step-badge-coming-soon {                                     
+      812 +  font-size: 0.7rem;                                          
+      813 +  font-weight: 600;                                           
+      814 +  color: #888;                                                
+      815 +  background: #1c1e27;                                        
+      816 +  border: 1px solid #2a2d38;                                  
+      817 +  border-radius: 4px;                                         
+      818 +  padding: 2px 8px;                                           
+      819 +  letter-spacing: 0.04em;                                     
+      820 +}                                                             
+      821 +                                                              
+      822 +.transect-step-coming-soon .btn-secondary {                   
+      823 +  opacity: 0.4;                                               
+      824 +  cursor: not-allowed;                                        
+      825 +}                                                             
+      826 +                                                              
+      827 +/* ── Temperature scale toggle overlay ───────────────────── *
+          +/                                                             
+      828 +                                                              
+      829 +.temp-scale-overlay {                                         
+      830 +  position: fixed;                                            
+      831 +  bottom: 16px;                                               
+      832 +  right: 16px;                                                
+      833 +  z-index: 100;                                               
+      834 +  display: flex;                                              
+      835 +  flex-direction: column;                                     
+      836 +  align-items: flex-end;                                      
+      837 +  gap: 6px;                                                   
+      838 +}                                                             
+      839 +                                                              
+      840 +.temp-scale-strip {                                           
+      841 +  display: flex;                                              
+      842 +  background: #16181f;                                        
+      843 +  border: 1px solid #2a2d38;                                  
+      844 +  border-radius: 6px;                                         
+      845 +  overflow: hidden;                                           
+      846 +}                                                             
+      847 +                                                              
+      848 +.temp-scale-btn {                                             
+      849 +  background: transparent;                                    
+      850 +  border: none;                                               
+      851 +  border-right: 1px solid #2a2d38;                            
+      852 +  color: #777;                                                
+      853 +  padding: 6px 10px;                                          
+      854 +  font-size: 0.78rem;                                         
+      855 +  font-weight: 500;                                           
+      856 +  cursor: pointer;                                            
+      857 +  white-space: nowrap;                                        
+      858 +  transition: color 0.1s, background 0.1s;                    
+      859 +}                                                             
+      860 +                                                              
+      861 +.temp-scale-btn:last-child {                                  
+      862 +  border-right: none;                                         
+      863 +}                                                             
+      864 +                                                              
+      865 +.temp-scale-btn:hover:not(.temp-scale-btn-active) {           
+      866 +  color: #e0e0e0;                                             
+      867 +  background: #1c1e27;                                        
+      868 +}                                                             
+      869 +                                                              
+      870 +.temp-scale-btn-active {                                      
+      871 +  background: #f59e0b;                                        
+      872 +  color: #000;                                                
+      873 +  font-weight: 700;                                           
+      874 +}                                                             
+      875 +                                                              
+      876 +.felsius-info-link {                                          
+      877 +  font-size: 0.72rem;                                         
+      878 +  color: #f59e0b;                                             
+      879 +  text-decoration: none;                                      
+      880 +  opacity: 0.8;                                               
+      881 +  transition: opacity 0.1s;                                   
+      882 +}                                                             
+      883 +                                                              
+      884 +.felsius-info-link:hover {                                    
+      885 +  opacity: 1;                                                 
+      886 +  text-decoration: underline;                                 
+      887 +}                                                             
+      888 +                                                              
+      889 +/* ── What Is Felsius page ────────────────────────────────── 
+          +*/                                                            
+      890 +                                                              
+      891 +.what-is-felsius-page {                                       
+      892 +  flex: 1;                                                    
+      893 +  overflow-y: auto;                                           
+      894 +  background: #0f1015;                                        
+      895 +  width: 100%;                                                
+      896 +}                                                             
+      897 +                                                              
+      898 +.what-is-felsius-content {                                    
+      899 +  display: flex;                                              
+      900 +  flex-direction: column;                                     
+      901 +  gap: 16px;                                                  
+      902 +  max-width: 680px;                                           
+      903 +  margin: 0 auto;                                             
+      904 +  padding: 32px 24px;                                         
+      905 +}                                                             
+      906 +                                                              
+      907 +.what-is-felsius-content h1 {                                 
+      908 +  margin: 0;                                                  
+      909 +  font-size: 1.6rem;                                          
+      910 +  font-weight: 700;                                           
+      911 +  color: #f1f1f1;                                             
+      912 +}                                                             
+      913 +                                                              
+      914 +.what-is-felsius-content p {                                  
+      915 +  margin: 0;                                                  
+      916 +  font-size: 0.92rem;                                         
+      917 +  color: #aaa;                                                
+      918 +  line-height: 1.65;                                          
+      919 +}                                                             
+      920 +                                                              
+      921 +.what-is-felsius-content a {                                  
+      922 +  color: #f59e0b;                                             
+      923 +  text-decoration: none;                                      
+      924 +}                                                             
+      925 +                                                              
+      926 +.what-is-felsius-content a:hover {                            
+      927 +  text-decoration: underline;                                 
+      928 +}                                                             
+      929 +                                                              
+      930 +.felsius-formula {                                            
+      931 +  background: #16181f;                                        
+      932 +  border: 1px solid #2a2d38;                                  
+      933 +  border-radius: 6px;                                         
+      934 +  padding: 12px 16px;                                         
+      935 +  font-size: 1rem;                                            
+      936 +  color: #f1f1f1;                                             
+      937 +  font-family: ui-monospace, Consolas, monospace;             
+      938 +  margin: 0;                                                  
+      939 +}                                                             
+      940 +                                                              
+      941 +.felsius-table {                                              
+      942 +  border-collapse: collapse;                                  
+      943 +  font-size: 0.82rem;                                         
+      944 +  width: 100%;                                                
+      945 +  max-width: 420px;                                           
+      946 +}                                                             
+      947 +                                                              
+      948 +.felsius-table th {                                           
+      949 +  color: #666;                                                
+      950 +  font-weight: 600;                                           
+      951 +  text-align: center;                                         
+      952 +  padding: 4px 12px;                                          
+      953 +  border-bottom: 1px solid #2a2d38;                           
+      954 +}                                                             
+      955 +                                                              
+      956 +.felsius-table td {                                           
+      957 +  text-align: center;                                         
+      958 +  padding: 4px 12px;                                          
+      959 +  color: #ccc;                                                
+      960 +  border-bottom: 1px solid #1c1e27;                           
+      961 +}                                                             
+      962 +                                                              
+      963 +.felsius-table td:last-child {                                
+      964 +  text-align: left;                                           
+      965 +  color: #777;                                                
+      966 +}                                                             
+      967 +                                                              
+      968 +.felsius-links {                                              
+      969 +  display: flex;                                              
+      970 +  flex-wrap: wrap;                                            
+      971 +  gap: 10px;                                                  
+      972 +  margin-top: 8px;                                            
+      973 +}                                                             
+      974 +                                                              
+      975 +.felsius-links .btn-secondary {                               
+      976 +  font-size: 0.85rem;                                         
+      977 +  padding: 8px 16px;                                          
+      978 +  text-decoration: none;                                      
+      979 +  display: inline-block;                                      
+      980 +}                                                             
+
+● Now update all the import paths in parallel:
+
+● Update(src/components/TempScaleToggle.jsx)
+  ⎿  File must be read first
+
+● The moved files need to be read from their new paths first.
+
+● Read 1 file (ctrl+o to expand)
+
+● Update(src/components/TempScaleToggle.jsx)
+  ⎿  Added 1 line, removed 1 line
+      1  import { Link } from 'react-router-dom'
+      2  import { useTempScale } from './TempScaleContext.jsx'
+      3 -import { TEMP_SCALES } from './temperature.js'                  
+      3 +import { TEMP_SCALES } from '../lib/temperature.js'             
+      4  
+      5  export default function TempScaleToggle() {
+      6    const { scale, setScale } = useTempScale()
+
+● Now update the test files (they import from ./transect.js and
+  ./temperature.js, which still resolves correctly since they're in the same
+  lib/ dir — but let me verify):
+
+● Read 1 file (ctrl+o to expand)
+
+● Good — test imports are relative within lib/ and still correct. Now delete
+  App.css and stage/commit:
+
+● Bash(git rm src/App.css && git add src/index.css src/App.jsx
+      src/pages/BuilderPage.jsx src/pages/CollectDataPage.jsx
+      src/components/TempScaleToggle.jsx)
+  ⎿  rm 'src/App.css'
+
+● Bash(git status)
+  ⎿  On branch main
+     Your branch is ahead of 'origin/main' by 1 commit.
+       (use "git push" to publish your local commits)
+     … +18 lines (ctrl+o to expand)
+
+● Everything looks correct. Committing:
+
+● Bash(git commit -m "$(cat <<'EOF'
+      Refactor src/ structure: subdirs, single CSS, remove dead assets…)
+  ⎿  [main ff1b4f6] Refactor src/ structure: subdirs, single CSS, remove de
+     ad assets
+      19 files changed, 981 insertions(+), 983 deletions(-)
+     … +16 lines (ctrl+o to expand)
+
+● Done. All three refactors in one commit:
+
+  - Deleted src/assets/react.svg and src/assets/vite.svg
+  - Merged App.css into index.css, removed the import './App.css' line
+  - Reorganized src/ into:
+    - pages/ — 6 page components
+    - components/ — NavHeader, TempScaleContext, TempScaleToggle
+    - lib/ — climate.js, temperature.js, transect.js + their tests
+
+✻ Cogitated for 2m 35s
+
+❯ Any other refactors worth doing?                                              
+
+● Let me check a couple of things before answering.
+
+● Searched for 2 patterns (ctrl+o to expand)
+
+● Honestly, not many. The codebase is clean now. Two minor things:
+
+  1. Delete src/assets/hero.png — it's not imported anywhere. public/landing.png
+   is the actual image the landing page uses. hero.png is dead weight, probably
+  a renamed earlier draft.
+
+  2. Move findNearbyCity out of BuilderPage.jsx into src/lib/ — it's a
+  standalone async function (50 lines) that makes a Nominatim API call and
+  returns structured data. It has no component dependencies and currently just
+  sits at the top of BuilderPage.jsx. Moving it to lib/ would make it
+  independently testable and shorten the page component.
+
+  Beyond those two, I don't see anything worth doing. The CSS being one long
+  file is fine — it's global scope anyway, splitting it per-page would just add
+  complexity with no real benefit. The component structure is clean. I'd leave
+  it here.
+
+  Want me to do either or both of these?
+
+✻ Cogitated for 45s
+
+❯ do both                                                                       
+
+● Bash(git rm src/assets/hero.png)
+  ⎿  rm 'src/assets/hero.png'
+
+● Now extract findNearbyCity into its own file in lib/:
+
+● Write(src/lib/geocode.js)
+  ⎿  Wrote 38 lines to src/lib/geocode.js
+       1 import * as turf from '@turf/turf'
+       2 
+       3 export async function findNearbyCity(transectLat, transectLng, r
+         adiusMiles) {
+       4   try {
+       5     const res = await fetch(
+       6       `https://nominatim.openstreetmap.org/reverse?lat=${transec
+         tLat}&lon=${transectLng}&format=json&zoom=10`,
+       7       { headers: { 'Accept-Language': 'en' } }
+       8     )
+       9     const data = await res.json()
+      10     const a = data.address || {}
+     … +28 lines (ctrl+o to expand)
+
+● Now remove the function from BuilderPage.jsx and add the import:
+
+● Update(src/pages/BuilderPage.jsx)
+  ⎿  Added 1 line, removed 37 lines
+      3  import * as turf from '@turf/turf'
+      4  import 'maplibre-gl/dist/maplibre-gl.css'
+      5  import { computeStations } from '../lib/transect.js'
+      6 +import { findNearbyCity } from '../lib/geocode.js'              
+      7  import transectData from '../../data/transect.json'
+      8  
+      9  const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
+     ...
+      13    ['S', 180], ['SW', 225], ['W', 270], ['NW', 315],
+      14  ]
+      15  
+      15 -async function findNearbyCity(transectLat, transectLng, radiusM
+         -iles) {                                                        
+      16 -  try {                                                        
+      17 -    const res = await fetch(                                   
+      18 -      `https://nominatim.openstreetmap.org/reverse?lat=${transe
+         -ctLat}&lon=${transectLng}&format=json&zoom=10`,                
+      19 -      { headers: { 'Accept-Language': 'en' } }                 
+      20 -    )                                                          
+      21 -    const data = await res.json()                              
+      22 -    const a = data.address || {}                               
+      23 -    const name = a.city || a.town || a.village || a.hamlet || a
+         -.county || a.state                                             
+      24 -                                                               
+      25 -    const cityLat = parseFloat(data.lat)                       
+      26 -    const cityLng = parseFloat(data.lon)                       
+      27 -    const offsetMi = turf.distance(                            
+      28 -      [transectLng, transectLat],                              
+      29 -      [cityLng, cityLat],                                      
+      30 -      { units: 'miles' }                                       
+      31 -    )                                                          
+      32 -                                                               
+      33 -    if (name && offsetMi <= radiusMiles) {                     
+      34 -      return { name, lat: cityLat, lng: cityLng, offset: Math.r
+         -ound(offsetMi) }                                               
+      35 -    }                                                          
+      36 -    return {                                                   
+      37 -      name: `${transectLat.toFixed(2)}°, ${transectLng.toFixed(
+         -2)}°`,                                                         
+      38 -      lat: transectLat,                                        
+      39 -      lng: transectLng,                                        
+      40 -      offset: 0,                                               
+      41 -    }                                                          
+      42 -  } catch {                                                    
+      43 -    return {                                                   
+      44 -      name: `${transectLat.toFixed(2)}°, ${transectLng.toFixed(
+         -2)}°`,                                                         
+      45 -      lat: transectLat,                                        
+      46 -      lng: transectLng,                                        
+      47 -      offset: 0,                                               
+      48 -    }                                                          
+      49 -  }                                                            
+      50 -}                                                              
+      51 -                                                               
+      16  export default function BuilderPage() {
+      17    const [startPoint, setStartPoint] = useState(transectData.sta
+          rtPoint)
+      18    const [heading, setHeading] = useState(transectData.heading)
+
+● findNearbyCity used turf directly — check if turf is still needed in
+  BuilderPage.jsx:
+
+● Searched for 1 pattern (ctrl+o to expand)
+
+● turf is no longer used in BuilderPage.jsx — remove that import too:
+
+● Update(src/pages/BuilderPage.jsx)
+  ⎿  Removed 1 line
+      1  import { useState, useCallback, useRef } from 'react'
+      2  import Map, { Marker, Source, Layer, NavigationControl } from 'r
+         eact-map-gl/maplibre'
+      3 -import * as turf from '@turf/turf'                              
+      3  import 'maplibre-gl/dist/maplibre-gl.css'
+      4  import { computeStations } from '../lib/transect.js'
+      5  import { findNearbyCity } from '../lib/geocode.js'
+
+● Bash(git add src/lib/geocode.js src/pages/BuilderPage.jsx && git commit -m
+      "$(cat <<'EOF'
+      Extract findNearbyCity to lib/geocode.js; delete unused hero.png…)
+  ⎿  [main b70dec1] Extract findNearbyCity to lib/geocode.js; delete unused
+      hero.png
+      3 files changed, 39 insertions(+), 38 deletions(-)
+     … +2 lines (ctrl+o to expand)
+
+● Done. BuilderPage.jsx dropped from 322 to 272 lines and lost its turf import —
+   that dependency now lives entirely in lib/ where it belongs.
+
+✻ Cogitated for 40s
+
+❯ One last thing I'd like to move the what is felcius link above the temp       
+toggle.                                                                         
+
+● That's just a JSX reorder in TempScaleToggle.jsx — move the link before the
+  strip:
+
+● Update(src/components/TempScaleToggle.jsx)
+  ⎿  Added 5 lines, removed 5 lines
+       7  
+       8    return (
+       9      <div className="temp-scale-overlay">
+      10 +      {scale === 'felsius' && (                                
+      11 +        <Link to="/what-is-felsius" className="felsius-info-lin
+         +k">                                                            
+      12 +          What is Felsius?                                     
+      13 +        </Link>                                                
+      14 +      )}                                                       
+      15        <div className="temp-scale-strip">
+      16          {TEMP_SCALES.map(({ key, name, symbol }) => (
+      17            <button
+     ...
+      23            </button>
+      24          ))}
+      25        </div>
+      21 -      {scale === 'felsius' && (                                
+      22 -        <Link to="/what-is-felsius" className="felsius-info-lin
+         -k">                                                            
+      23 -          What is Felsius?                                     
+      24 -        </Link>                                                
+      25 -      )}                                                       
+      26      </div>
+      27    )
+      28  }
+
+● The overlay uses flex-direction: column anchored to the bottom-right, so
+  putting the link first in the DOM places it visually above the toggle strip.
+
+❯ Looks good please commit it and push it.                                      
+
+● Bash(git add src/components/TempScaleToggle.jsx && git commit -m "Move What is
+       Felsius link above temp scale toggle" && git push)
+  ⎿  [main 34b0891] Move What is Felsius link above temp scale toggle
+      1 file changed, 5 insertions(+), 5 deletions(-)
+     To github.com:duskvirkus/transect-project.git
+        2e5c836..34b0891  main -> main
+
+● Pushed. 4 commits ahead of where we started this session.
+  ⎿  SessionStart:resume hook error

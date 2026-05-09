@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""
+Claude Code Session Overview CLI
+
+Shows recent sessions from the current working directory using actual session IDs
+from ~/.claude/projects/ instead of unreliable timestamp-based guessing.
+
+Usage:
+    claude-sessions                 # Show last 10 sessions, 10 messages each (cwd only)
+    claude-sessions -s 3            # Show last 3 sessions
+    claude-sessions -m 5            # Show last 5 messages per session
+    claude-sessions -s 3 -m 5       # Show last 3 sessions, 5 messages each
+"""
+
+import json
+import argparse
+from pathlib import Path
+from datetime import datetime
+import sys
+import textwrap
+
+def find_project_dir():
+    """Find the project directory for current working directory"""
+    cwd = str(Path.cwd().resolve())
+    projects_base = Path.home() / ".claude" / "projects"
+
+    if not projects_base.exists():
+        return None
+
+    # Claude converts paths to directory names by:
+    # 1. Replacing '/' with '-'
+    # 2. Replacing '.' with '-'
+    # Example: /Users/foo.bar/Projects/test -> -Users-foo-bar-Projects-test
+
+    # Convert our CWD the same way
+    expected_suffix = cwd.replace('/', '-').replace('.', '-')
+
+    # Find directory that matches
+    for project_dir in projects_base.iterdir():
+        if project_dir.is_dir() and project_dir.name == expected_suffix:
+            return project_dir
+
+    return None
+
+def load_sessions(max_sessions=10, max_messages=10):
+    """Load sessions from ~/.claude/projects/<project-dir>/*.jsonl"""
+    projects_dir = find_project_dir()
+
+    if not projects_dir:
+        return []
+
+    # Get all session files (each .jsonl file is one session)
+    session_files = sorted(projects_dir.glob("*.jsonl"),
+                          key=lambda f: f.stat().st_mtime,
+                          reverse=True)
+
+    sessions = []
+
+    for session_file in session_files[:max_sessions]:
+        session_id = session_file.stem  # UUID from filename
+        messages = []
+
+        try:
+            with open(session_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip():
+                        entry = json.loads(line.strip())
+
+                        # Only include user messages with actual content
+                        if entry.get('type') == 'user' and entry.get('message'):
+                            content = entry['message'].get('content', '')
+
+                            # Handle content that might be a list (multimodal messages)
+                            if isinstance(content, list):
+                                # Extract text from content blocks
+                                text_parts = []
+                                for block in content:
+                                    if isinstance(block, dict) and block.get('type') == 'text':
+                                        text_parts.append(block.get('text', ''))
+                                content = ' '.join(text_parts)
+
+                            # Skip system/meta messages and command outputs
+                            if (content and
+                                not content.startswith('Caveat:') and
+                                not content.startswith('<local-command-') and
+                                not entry.get('isMeta')):
+
+                                messages.append({
+                                    'content': content,
+                                    'timestamp': entry.get('timestamp'),
+                                    'uuid': entry.get('uuid')
+                                })
+        except Exception as e:
+            print(f"⚠️  Error reading session {session_id}: {e}", file=sys.stderr)
+            continue
+
+        if messages:
+            # Sort by timestamp (newest first) and limit
+            messages = sorted(messages, key=lambda m: m.get('timestamp', ''), reverse=True)
+            sessions.append({
+                'id': session_id,
+                'messages': messages[:max_messages],
+                'file': session_file
+            })
+
+    return sessions
+
+def parse_iso_timestamp(iso_str):
+    """Parse ISO timestamp to datetime object"""
+    if not iso_str:
+        return None
+    try:
+        # Handle format like "2025-10-13T18:05:57.115Z"
+        return datetime.fromisoformat(iso_str.replace('Z', '+00:00'))
+    except:
+        return None
+
+def format_timestamp(iso_str):
+    """Format ISO timestamp to readable string"""
+    dt = parse_iso_timestamp(iso_str)
+    if dt:
+        return dt.strftime("%Y-%m-%d %H:%M")
+    return "Unknown time"
+
+def clean_message_content(content):
+    """Clean and format message content for display"""
+    # Handle slash commands
+    if content.startswith('<command-name>'):
+        # Extract command name
+        import re
+        match = re.search(r'<command-name>(/[^<]+)</command-name>', content)
+        if match:
+            return match.group(1)
+
+    # Regular message - clean up
+    content = content.replace('\n', ' ').replace('\r', '')
+
+    # Truncate image references
+    if '[Image #' in content or '[Pasted text #' in content:
+        parts = []
+        for part in content.split('\n\n'):
+            if '[Image #' in part or '[Pasted text #' in part:
+                parts.append(part[:50] + '...' if len(part) > 50 else part)
+            else:
+                parts.append(part)
+        content = ' '.join(parts)
+
+    return content
+
+def print_sessions(sessions):
+    """Print formatted session overview"""
+    current_dir = Path.cwd().resolve()
+    project_name = current_dir.name
+
+    if not sessions:
+        print(f"📭 No recent sessions found for {project_name}")
+        print(f"    ({current_dir})")
+        return
+
+    print(f"📋 Last {len(sessions)} Claude Code sessions for {project_name}:")
+    print(f"    ({current_dir})\n")
+
+    # Show sessions with newest at bottom (like chat list)
+    for session in reversed(sessions):
+        session_id = session['id']
+        messages = session['messages']
+
+        if not messages:
+            continue
+
+        # First message is newest (we sorted reverse), last is oldest
+        newest_msg = messages[0]
+        last_msg_time = format_timestamp(newest_msg.get('timestamp'))
+
+        print(f"\033[1m🔸 Session {session_id}\033[0m (last message: {last_msg_time})")
+        print()
+
+        # Show messages oldest first (like a chat)
+        for msg in reversed(messages):
+            content = clean_message_content(msg.get('content', ''))
+            if not content:
+                continue
+
+            time_str = format_timestamp(msg.get('timestamp'))
+            prefix = f"      \033[90m[{time_str}]\033[0m "
+            prefix_len = len(f"      [{time_str}] ")
+
+            # Calculate display width
+            display_width = prefix_len + len(content)
+
+            if display_width > 100:
+                # Wrap long messages
+                wrapped = textwrap.fill(
+                    content,
+                    width=100 - prefix_len,
+                    subsequent_indent=" " * prefix_len
+                )
+                print(f"{prefix}{wrapped}")
+            else:
+                print(f"{prefix}{content}")
+
+        print()
+        if session != sessions[0]:  # Don't print separator after last session
+            print("   " + "─" * 60)
+            print()
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Show overview of recent Claude Code sessions (current directory only)",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    claude-sessions                 # Default: 10 sessions, 10 messages each (cwd only)
+    claude-sessions -s 3            # Show 3 sessions
+    claude-sessions -m 5            # Show 5 messages per session
+    claude-sessions -s 3 -m 5       # Show 3 sessions, 5 messages each
+        """
+    )
+
+    parser.add_argument(
+        '-s', '--sessions',
+        type=int,
+        default=10,
+        help='Number of recent sessions to show (default: 10)'
+    )
+
+    parser.add_argument(
+        '-m', '--messages',
+        type=int,
+        default=10,
+        help='Max messages per session (default: 10)'
+    )
+
+    args = parser.parse_args()
+
+    if args.sessions < 1 or args.messages < 1:
+        print("❌ Sessions and messages must be > 0")
+        sys.exit(1)
+
+    sessions = load_sessions(args.sessions, args.messages)
+    print_sessions(sessions)
+
+if __name__ == "__main__":
+    main()
+
