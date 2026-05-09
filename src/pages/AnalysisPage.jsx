@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   AreaChart, Area,
 } from 'recharts'
 import defaultData from '../../data/default-climate.json'
 import KoppenMap from '../components/KoppenMap.jsx'
+import StationTabs from '../components/StationTabs.jsx'
 import { useTempScale } from '../components/TempScaleContext.jsx'
 import { usePrecipUnit } from '../components/PrecipUnitContext.jsx'
 import { convertTemp, TEMP_SCALES } from '../lib/temperature.js'
 import { convertPrecip } from '../lib/precipitation.js'
 import { classifyStation } from '../lib/koppen.js'
 import { STATION_BLURBS } from '../data/stationBlurbs.js'
-import { CLIMATE_CONTROLS } from '../data/climateControls.js'
 import Cite from '../components/Cite.jsx'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -30,7 +30,7 @@ function validateEnriched(obj) {
 
 // Temperature heatmap: months on Y axis, stations on X axis
 // Each cell = average of max + min for that station × month
-function tempColor(value, minVal, maxVal, scale) {
+function tempColor(value, minVal, maxVal) {
   if (value == null) return '#ccc'
   const t = Math.max(0, Math.min(1, (value - minVal) / (maxVal - minVal || 1)))
   // blue (cold) → white (mid) → red (hot)
@@ -102,7 +102,7 @@ function TempHeatmap({ stations, scale }) {
                 if (!cd) return null
                 const avg = (cd.monthlyMaxTemp[mi] + cd.monthlyMinTemp[mi]) / 2
                 const val = convertTemp(avg, scale)
-                const color = tempColor(val, minVal, maxVal, scale)
+                const color = tempColor(val, minVal, maxVal)
                 const cx = padX + si * 60
                 return (
                   <g key={`${si}-${mi}`}>
@@ -189,48 +189,6 @@ function ElevationChart({ stations }) {
   )
 }
 
-function StationCard({ station, index, koppenClass, blurb }) {
-  const photoSrc = blurb?.photo
-    ? `${import.meta.env.BASE_URL}stations/${blurb.photo}`
-    : `${import.meta.env.BASE_URL}stations/placeholder.png`
-
-  return (
-    <div className="station-card">
-      <div className="station-card-header">
-        <span className="station-badge">{index + 1}</span>
-        <div>
-          <div className="station-name">{station.name}</div>
-          <div className="station-coords">{station.lat.toFixed(3)}°N, {station.lng.toFixed(3)}°E</div>
-          {station.elevation != null && (
-            <div className="station-elevation">{station.elevation} m elevation</div>
-          )}
-        </div>
-        {koppenClass && (
-          <div className="station-koppen">
-            <span
-              className="koppen-swatch-small"
-              style={{ background: koppenClass.color }}
-            />
-            <span className="koppen-code">{koppenClass.code}</span>
-            <span className="koppen-name-small">{koppenClass.name}</span>
-          </div>
-        )}
-      </div>
-      {blurb && (
-        <>
-          <img
-            src={photoSrc}
-            alt={station.name}
-            className="station-photo"
-            onError={e => { e.currentTarget.src = `${import.meta.env.BASE_URL}stations/placeholder.png` }}
-          />
-          <p className="station-blurb">{blurb.blurb}</p>
-        </>
-      )}
-    </div>
-  )
-}
-
 export default function AnalysisPage() {
   const { scale } = useTempScale()
   const { unit: precipUnit } = usePrecipUnit()
@@ -312,6 +270,14 @@ export default function AnalysisPage() {
         </div>
       </section>
 
+      {/* Station Tabs — default dataset only, below Koppen map */}
+      {isDefault && (
+        <section className="analysis-section">
+          <h2>Station Details</h2>
+          <StationTabs stations={stations} stationData={STATION_BLURBS} koppenClasses={koppenClasses} />
+        </section>
+      )}
+
       {/* Aligned Charts */}
       <section className="analysis-section analysis-charts-section">
         <h2>Transect Climate Overview <Cite id="open-meteo" /></h2>
@@ -319,37 +285,6 @@ export default function AnalysisPage() {
         <PrecipChart stations={stations} precipUnit={precipUnit} />
         <ElevationChart stations={stations} />
       </section>
-
-      {/* Station Cards */}
-      <section className="analysis-section">
-        <h2>Station Details</h2>
-        <div className="station-cards-grid">
-          {stations.map((st, i) => (
-            <StationCard
-              key={st.id}
-              station={st}
-              index={i}
-              koppenClass={koppenClasses[st.id]}
-              blurb={isDefault ? STATION_BLURBS[st.id] : null}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 7 Climatic Controls — default dataset only */}
-      {isDefault && (
-        <section className="analysis-section">
-          <h2>Climatic Controls Along the Transect</h2>
-          {CLIMATE_CONTROLS.map(control => (
-            <div key={control.id} className="climate-control-section">
-              <h3>{control.title}</h3>
-              {control.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          ))}
-        </section>
-      )}
     </div>
     </div>
   )
