@@ -6,7 +6,6 @@
 │                      ▝▜█████▛▘                     │ Recent activity         │
 │                        ▘▘ ▝▝                       │ No recent activity      │
 │      Sonnet 4.6 · Claude Pro ·                     │                         │
-│      duskvirkus@protonmail.com's Organization      │                         │
 │               ~/dev/transect-project               │                         │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
