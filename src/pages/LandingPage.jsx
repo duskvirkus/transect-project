@@ -16,7 +16,7 @@ export default function LandingPage() {
           You can use this site to explore my transect or create your own.
         </p>
         <div className="landing-actions">
-          <button className="btn-primary" onClick={() => navigate('/climate-data')}>
+          <button className="btn-primary" onClick={() => navigate('/analysis')}>
             View Fuji Transect
           </button>
           <button className="btn-secondary" onClick={() => navigate('/create-a-transect')}>
