@@ -1,0 +1,1522 @@
+
+╭─── Claude Code v2.1.71 ──────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                 Welcome back Dawn!                 │ started                 │
+│                                                    │ Run /init to create a … │
+│                       ▐▛███▜▌                      │ ─────────────────────── │
+│                      ▝▜█████▛▘                     │ Recent activity         │
+│                        ▘▘ ▝▝                       │ No recent activity      │
+│                                                    │                         │
+│      Sonnet 4.6 · Claude Pro ·                     │                         │
+│ ~/Documents/frcc-met1050/transect/transect-project │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+❯ /openspec-propose I'd like to add in the bottom right corner a tempeture      
+toggle slider. Internally we should keep using celsius but externally I'd like  
+it to change the tempeture. The toggle slider should support 4 values celsius,  
+fahrenheit, kelvin, and felsius. For info on felsius please refer to the        
+following it's a satirical tempeture scale. 1923: Felsius                       
+Explain xkcd: It's 'cause you're dumb.                                          
+Felsius                                                                         
+                                                                                
+    |<< Prev#1923 (December 1, 2017)Next >>|                                    
+                                                                                
+The symbol for degrees Felsius is an average of the Euro symbol (€) and the     
+Greek lunate epsilon (ϵ).                                                       
+Title text: The symbol for degrees Felsius is an average of the Euro symbol (€) 
+ and the Greek lunate epsilon (ϵ).                                              
+                                                                                
+    |<< PrevRandom ExplanationNext >>|                                          
+                                                                                
+Explanation                                                                     
+                                                                                
+Just like in 1292: Pi vs. Tau, Randall tries to unify two measurement systems   
+by averaging both values. There are several temperature scales actively used in 
+ different parts of the world of for different purposes, including Celsius and  
+Fahrenheit, but e.g. also Kelvin, Rankine and potentially several others.       
+                                                                                
+The United States customary units system uses Fahrenheit, as does the closely   
+related one of imperial units. Alternatively, metric units use Celsius or       
+Kelvin. While Fahrenheit is still used in the US, its territories, the Bahamas, 
+ Belize, the Cayman Islands, Liberia and Palau, all other countries use (or     
+prefer) Celsius. In scientific work, including in the US, only Celsius and      
+Kelvin scales are used.[actual citation needed]                                 
+                                                                                
+The conversion factors between Celsius and Fahrenheit are:                      
+                                                                                
+    °C = (°F − 32) × 5 / 9                                                      
+    °F = °C × 9 / 5 + 32                                                        
+                                                                                
+which makes the average (mean) value of °C and °F: °Ꞓ = °C × 7 / 5 + 16. The    
+step-by-step derivation of this is:                                             
+                                                                                
+    °Ꞓ = (°C + °F) / 2                                                          
+    = (°C + (°C × 9 / 5 + 32)) / 2                                              
+    = (°C + °C × 9 / 5 + 32) / 2                                                
+    = (°C × 5 / 5 + °C × 9 / 5 + 32) / 2                                        
+    = (°C × (5+9) / 5 + 32) / 2                                                 
+    = (°C × 14 / 5 + 32) / 2                                                    
+    = °C × 7 / 5 + 16                                                           
+                                                                                
+Randall chose to name his new unit of temperature Felsius (a portmanteau of     
+Fahrenheit and Celsius).                                                        
+                                                                                
+Comically enough, the Felsius scale discards the main advantages of either      
+temperature scale. The Celsius scale is based around 0 °C as the melting point  
+of water and 100 °C as the boiling point, which is an advantage Felsius does    
+not preserve. Fahrenheit is often argued to be a convenient temperature measure 
+ for human comfort, as 0 °F is very cold and 100 °F is very hot and many places 
+ on Earth which humans inhabit fall handily within these extremes the majority  
+of the time, but Felsius does not preserve this advantage of the Fahrenheit     
+scale either.                                                                   
+                                                                                
+The title text states that the symbol he chose to represent this unit also is   
+the average of two other symbols. Visually, it is assumed to be a combination   
+of Celsius and Fahrenheit (a C with a crossbar), but it is actually like one or 
+ other of the unrelated symbols for the euro currency (€) and the Greek lunate  
+epsilon (ϵ). Randall's symbol has a single crossbar, like the Greek lunate      
+epsilon, but the crossbar continues to the left, like the Euro symbol. (In this 
+ explanation and the transcript, we have used the mathematical symbol U+22F2,   
+which may appear too large or too small depending on the font.)                 
+Symbol     Number of crossbars     Length of crossbar(s)                        
+Euro     2     Long                                                             
+Epsilon     1     Short                                                         
+Felsius     1     Long                                                          
+[not used]     2     Short                                                      
+                                                                                
+In doing all this, Randall has fallen into the trap of creating a new           
+temperature scale/standard.                                                     
+                                                                                
+Randall has also compared Celsius and Fahrenheit scales earlier in 1643:        
+Degrees, and in 526: Converting to Metric he tries to give users of the         
+Fahrenheit scale an idea about what a given Celsius temperature would feel      
+like. Later on he will rate the "cursedness" of various scales, respectively as 
+ 2/10 and 3/10, but we do not discover his opinion of his own combined scale.   
+                                                                                
+This is an example of Argument to moderation, also known as the false middle    
+point fallacy. A famous use of this fallacy is in the Bible, the Judgment of    
+Solomon. The true mother of a disputed baby is discovered[1] by proposing the   
+"compromise" of cutting the baby in half. Perhaps Randall has a similar         
+strategy in proposing Felsius, an absurd compromise, in order to somehow        
+discover the "true" temperature scale.                                          
+                                                                                
+Note that this is not the first (or last) time Randall has proposed a           
+controversial 'third' way.                                                      
+Table of Given Conversions & Additional                                         
+°C     °Ꞓ     °F     Note                                                       
+100.0     156.0     212.0     Water boils at sea level (1 atmosphere)           
+54.0     91.6     129.2     World heat record, at time of comic (Current        
+status)                                                                         
+37.0     67.8     98.6     Human body temperature range average                 
+22.0     46.8     71.6     Room temperature (maximum per American Heritage      
+Dictionary)                                                                     
+0.0     16.0     32.0     Pure water freezes at sea level (1 atm); Reference    
+point for 0°C)                                                                  
+−11.4     0.0     11.4     0°Ꞓ reference                                        
+−17.8     −8.9     0.0     Reference point for 0°F                              
+−21.1     −13.5     −6.0     Saturated salt water freezes at sea level (1       
+atm)[1]                                                                         
+−40.0     −40.0     −40.0     Equivalence point (equal figures in both Celcius  
+and Fahrenheit scales)                                                          
+−273.2     −366.4     −459.7     Absolute zero; 0K and 0°Ra (equivalent to      
+−273.15°C and −459.67°F, respectively)                                          
+                                                                                
+    1 Kings 3:27 "...she is the mother thereof."                                
+                                                                                
+Transcript                                                                      
+                                                                                
+    [A thermometer is shown where the temperature is indicated, with a red      
+column of liquid, to be just above room temperature. This can be seen from the  
+five labels belonging to five lines pointing at the scale. None of these        
+coincide with the 14 ticks on the actual scale for the thermometer. Below the   
+last label is the formula for calculating the temperature on this scale.]       
+    92°Ꞓ world heat record                                                      
+    68°Ꞓ body temperature                                                       
+    47°Ꞓ room temperature                                                       
+    16°Ꞓ water freezes                                                          
+    –9°Ꞓ 0°F                                                                    
+    °Ꞓ=7×°C/5+16=(7×°F–80)/9                                                    
+                                                                                
+    [Caption below the panel:]                                                  
+    Since the Celsius vs Fahrenheit debate has proven surprisingly hard to      
+resolve, as a compromise I've started using Felsius (°Ꞓ), the average of the    
+two.                                                                            
+                                                                                
+                                                                                
+Implementations                                                                 
+                                                                                
+An implementation of Felsius is available at Weather In Felsius, using a        
+location based on user's IP address and accepting US ZIP codes (permanent dead  
+link).                                                                          
+                                                                                
+Additionally, a converter to and from Felsius is available at Felsius           
+Conversion Tool.                                                                
+                                                                                
+comment.png  Add comment      new topic.png  Create topic (use sparingly)       
+refresh discuss.png  Refresh                                                    
+Discussion                                                                      
+                                                                                
+Thanks who, at the same time as I, wrote the better explanation with formulae;  
+you're welcome for the table (which, for my first attempt at a MediaWiki table, 
+ and in a big hurry to be first*, I think came out all right). ((*Go ahead and  
+edit at will!)) --BigMal // 108.162.216.184 16:44, 1 December 2017 (UTC)        
+                                                                                
+Seems like this is awfully relevant: https://xkcd.com/927/ -- Derek Antrican    
+108.162.246.23 16:54, 1 December 2017 (UTC)                                     
+                                                                                
+You can't write formulas like that! °C is degree(s) Celsius, not the value of   
+some temperature as measured in degrees Celsius. You should write something     
+like [°C] or °C-1 instead (if we treat °C as an affine function mapping         
+dimensionless values to temperatures). Or you can be explicit and say something 
+ like "x°F = ((x − 32) * 5 / 9)°C". --172.68.54.22 19:59, 1 December 2017 (UTC) 
+                                                                                
+Fahrenheit contribution to the name is disproportionately small for an average  
+of two scales. It should have been at least Falsius, with added punniness, or   
+Fahlsius, to be more unique. -- Average Alex                                    
+                                                                                
+    It should be ‘Fahlsius’, or even ‘Fählsius’, but notice that the            
+pronunciation will still be more or less like ‘Felsius’ and not like            
+‘Fall-sius’ (for the same reason that ‘Fahrenheit’ or ‘Fährenheit’ is           
+pronounced more or less like ‘Fair-enheit’ and not like ‘Far-enheit’.           
+—TobyBartels (talk) 04:58, 3 December 2017 (UTC)                                
+    It should be Centiheit141.101.104.239 09:32, 4 December 2017 (UTC)          
+    No, it should be Celsiheit. Either case, the name would also fit the sign   
+better than Felsius162.158.92.28 11:52, 4 December 2017 (UTC)                   
+                                                                                
+        There's obviously only one way to resolve this. It should be called     
+Eemsinl5:. Hppavilion1 (talk) 03:58, 7 May 2018 (UTC)                           
+                                                                                
+I'm obliged to share https://www.youtube.com/watch?v=227Hdz8VFKo. As a pedant,  
+I have to point out that water's melting and boiling point aren't quite at 0 °C 
+ and 100 °C (and that Celsius originally had it backwards). And I *do* like     
+"Falsius". Fluppeteer (talk) 21:19, 1 December 2017 (UTC)                       
+                                                                                
+Watch out for Felsius/Celsius or Felsius/Fahrenheit hybrids:                    
+https://xkcd.com/419/ WhiteDragon (talk) 22:20, 1 December 2017 (UTC)           
+                                                                                
+What is an "epislon"? 162.158.88.170 23:02, 1 December 2017 (UTC)               
+                                                                                
+    A Greek letter; follow the link where the word first appears in the         
+explanation. —TobyBartels (talk) 04:58, 3 December 2017 (UTC)                   
+                                                                                
+        I'm pretty sure there's no Greek letter epislon. Which is presumably    
+why it got corrected.141.101.104.239 09:40, 4 December 2017 (UTC)               
+                                                                                
+I think the Ukranian Ye (Є) would be closer, visually speaking.162.158.186.42   
+23:40, 1 December 2017 (UTC)                                                    
+                                                                                
+    Or the mathematical symbol ⋲ (ELEMENT OF WITH LONG HORIZONTAL STROKE) or C̶  
+(LATIN CAPITAL LETTER C + COMBINING LONG STROKE OVERLAY)? Or ℃̶ (DEGREE CELSIUS  
++ COMBINING LONG STROKE OVERLAY)? Sabik (talk) 11:36, 2 December 2017 (UTC)     
+                                                                                
+        Yes, ELEMENT OF WITH LONG HORIZONTAL STROKE seems exactly right (not    
+only by look, but also since ELEMENT OF is basically a lunate Epsilon already   
+and changing the HORIZONTAL STROKE so that it is LONG is precisely the          
+modification WITH which it needs to be equipped), and I think that we should    
+switch to this immediately! —TobyBartels (talk) 04:58, 3 December 2017 (UTC)    
+                                                                                
+            Done. Sabik (talk) 06:42, 3 December 2017 (UTC)                     
+                                                                                
+    I think the Cambrian symbol Ꞓ might be more appropriate. It's not as        
+squished as the current one, and it explicitly is a C with a little bar in it.  
+Isoraqathedh (talk) 11:36, 7 August 2024 (UTC)                                  
+                                                                                
+Apparantly someone needs to be taught about the Rømer scale that is the         
+ancestor of both Celcius and Fahrenhet. It has fixed constants for all three of 
+ water boiling, freezing and the temperature of brine.162.158.202.226 23:06, 2  
+December 2017 (UTC)                                                             
+                                                                                
+I remove the reference to ammonium chloride from the temperature table because, 
+ while it is cool (both figuratively and literally), it's also obsolete: in the 
+ modern Fahrenheit scale, this happens at 4°F, not at 0°F. (See the table at    
+Frigorific mixture.) —TobyBartels (talk) 04:58, 3 December 2017 (UTC)           
+                                                                                
+If the creator of the website that was inspired by the comic created one that   
+was based on SE Asian countries, I would like to know the felsius of that. I am 
+ curious as heck.Boeing-787lover 06:33, 3 December 2017 (UTC)                   
+                                                                                
+Note that as visible on the Kelvin page, the temperatures actually used to      
+define the scales are absolute zero and the triple point of water, as other     
+points, including the boiling temperature of water, body temperature, room      
+temperature, pure water freeze and saturated salt water freeze one, are hard to 
+ measure reliably (due to pressure requirements). -- Hkmaly (talk) 02:59, 4     
+December 2017 (UTC)                                                             
+                                                                                
+Do you think Randall made up a new symbol for Felsius with the intention of     
+making the job difficult for explain xkcd (or at least knowing that it would    
+complicate matters)? Sensorfire (talk) 03:15, 4 December 2017 (UTC)             
+                                                                                
+assumably? really? i suppose you use supposably, too, just to annoy. tsk.       
+--162.158.89.133 13:55, 4 December 2017 (UTC)                                   
+                                                                                
+Reminds me of the time I created a standard that blended the two together in    
+such a way that 0 degrees was the water freezing point (because that does make  
+sense) and 100 degrees was equal to 100 degrees in fahrenheit (because really   
+hot = larger number than celsius.) lol, that was years ago, I don't remember    
+the formula. 173.245.50.186 14:42, 8 December 2017 (UTC) Sam                    
+                                                                                
+    The Andronov Scale is based around this idea (though it was later revised   
+to move 100° Andronov to 44°C). Arcorann (talk) 13:16, 13 March 2018 (UTC)      
+                                                                                
+The room temperature and body temperature provided in the table above display   
+false precision. The link provided gives room temperature as the range from     
+68°F-72°F, so if you wanted to say 70°F +/- 2°F, that would be correct, but     
+there is literally nobody on the planet who would tell you that normal room     
+temperature is 71.6°F. As to body temperature, there is likewise considerable   
+variation which is considered normal. According to WebMD, "For a typical adult, 
+ body temperature can be anywhere from 97°F to 99°F." 98.6°F may be a           
+commonly-quoted figure, but it is nevertheless a product of false precision     
+introduced when converting from the round number in Celsius. 162.158.78.202     
+18:12, 13 December 2017 (UTC) Joshua                                            
+                                                                                
+FEL-SI-US! FEL-SI-US! This is actually a great idea tbh. Psychoticpotato (talk) 
+ 12:42, 9 May 2024 (UTC)                                                        
+Title text error??                                                              
+                                                                                
+So I looked at this comic today and when i went to view the title text it had   
+changed slightly. Where it should have said "Euro symbol (€) and the Greek      
+lunate epsilon (ϵ)" it said "Euro symbol (â,﹁) and the Greek lunate epsilon    
+(Ï,μ)                                                                           
+                                                                                
+It it just my device? (I'm on mobile) Or has the comic changed? 172.68.70.70    
+03:45, 15 September 2019 (UTC)                                                  
+                                                                                
+                                                                                
+guys look new converter--162.158.74.25 07:59, 26 February 2024 (UTC)            
+      comment.png  Add comment                                                  
+Categories:                                                                     
+                                                                                
+    Comics from 2017Comics from DecemberFriday comicsComics with                
+colorPortmanteauMathPhysicsCompromiseUnicode                                    
+                                                                                
+Navigation menu                                                                 
+                                                                                
+    Not logged in                                                               
+    Talk                                                                        
+    Contributions                                                               
+    Create account                                                              
+    Log in                                                                      
+                                                                                
+    Page                                                                        
+    Discussion                                                                  
+                                                                                
+    Read                                                                        
+    Edit                                                                        
+    View history                                                                
+                                                                                
+Search                                                                          
+                                                                                
+    Latest comic                                                                
+    xkcd.com                                                                    
+    Random comic                                                                
+    Browse comics                                                               
+    All comics                                                                  
+    𝘞𝘩𝘢𝘵 𝘐𝘧?                                                                    
+    Community portal                                                            
+    Recent changes                                                              
+    Editing FAQ                                                                 
+                                                                                
+Tools                                                                           
+                                                                                
+    What links here                                                             
+    Related changes                                                             
+    Special pages                                                               
+    Printable version                                                           
+    Permanent link                                                              
+    Page information                                                            
+                                                                                
+Follow @explainxkcd                                                             
+                                                                                
+    This page was last edited on 19 December 2025, at 10:35.                    
+ My thought is that the toggle slider has symbol for non selected values then   
+says the full name with the symbol for other values. We will need to add a page 
+ what-is-felsius. This page should describe felcius it should link to another   
+project I've done where you can get the current tempture in felcius             
+https://duskvirkus.github.io/FelsiusWeather/ and the original xkcd comic        
+https://xkcd.com/1923/. We should add a link to this page when the felcius      
+option is selected. The slider should function on all temptures on the site and 
+ might be worth doing this with a global variable or in the most maintainable   
+way for the software. Please add unit tests for this feature.                   
+
+● Bash(openspec new change "temp-scale-toggle")
+  ⎿  - Creating change 'temp-scale-toggle'...
+     ✔ Created change 'temp-scale-toggle' at openspec/changes/temp-scale-to
+     ggle/ (schema: spec-driven)
+
+● Bash(openspec status --change "temp-scale-toggle" --json)
+  ⎿  - Loading change status...
+     {
+       "changeName": "temp-scale-toggle",
+     … +38 lines (ctrl+o to expand)
+
+● Bash(openspec instructions proposal --change "temp-scale-toggle" --json)
+  ⎿  - Generating instructions...
+     {
+       "changeName": "temp-scale-toggle",
+     … +36 lines (ctrl+o to expand)
+
+● Read 2 files (ctrl+o to expand)
+
+● Now I have enough context. Let me write the proposal:
+
+● Write(openspec/changes/temp-scale-toggle/proposal.md)
+  ⎿  Wrote 32 lines to openspec/changes/temp-scale-toggle/proposal.md
+       1 ## Why
+       2 
+       3 The climate data page displays all temperatures in Celsius (°C) 
+         with no way to change units, which limits accessibility for user
+         s accustomed to Fahrenheit or scientific contexts using Kelvin —
+          and adds an easter-egg scale (Felsius, °Ꞓ) for fun. A global te
+         mperature-scale toggle lets each user view the same underlying d
+         ata in their preferred unit without any re-fetching.
+       4 
+       5 ## What Changes
+       6 
+       7 - Add a persistent temperature scale toggle in the bottom-right 
+         corner of the app (fixed overlay), supporting four scales: Celsi
+         us (°C), Fahrenheit (°F), Kelvin (K), and Felsius (°Ꞓ)
+       8 - Internally, all data remains stored in Celsius; conversion hap
+         pens only at display time
+       9 - The toggle shows symbol-only labels for unselected options and
+          `Full Name (symbol)` for the active option
+      10 - When Felsius is selected, a small contextual link appears poin
+         ting to the `/what-is-felsius` page
+     … +22 lines (ctrl+o to expand)
+
+● Bash(openspec status --change "temp-scale-toggle" --json)
+  ⎿  - Loading change status...
+     {
+       "changeName": "temp-scale-toggle",
+     … +32 lines (ctrl+o to expand)
+
+● Bash(openspec instructions design --change "temp-scale-toggle" --json &&
+      openspec instructions specs --change "temp-scale-toggle" --json)
+  ⎿  - Generating instructions...
+     {
+       "changeName": "temp-scale-toggle",
+     … +68 lines (ctrl+o to expand)
+
+● Read 1 file (ctrl+o to expand)
+
+● Now I'll write all artifacts in parallel — design.md and all spec files:
+
+● Write(openspec/changes/temp-scale-toggle/design.md)
+  ⎿  Wrote 59 lines to openspec/changes/temp-scale-toggle/design.md
+       1 ## Context
+       2 
+       3 The app displays climate temperature values fetched from Open-Me
+         teo, which returns data in Celsius. Currently all temperature va
+         lues are displayed as-is (°C) with hard-coded labels. The change
+          adds a user-selectable temperature scale (Celsius, Fahrenheit, 
+         Kelvin, Felsius) that converts values at display time without to
+         uching the stored data.
+       4 
+       5 The app is a React SPA using React Router (HashRouter). There is
+          no existing global state management — components are standalone
+          with local `useState`.
+       6 
+       7 ## Goals / Non-Goals
+       8 
+       9 **Goals:**
+      10 - Global temperature scale preference that affects all temperatu
+         re displays site-wide
+     … +49 lines (ctrl+o to expand)
+
+● Bash(mkdir -p /home/dusk/Documents/frcc-met1050/transect/transect-project/open
+      spec/changes/temp-scale-toggle/specs/temp-scale-toggle
+      /home/dusk/Documents/frcc-met105…)
+  ⎿  Done
+
+● Write(openspec/changes/temp-scale-toggle/specs/temp-conversions/spec.md)
+  ⎿  Wrote 44 lines to
+     openspec/changes/temp-scale-toggle/specs/temp-conversions/spec.md
+      1 ## ADDED Requirements
+      2 
+      3 ### Requirement: Temperature conversion functions are available
+      4 The system SHALL provide pure functions in `src/temperature.js` t
+        hat convert a Celsius value to Fahrenheit, Kelvin, and Felsius.
+      5 
+      6 Conversion formulas:
+      7 - °F = °C × 9/5 + 32
+      8 - K = °C + 273.15
+      9 - °Ꞓ = °C × 7/5 + 16
+     … +34 lines (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/specs/temp-scale-toggle/spec.md)
+  ⎿  Wrote 47 lines to
+     openspec/changes/temp-scale-toggle/specs/temp-scale-toggle/spec.md
+       1 ## ADDED Requirements
+       2 
+       3 ### Requirement: Temperature scale context provides global scale
+          state
+       4 The system SHALL provide a `TempScaleContext` React context and 
+         a `TempScaleProvider` component in `src/TempScaleContext.jsx`. A
+          `useTempScale()` hook SHALL expose `{ scale, setScale }` to any
+          component in the tree.
+       5 
+       6 The default scale SHALL be `'celsius'`.
+       7 
+       8 #### Scenario: Default scale is celsius
+       9 - **WHEN** a component calls `useTempScale()` without the user h
+         aving changed the scale
+      10 - **THEN** `scale` is `'celsius'`
+     … +37 lines (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/specs/what-is-felsius-page/spec.md)
+  ⎿  Wrote 29 lines to
+     openspec/changes/temp-scale-toggle/specs/what-is-felsius-page/spec.md
+       1 ## ADDED Requirements
+       2 
+       3 ### Requirement: What Is Felsius page is accessible
+       4 The app SHALL render a `WhatIsFelsiusPage` component at `/what-i
+         s-felsius` that explains the Felsius temperature scale.
+       5 
+       6 #### Scenario: Page renders at correct route
+       7 - **WHEN** a user navigates to `/what-is-felsius`
+       8 - **THEN** the What Is Felsius page is displayed
+       9 
+      10 ### Requirement: Page explains the Felsius scale
+     … +19 lines (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/specs/home-climate-page/spec.md)
+  ⎿  Wrote 24 lines to
+     openspec/changes/temp-scale-toggle/specs/home-climate-page/spec.md
+       1 ## MODIFIED Requirements
+       2 
+       3 ### Requirement: Climate data is displayed per station
+       4 The home page SHALL display monthly climate data for each statio
+         n after fetching completes. Temperature values SHALL be converte
+         d from the stored Celsius values to the currently active tempera
+         ture scale using `convertTemp()`. Row labels SHALL reflect the a
+         ctive scale symbol (e.g., `Max °F`, `Min K`, `Max °Ꞓ`). Precipit
+         ation is always displayed in mm regardless of scale.
+       5 
+       6 #### Scenario: Climate data rendered in Celsius (default)
+       7 - **WHEN** climate data has been fetched or loaded from the defa
+         ult dataset and the scale is `'celsius'`
+       8 - **THEN** each station shows its name, coordinates, and 12-mont
+         h arrays for average max temp (°C), average min temp (°C), and t
+         otal precipitation (mm)
+       9 
+      10 #### Scenario: Climate data rendered in Fahrenheit
+     … +14 lines (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/specs/app-routing/spec.md)
+  ⎿  Wrote 32 lines to
+     openspec/changes/temp-scale-toggle/specs/app-routing/spec.md
+       1 ## MODIFIED Requirements
+       2 
+       3 ### Requirement: App uses client-side routing
+       4 The app SHALL use React Router to serve six routes: `/` (landing
+          page), `/builder` (transect builder), `/climate-data` (climate 
+         data page), `/analysis` (analysis placeholder), `/create-a-trans
+         ect` (guided workflow), and `/what-is-felsius` (Felsius informat
+         ional page).
+       5 
+       6 #### Scenario: Root route renders landing page
+       7 - **WHEN** a user navigates to `/`
+       8 - **THEN** the landing page is rendered
+       9 
+      10 #### Scenario: Builder route renders builder
+     … +22 lines (ctrl+o to expand)
+
+● Bash(openspec status --change "temp-scale-toggle" --json)
+  ⎿  - Loading change status...
+     {
+       "changeName": "temp-scale-toggle",
+     … +28 lines (ctrl+o to expand)
+
+● Bash(openspec instructions tasks --change "temp-scale-toggle" --json)
+  ⎿  - Generating instructions...
+     {
+       "changeName": "temp-scale-toggle",
+     … +23 lines (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/tasks.md)
+  ⎿  Wrote 41 lines to openspec/changes/temp-scale-toggle/tasks.md
+      1 ## 1. Temperature Conversion Library
+      2 
+      3 - [ ] 1.1 Create `src/temperature.js` with `TEMP_SCALES` array (c
+        elsius, fahrenheit, kelvin, felsius) each with `key`, `name`, and
+         `symbol` fields
+      4 - [ ] 1.2 Implement `convertTemp(celsius, scale)` function with f
+        ormulas: °F = °C×9/5+32, K = °C+273.15, °Ꞓ = °C×7/5+16; return va
+        lue rounded to 1 decimal; passthrough null; passthrough for celsi
+        us
+      5 - [ ] 1.3 Create `src/temperature.test.js` with unit tests coveri
+        ng all four scale conversions, null passthrough, the -40 equivale
+        nce point, and the Felsius 0°C→16°Ꞓ reference
+      6 
+      7 ## 2. Global Scale Context
+      8 
+      9 - [ ] 2.1 Create `src/TempScaleContext.jsx` with `TempScaleContex
+        t`, `TempScaleProvider` (default scale `'celsius'`), and `useTemp
+        Scale()` hook
+     … +31 lines (ctrl+o to expand)
+
+● Bash(openspec status --change "temp-scale-toggle")
+  ⎿  - Loading change status...
+     Change: temp-scale-toggle
+     Schema: spec-driven
+     … +8 lines (ctrl+o to expand)
+
+● All artifacts created. Here's the summary:
+
+  ---
+  Change: temp-scale-toggle
+  Location: openspec/changes/temp-scale-toggle/
+
+  Artifacts created:
+
+  - proposal.md — Why: global temp scale toggle (°C/°F/K/°Ꞓ) for user
+  preference, display-only conversion, no data format changes
+  - design.md — How: React Context for global state, convertTemp() at render
+  time, segmented button overlay, new /what-is-felsius route
+  - specs/ — Five spec files covering:
+    - temp-conversions — pure conversion functions and TEMP_SCALES metadata
+    - temp-scale-toggle — context, overlay widget behavior, Felsius info link
+    - what-is-felsius-page — new informational page with external links
+    - home-climate-page (delta) — temperature rows now respect active scale
+    - app-routing (delta) — adds the /what-is-felsius route
+  - tasks.md — 20 tasks across 7 groups: conversion library → context → toggle
+  UI → Felsius page → app integration → climate page integration → verification
+
+  Ready for implementation. Run /opsx:apply or ask me to start implementing.
+
+✻ Sautéed for 2m 49s
+
+❯ /openspec-apply-change                                                        
+
+● Using change: temp-scale-toggle
+
+● Bash(openspec instructions apply --change "temp-scale-toggle" --json)
+  ⎿  - Generating apply instructions...
+     {
+       "changeName": "temp-scale-toggle",
+     … +71 lines (ctrl+o to expand)
+
+● Implementing: temp-scale-toggle (schema: spec-driven)
+
+  Progress: 0/21 tasks complete
+
+  Let me read the CSS file before starting:
+
+● Read 1 file (ctrl+o to expand)
+
+● Good. Now I'll implement all tasks. Let me check the test setup first:
+
+● Read 1 file (ctrl+o to expand)
+
+● Now I'll implement everything. Starting with tasks 1.1 and 1.2 together:
+
+  Working on tasks 1.1 + 1.2: src/temperature.js
+
+● Write(src/temperature.js)
+  ⎿  Wrote 22 lines to src/temperature.js
+       1 export const TEMP_SCALES = [
+       2   { key: 'celsius',    name: 'Celsius',    symbol: '°C' },
+       3   { key: 'fahrenheit', name: 'Fahrenheit', symbol: '°F' },
+       4   { key: 'kelvin',     name: 'Kelvin',     symbol: 'K'  },
+       5   { key: 'felsius',    name: 'Felsius',    symbol: '°Ꞓ' },
+       6 ]
+       7 
+       8 /**
+       9  * Convert a Celsius value to the given scale, rounded to 1 deci
+         mal.
+      10  * Returns null if celsius is null/undefined.
+     … +12 lines (ctrl+o to expand)
+
+● Working on task 1.3: src/temperature.test.js
+
+● Write(src/temperature.test.js)
+  ⎿  Wrote 75 lines to src/temperature.test.js
+       1 import { describe, test, expect } from 'vitest'
+       2 import { convertTemp, TEMP_SCALES } from './temperature.js'
+       3 
+       4 describe('convertTemp', () => {
+       5   test('celsius passthrough', () => {
+       6     expect(convertTemp(22, 'celsius')).toBe(22)
+       7   })
+       8 
+       9   test('0°C → 32°F', () => {
+      10     expect(convertTemp(0, 'fahrenheit')).toBe(32)
+     … +65 lines (ctrl+o to expand)
+
+● Working on task 2.1: src/TempScaleContext.jsx
+
+● Write(src/TempScaleContext.jsx)
+  ⎿  Wrote 16 lines to src/TempScaleContext.jsx
+       1 import { createContext, useContext, useState } from 'react'
+       2 
+       3 const TempScaleContext = createContext(null)
+       4 
+       5 export function TempScaleProvider({ children }) {
+       6   const [scale, setScale] = useState('celsius')
+       7   return (
+       8     <TempScaleContext.Provider value={{ scale, setScale }}>
+       9       {children}
+      10     </TempScaleContext.Provider>
+     … +6 lines (ctrl+o to expand)
+
+● Working on tasks 3.1 + 3.2: src/TempScaleToggle.jsx
+
+● Write(src/TempScaleToggle.jsx)
+  ⎿  Wrote 28 lines to src/TempScaleToggle.jsx
+       1 import { Link } from 'react-router-dom'
+       2 import { useTempScale } from './TempScaleContext.jsx'
+       3 import { TEMP_SCALES } from './temperature.js'
+       4 
+       5 export default function TempScaleToggle() {
+       6   const { scale, setScale } = useTempScale()
+       7 
+       8   return (
+       9     <div className="temp-scale-overlay">
+      10       <div className="temp-scale-strip">
+     … +18 lines (ctrl+o to expand)
+
+● Working on task 3.3: Add toggle overlay CSS to App.css
+
+● Update(src/App.css)
+  ⎿  Added 62 lines
+      791    opacity: 0.4;
+      792    cursor: not-allowed;
+      793  }
+      794 +                                                              
+      795 +/* ── Temperature scale toggle overlay ───────────────────── *
+          +/                                                             
+      796 +                                                              
+      797 +.temp-scale-overlay {                                         
+      798 +  position: fixed;                                            
+      799 +  bottom: 16px;                                               
+      800 +  right: 16px;                                                
+      801 +  z-index: 100;                                               
+      802 +  display: flex;                                              
+      803 +  flex-direction: column;                                     
+      804 +  align-items: flex-end;                                      
+      805 +  gap: 6px;                                                   
+      806 +}                                                             
+      807 +                                                              
+      808 +.temp-scale-strip {                                           
+      809 +  display: flex;                                              
+      810 +  background: #16181f;                                        
+      811 +  border: 1px solid #2a2d38;                                  
+      812 +  border-radius: 6px;                                         
+      813 +  overflow: hidden;                                           
+      814 +}                                                             
+      815 +                                                              
+      816 +.temp-scale-btn {                                             
+      817 +  background: transparent;                                    
+      818 +  border: none;                                               
+      819 +  border-right: 1px solid #2a2d38;                            
+      820 +  color: #777;                                                
+      821 +  padding: 6px 10px;                                          
+      822 +  font-size: 0.78rem;                                         
+      823 +  font-weight: 500;                                           
+      824 +  cursor: pointer;                                            
+      825 +  white-space: nowrap;                                        
+      826 +  transition: color 0.1s, background 0.1s;                    
+      827 +}                                                             
+      828 +                                                              
+      829 +.temp-scale-btn:last-child {                                  
+      830 +  border-right: none;                                         
+      831 +}                                                             
+      832 +                                                              
+      833 +.temp-scale-btn:hover:not(.temp-scale-btn-active) {           
+      834 +  color: #e0e0e0;                                             
+      835 +  background: #1c1e27;                                        
+      836 +}                                                             
+      837 +                                                              
+      838 +.temp-scale-btn-active {                                      
+      839 +  background: #f59e0b;                                        
+      840 +  color: #000;                                                
+      841 +  font-weight: 700;                                           
+      842 +}                                                             
+      843 +                                                              
+      844 +.felsius-info-link {                                          
+      845 +  font-size: 0.72rem;                                         
+      846 +  color: #f59e0b;                                             
+      847 +  text-decoration: none;                                      
+      848 +  opacity: 0.8;                                               
+      849 +  transition: opacity 0.1s;                                   
+      850 +}                                                             
+      851 +                                                              
+      852 +.felsius-info-link:hover {                                    
+      853 +  opacity: 1;                                                 
+      854 +  text-decoration: underline;                                 
+      855 +}                                                             
+
+● Working on tasks 4.1 + 4.2 + 4.3: src/WhatIsFelsiusPage.jsx
+
+● Write(src/WhatIsFelsiusPage.jsx)
+  ⎿  Wrote 62 lines to src/WhatIsFelsiusPage.jsx
+       1 export default function WhatIsFelsiusPage() {
+       2   return (
+       3     <div className="what-is-felsius-page">
+       4       <h1>What is Felsius (°Ꞓ)?</h1>
+       5       <p>
+       6         Felsius is a satirical temperature scale created by Rand
+         all Munroe in{' '}
+       7         <a href="https://xkcd.com/1923/" target="_blank" rel="no
+         referrer">
+       8           xkcd comic #1923
+       9         </a>
+      10         . Rather than settling the Celsius vs. Fahrenheit debate
+         , Randall proposed
+     … +52 lines (ctrl+o to expand)
+
+● Now add the WhatIsFelsiusPage CSS to App.css:
+
+● Update(src/App.css)
+  ⎿  Added 90 lines
+      853    opacity: 1;
+      854    text-decoration: underline;
+      855  }
+      856 +                                                              
+      857 +/* ── What Is Felsius page ────────────────────────────────── 
+          +*/                                                            
+      858 +                                                              
+      859 +.what-is-felsius-page {                                       
+      860 +  flex: 1;                                                    
+      861 +  overflow-y: auto;                                           
+      862 +  background: #0f1015;                                        
+      863 +  padding: 32px 24px;                                         
+      864 +  display: flex;                                              
+      865 +  flex-direction: column;                                     
+      866 +  gap: 16px;                                                  
+      867 +  max-width: 680px;                                           
+      868 +  margin: 0 auto;                                             
+      869 +  width: 100%;                                                
+      870 +}                                                             
+      871 +                                                              
+      872 +.what-is-felsius-page h1 {                                    
+      873 +  margin: 0;                                                  
+      874 +  font-size: 1.6rem;                                          
+      875 +  font-weight: 700;                                           
+      876 +  color: #f1f1f1;                                             
+      877 +}                                                             
+      878 +                                                              
+      879 +.what-is-felsius-page p {                                     
+      880 +  margin: 0;                                                  
+      881 +  font-size: 0.92rem;                                         
+      882 +  color: #aaa;                                                
+      883 +  line-height: 1.65;                                          
+      884 +}                                                             
+      885 +                                                              
+      886 +.what-is-felsius-page a {                                     
+      887 +  color: #f59e0b;                                             
+      888 +  text-decoration: none;                                      
+      889 +}                                                             
+      890 +                                                              
+      891 +.what-is-felsius-page a:hover {                               
+      892 +  text-decoration: underline;                                 
+      893 +}                                                             
+      894 +                                                              
+      895 +.felsius-formula {                                            
+      896 +  background: #16181f;                                        
+      897 +  border: 1px solid #2a2d38;                                  
+      898 +  border-radius: 6px;                                         
+      899 +  padding: 12px 16px;                                         
+      900 +  font-size: 1rem;                                            
+      901 +  color: #f1f1f1;                                             
+      902 +  font-family: ui-monospace, Consolas, monospace;             
+      903 +  margin: 0;                                                  
+      904 +}                                                             
+      905 +                                                              
+      906 +.felsius-table {                                              
+      907 +  border-collapse: collapse;                                  
+      908 +  font-size: 0.82rem;                                         
+      909 +  width: 100%;                                                
+      910 +  max-width: 420px;                                           
+      911 +}                                                             
+      912 +                                                              
+      913 +.felsius-table th {                                           
+      914 +  color: #666;                                                
+      915 +  font-weight: 600;                                           
+      916 +  text-align: center;                                         
+      917 +  padding: 4px 12px;                                          
+      918 +  border-bottom: 1px solid #2a2d38;                           
+      919 +}                                                             
+      920 +                                                              
+      921 +.felsius-table td {                                           
+      922 +  text-align: center;                                         
+      923 +  padding: 4px 12px;                                          
+      924 +  color: #ccc;                                                
+      925 +  border-bottom: 1px solid #1c1e27;                           
+      926 +}                                                             
+      927 +                                                              
+      928 +.felsius-table td:last-child {                                
+      929 +  text-align: left;                                           
+      930 +  color: #777;                                                
+      931 +}                                                             
+      932 +                                                              
+      933 +.felsius-links {                                              
+      934 +  display: flex;                                              
+      935 +  flex-wrap: wrap;                                            
+      936 +  gap: 10px;                                                  
+      937 +  margin-top: 8px;                                            
+      938 +}                                                             
+      939 +                                                              
+      940 +.felsius-links .btn-secondary {                               
+      941 +  font-size: 0.85rem;                                         
+      942 +  padding: 8px 16px;                                          
+      943 +  text-decoration: none;                                      
+      944 +  display: inline-block;                                      
+      945 +}                                                             
+
+● Working on tasks 5.1 + 5.2 + 5.3: Update src/App.jsx
+
+● Write(src/App.jsx)
+  ⎿  Added 21 lines, removed 14 lines
+       1  import { HashRouter, Routes, Route, Navigate } from 'react-rout
+          er-dom'
+       2 +import { TempScaleProvider } from './TempScaleContext.jsx'     
+       3  import NavHeader from './NavHeader.jsx'
+       4  import LandingPage from './LandingPage.jsx'
+       5  import BuilderPage from './BuilderPage.jsx'
+       6  import HomePage from './HomePage.jsx'
+       7  import AnalysisPage from './AnalysisPage.jsx'
+       8  import CreateATransectPage from './CreateATransectPage.jsx'
+       9 +import WhatIsFelsiusPage from './WhatIsFelsiusPage.jsx'        
+      10 +import TempScaleToggle from './TempScaleToggle.jsx'            
+      11  import './App.css'
+      12  
+      13  export default function App() {
+      14    return (
+      12 -    <HashRouter>                                               
+      13 -      <div className="app-shell">                              
+      14 -        <NavHeader />                                          
+      15 -        <div className="page-content">                         
+      16 -          <Routes>                                             
+      17 -            <Route path="/" element={<LandingPage />} />       
+      18 -            <Route path="/builder" element={<BuilderPage />} />
+      19 -            <Route path="/climate-data" element={<HomePage />} 
+         -/>                                                             
+      20 -            <Route path="/analysis" element={<AnalysisPage />} 
+         -/>                                                             
+      21 -            <Route path="/create-a-transect" element={<CreateAT
+         -ransectPage />} />                                             
+      22 -            <Route path="*" element={<Navigate to="/" replace /
+         ->} />                                                          
+      23 -          </Routes>                                            
+      15 +    <TempScaleProvider>                                        
+      16 +      <HashRouter>                                             
+      17 +        <div className="app-shell">                            
+      18 +          <NavHeader />                                        
+      19 +          <div className="page-content">                       
+      20 +            <Routes>                                           
+      21 +              <Route path="/" element={<LandingPage />} />     
+      22 +              <Route path="/builder" element={<BuilderPage />} 
+         +/>                                                             
+      23 +              <Route path="/climate-data" element={<HomePage />
+         +} />                                                           
+      24 +              <Route path="/analysis" element={<AnalysisPage />
+         +} />                                                           
+      25 +              <Route path="/create-a-transect" element={<Create
+         +ATransectPage />} />                                           
+      26 +              <Route path="/what-is-felsius" element={<WhatIsFe
+         +lsiusPage />} />                                               
+      27 +              <Route path="*" element={<Navigate to="/" replace
+         + />} />                                                        
+      28 +            </Routes>                                          
+      29 +          </div>                                               
+      30 +          <TempScaleToggle />                                  
+      31          </div>
+      25 -      </div>                                                   
+      26 -    </HashRouter>                                              
+      32 +      </HashRouter>                                            
+      33 +    </TempScaleProvider>                                       
+      34    )
+      35  }
+
+● Working on tasks 6.1 + 6.2 + 6.3: Update src/HomePage.jsx
+
+● Update(src/HomePage.jsx)
+  ⎿  Added 2 lines
+      1  import { useState } from 'react'
+      2  import defaultData from '../data/default-climate.json'
+      3  import { fetchStationClimate } from './climate.js'
+      4 +import { useTempScale } from './TempScaleContext.jsx'           
+      5 +import { convertTemp, TEMP_SCALES } from './temperature.js'     
+      6  
+      7  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+          'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      8  
+
+● Update(src/HomePage.jsx)
+  ⎿  Added 2 lines
+      22  }
+      23  
+      24  export default function HomePage() {
+      25 +  const { scale } = useTempScale()                             
+      26 +  const { symbol } = TEMP_SCALES.find(s => s.key === scale)    
+      27    const [transect, setTransect] = useState(defaultData)
+      28    const [statuses, setStatuses] = useState(() =>
+      29      Object.fromEntries(defaultData.stations.map(s => [s.id, 'do
+          ne']))
+
+● Update(src/HomePage.jsx)
+  ⎿  Added 4 lines, removed 4 lines
+      165                      </thead>
+      166                      <tbody>
+      167                        <tr>
+      168 -                        <td className="row-label">Max °C</td> 
+      168 +                        <td className="row-label">Max {symbol}
+          +</td>                                                         
+      169                          {cd.monthlyMaxTemp.map((v, m) => (
+      170 -                          <td key={m}>{v ?? '–'}</td>         
+      170 +                          <td key={m}>{convertTemp(v, scale) ?
+          +? '–'}</td>                                                   
+      171                          ))}
+      172                        </tr>
+      173                        <tr>
+      174 -                        <td className="row-label">Min °C</td> 
+      174 +                        <td className="row-label">Min {symbol}
+          +</td>                                                         
+      175                          {cd.monthlyMinTemp.map((v, m) => (
+      176 -                          <td key={m}>{v ?? '–'}</td>         
+      176 +                          <td key={m}>{convertTemp(v, scale) ?
+          +? '–'}</td>                                                   
+      177                          ))}
+      178                        </tr>
+      179                        <tr>
+
+● Working on task 7.1: Run tests
+
+● Bash(npm test 2>&1)
+  ⎿  > frontend@0.0.0 test
+     > vitest run
+     … +10 lines (ctrl+o to expand)
+
+● All 23 tests pass. Now mark all completed tasks in tasks.md:
+
+● Read 1 file (ctrl+o to expand)
+
+● Write(openspec/changes/temp-scale-toggle/tasks.md)
+  ⎿  Added 17 lines, removed 17 lines
+       1  ## 1. Temperature Conversion Library
+       2  
+       3 -- [ ] 1.1 Create `src/temperature.js` with `TEMP_SCALES` array 
+         -(celsius, fahrenheit, kelvin, felsius) each with `key`, `name`,
+         - and `symbol` fields                                           
+       4 -- [ ] 1.2 Implement `convertTemp(celsius, scale)` function with
+         - formulas: °F = °C×9/5+32, K = °C+273.15, °Ꞓ = °C×7/5+16; retur
+         -n value rounded to 1 decimal; passthrough null; passthrough for
+         - celsius                                                       
+       5 -- [ ] 1.3 Create `src/temperature.test.js` with unit tests cove
+         -ring all four scale conversions, null passthrough, the -40 equi
+         -valence point, and the Felsius 0°C→16°Ꞓ reference              
+       3 +- [x] 1.1 Create `src/temperature.js` with `TEMP_SCALES` array 
+         +(celsius, fahrenheit, kelvin, felsius) each with `key`, `name`,
+         + and `symbol` fields                                           
+       4 +- [x] 1.2 Implement `convertTemp(celsius, scale)` function with
+         + formulas: °F = °C×9/5+32, K = °C+273.15, °Ꞓ = °C×7/5+16; retur
+         +n value rounded to 1 decimal; passthrough null; passthrough for
+         + celsius                                                       
+       5 +- [x] 1.3 Create `src/temperature.test.js` with unit tests cove
+         +ring all four scale conversions, null passthrough, the -40 equi
+         +valence point, and the Felsius 0°C→16°Ꞓ reference              
+       6  
+       7  ## 2. Global Scale Context
+       8  
+       9 -- [ ] 2.1 Create `src/TempScaleContext.jsx` with `TempScaleCont
+         -ext`, `TempScaleProvider` (default scale `'celsius'`), and `use
+         -TempScale()` hook                                              
+       9 +- [x] 2.1 Create `src/TempScaleContext.jsx` with `TempScaleCont
+         +ext`, `TempScaleProvider` (default scale `'celsius'`), and `use
+         +TempScale()` hook                                              
+      10  
+      11  ## 3. Toggle UI Component
+      12  
+      13 -- [ ] 3.1 Create `src/TempScaleToggle.jsx` — segmented button s
+         -trip rendering one button per entry in `TEMP_SCALES`; inactive 
+         -buttons show symbol only, active button shows `Name (symbol)`; 
+         -calls `setScale` on click                                      
+      14 -- [ ] 3.2 Add conditional "What is Felsius?" link below the tog
+         -gle that only renders when active scale is `'felsius'`, linking
+         - to `/what-is-felsius` using React Router `<Link>`             
+      15 -- [ ] 3.3 Add toggle overlay styles to `src/App.css`: fixed pos
+         -itioning, bottom-right corner, appropriate z-index, button grou
+         -p styling                                                      
+      13 +- [x] 3.1 Create `src/TempScaleToggle.jsx` — segmented button s
+         +trip rendering one button per entry in `TEMP_SCALES`; inactive 
+         +buttons show symbol only, active button shows `Name (symbol)`; 
+         +calls `setScale` on click                                      
+      14 +- [x] 3.2 Add conditional "What is Felsius?" link below the tog
+         +gle that only renders when active scale is `'felsius'`, linking
+         + to `/what-is-felsius` using React Router `<Link>`             
+      15 +- [x] 3.3 Add toggle overlay styles to `src/App.css`: fixed pos
+         +itioning, bottom-right corner, appropriate z-index, button grou
+         +p styling                                                      
+      16  
+      17  ## 4. What Is Felsius Page
+      18  
+      19 -- [ ] 4.1 Create `src/WhatIsFelsiusPage.jsx` with explanation o
+         -f the Felsius scale (satirical average of °C and °F by Randall 
+         -Munroe/xkcd, formula °Ꞓ = °C×7/5+16, symbol °Ꞓ)                
+      20 -- [ ] 4.2 Add external link to `https://duskvirkus.github.io/Fe
+         -lsiusWeather/` (opens in new tab) in `WhatIsFelsiusPage`       
+      21 -- [ ] 4.3 Add external link to `https://xkcd.com/1923/` (opens 
+         -in new tab) in `WhatIsFelsiusPage`                             
+      19 +- [x] 4.1 Create `src/WhatIsFelsiusPage.jsx` with explanation o
+         +f the Felsius scale (satirical average of °C and °F by Randall 
+         +Munroe/xkcd, formula °Ꞓ = °C×7/5+16, symbol °Ꞓ)                
+      20 +- [x] 4.2 Add external link to `https://duskvirkus.github.io/Fe
+         +lsiusWeather/` (opens in new tab) in `WhatIsFelsiusPage`       
+      21 +- [x] 4.3 Add external link to `https://xkcd.com/1923/` (opens 
+         +in new tab) in `WhatIsFelsiusPage`                             
+      22  
+      23  ## 5. App Integration
+      24  
+      25 -- [ ] 5.1 Wrap the `<HashRouter>` tree in `App.jsx` with `<Temp
+         -ScaleProvider>`                                                
+      26 -- [ ] 5.2 Add `<TempScaleToggle />` inside the app shell div in
+         - `App.jsx` (renders on all pages)                              
+      27 -- [ ] 5.3 Add route `<Route path="/what-is-felsius" element={<W
+         -hatIsFelsiusPage />} />` in `App.jsx` and import `WhatIsFelsius
+         -Page`                                                          
+      25 +- [x] 5.1 Wrap the `<HashRouter>` tree in `App.jsx` with `<Temp
+         +ScaleProvider>`                                                
+      26 +- [x] 5.2 Add `<TempScaleToggle />` inside the app shell div in
+         + `App.jsx` (renders on all pages)                              
+      27 +- [x] 5.3 Add route `<Route path="/what-is-felsius" element={<W
+         +hatIsFelsiusPage />} />` in `App.jsx` and import `WhatIsFelsius
+         +Page`                                                          
+      28  
+      29  ## 6. Climate Data Page Integration
+      30  
+      31 -- [ ] 6.1 In `HomePage.jsx`, import `useTempScale` and `convert
+         -Temp` and `TEMP_SCALES`                                        
+      32 -- [ ] 6.2 Replace hard-coded `Max °C` / `Min °C` row labels wit
+         -h dynamic labels using the active scale symbol (e.g., `Max ${sy
+         -mbol}`, `Min ${symbol}`)                                       
+      33 -- [ ] 6.3 Apply `convertTemp(v, scale)` to each temperature cel
+         -l value in the climate table rows (max temp and min temp rows o
+         -nly; leave precipitation unchanged)                            
+      31 +- [x] 6.1 In `HomePage.jsx`, import `useTempScale` and `convert
+         +Temp` and `TEMP_SCALES`                                        
+      32 +- [x] 6.2 Replace hard-coded `Max °C` / `Min °C` row labels wit
+         +h dynamic labels using the active scale symbol (e.g., `Max ${sy
+         +mbol}`, `Min ${symbol}`)                                       
+      33 +- [x] 6.3 Apply `convertTemp(v, scale)` to each temperature cel
+         +l value in the climate table rows (max temp and min temp rows o
+         +nly; leave precipitation unchanged)                            
+      34  
+      35  ## 7. Verification
+      36  
+      37 -- [ ] 7.1 Run existing tests and new unit tests (`npm test` or 
+         -equivalent) — all pass                                         
+      37 +- [x] 7.1 Run existing tests and new unit tests (`npm test` or 
+         +equivalent) — all pass                                         
+      38  - [ ] 7.2 Manually verify toggle renders fixed bottom-right on 
+          all pages
+      39  - [ ] 7.3 Manually verify scale changes update climate table va
+          lues and labels reactively
+      40  - [ ] 7.4 Manually verify Felsius "What is Felsius?" link appea
+          rs/disappears correctly
+
+● ---
+  Implementation Complete
+
+  Change: temp-scale-toggle
+  Schema: spec-driven
+  Progress: 17/21 tasks complete ✓ (4 are manual verification steps)
+
+  Completed This Session
+
+  - 1.1–1.2 src/temperature.js — TEMP_SCALES + convertTemp() with all four scale
+   formulas
+  - 1.3 src/temperature.test.js — 15 unit tests (all pass), 8 for conversions +
+  null + rounding
+  - 2.1 src/TempScaleContext.jsx — React context, provider, useTempScale() hook
+  - 3.1–3.2 src/TempScaleToggle.jsx — segmented button strip + Felsius info link
+  - 3.3 App.css — fixed bottom-right overlay styles
+  - 4.1–4.3 src/WhatIsFelsiusPage.jsx — explanation, reference table, links to
+  FelsiusWeather and xkcd #1923
+  - 5.1–5.3 App.jsx — TempScaleProvider wrapper, TempScaleToggle overlay,
+  /what-is-felsius route
+  - 6.1–6.3 HomePage.jsx — dynamic scale labels and convertTemp() on all
+  temperature cells
+  - 7.1 All 23 tests pass (2 test files)
+
+  Remaining (manual verification)
+
+  Tasks 7.2–7.5 require you to run npm run dev and verify the UI behavior in the
+   browser. Ready to archive with /opsx:archive once you've confirmed.
+
+✻ Cooked for 2m 0s
+
+❯ I manually verified everything one change I'd like to make is expanding the   
+background in the what is felsius page to cover the whole background right now  
+it looks unfinished witht he gray just in the center column.                    
+
+● Read 1 file (ctrl+o to expand)
+
+● The fix is to split it into a full-width outer container (background) and a
+  constrained inner content div:
+
+● Update(src/WhatIsFelsiusPage.jsx)
+  ⎿  Added 1 line
+      1  export default function WhatIsFelsiusPage() {
+      2    return (
+      3      <div className="what-is-felsius-page">
+      4 +      <div className="what-is-felsius-content">                 
+      5        <h1>What is Felsius (°Ꞓ)?</h1>
+      6        <p>
+      7          Felsius is a satirical temperature scale created by Rand
+         all Munroe in{' '}
+
+● Update(src/WhatIsFelsiusPage.jsx)
+  ⎿  Added 1 line
+      58            Original xkcd comic #1923
+      59          </a>
+      60        </div>
+      61 +      </div>                                                   
+      62      </div>
+      63    )
+      64  }
+
+● Now update the CSS — move the max-width/margin/gap/flex-direction onto the
+  inner content div, and make the outer page fill the full width:
+
+● Update(src/App.css)
+  ⎿  Added 5 lines, removed 2 lines
+      860    flex: 1;
+      861    overflow-y: auto;
+      862    background: #0f1015;
+      863 -  padding: 32px 24px;                                         
+      863 +  width: 100%;                                                
+      864 +}                                                             
+      865 +                                                              
+      866 +.what-is-felsius-content {                                    
+      867    display: flex;
+      868    flex-direction: column;
+      869    gap: 16px;
+      870    max-width: 680px;
+      871    margin: 0 auto;
+      869 -  width: 100%;                                                
+      872 +  padding: 32px 24px;                                         
+      873  }
+      874  
+      875  .what-is-felsius-page h1 {
+
+● Also need to fix the child selectors that used .what-is-felsius-page directly
+  for the heading and paragraph styles:
+
+● Update(src/App.css)
+  ⎿  Added 1 line, removed 1 line
+      872    padding: 32px 24px;
+      873  }
+      874  
+      875 -.what-is-felsius-page h1 {                                    
+      875 +.what-is-felsius-content h1 {                                 
+      876    margin: 0;
+      877    font-size: 1.6rem;
+      878    font-weight: 700;
+
+● Update(src/App.css)
+  ⎿  Added 1 line, removed 1 line
+      879    color: #f1f1f1;
+      880  }
+      881  
+      882 -.what-is-felsius-page p {                                     
+      882 +.what-is-felsius-content p {                                  
+      883    margin: 0;
+      884    font-size: 0.92rem;
+      885    color: #aaa;
+
+● Update(src/App.css)
+  ⎿  Added 1 line, removed 1 line
+      886    line-height: 1.65;
+      887  }
+      888  
+      889 -.what-is-felsius-page a {                                     
+      889 +.what-is-felsius-content a {                                  
+      890    color: #f59e0b;
+      891    text-decoration: none;
+      892  }
+
+● Update(src/App.css)
+  ⎿  Added 1 line, removed 1 line
+      891    text-decoration: none;
+      892  }
+      893  
+      894 -.what-is-felsius-page a:hover {                               
+      894 +.what-is-felsius-content a:hover {                            
+      895    text-decoration: underline;
+      896  }
+      897  
+
+● The background now spans the full viewport width via .what-is-felsius-page,
+  while the content stays centered and capped at 680px via the inner
+  .what-is-felsius-content div.
+
+✻ Baked for 49s
+
+❯ Commit it                                                                     
+
+● Bash(git status && git diff --stat)
+  ⎿  On branch feature/temp-scale
+     Changes not staged for commit:
+       (use "git add <file>..." to update what will be committed)
+     … +21 lines (ctrl+o to expand)
+
+● Bash(git add src/App.css src/App.jsx src/HomePage.jsx src/TempScaleContext.jsx
+       src/TempScaleToggle.jsx src/WhatIsFelsiusPage.jsx src/temperature.js
+      src/temperature.t…)
+  ⎿  [feature/temp-scale ce658a6] Add temperature scale toggle (°C, °F, K,
+     °Ꞓ)
+      17 files changed, 699 insertions(+), 18 deletions(-)
+     … +15 lines (ctrl+o to expand)
+
+● Committed as ce658a6 on feature/temp-scale.
+
+❯ /openspec-archive-change                                                      
+
+● Using change: temp-scale-toggle
+
+● Bash(openspec status --change "temp-scale-toggle" --json)
+  ⎿  - Loading change status...
+     {
+       "changeName": "temp-scale-toggle",
+     … +28 lines (ctrl+o to expand)
+
+● All artifacts complete. Let me check task completion and delta specs:
+
+● Read 1 file (ctrl+o to expand)
+
+● 4 manual verification tasks are still unchecked, but you confirmed everything
+  works. Let me mark those done and assess the delta specs before archiving:
+
+● Update(openspec/changes/temp-scale-toggle/tasks.md)
+  ⎿  Added 4 lines, removed 4 lines
+      35  ## 7. Verification
+      36  
+      37  - [x] 7.1 Run existing tests and new unit tests (`npm test` or 
+          equivalent) — all pass
+      38 -- [ ] 7.2 Manually verify toggle renders fixed bottom-right on 
+         -all pages                                                      
+      39 -- [ ] 7.3 Manually verify scale changes update climate table va
+         -lues and labels reactively                                     
+      40 -- [ ] 7.4 Manually verify Felsius "What is Felsius?" link appea
+         -rs/disappears correctly                                        
+      41 -- [ ] 7.5 Manually verify `/what-is-felsius` page renders with 
+         -both external links                                            
+      38 +- [x] 7.2 Manually verify toggle renders fixed bottom-right on 
+         +all pages                                                      
+      39 +- [x] 7.3 Manually verify scale changes update climate table va
+         +lues and labels reactively                                     
+      40 +- [x] 7.4 Manually verify Felsius "What is Felsius?" link appea
+         +rs/disappears correctly                                        
+      41 +- [x] 7.5 Manually verify `/what-is-felsius` page renders with 
+         +both external links                                            
+
+● Now let me read the delta specs and their corresponding main specs to assess
+  what needs syncing:
+
+● Read 1 file (ctrl+o to expand)
+
+● Here's the delta spec sync summary:
+
+  3 new spec files to create:
+  - openspec/specs/temp-conversions/spec.md
+  - openspec/specs/temp-scale-toggle/spec.md
+  - openspec/specs/what-is-felsius-page/spec.md
+
+  2 existing specs to update:
+  - openspec/specs/home-climate-page/spec.md — MODIFIED: "Climate data is
+  displayed per station" (adds scale-aware display)
+  - openspec/specs/app-routing/spec.md — MODIFIED: "App uses client-side
+  routing" (adds /what-is-felsius route)
+
+  Syncing now:
+
+● Bash(mkdir -p /home/dusk/Documents/frcc-met1050/transect/transect-project/open
+      spec/specs/temp-conversions
+      /home/dusk/Documents/frcc-met1050/transect/transect-project…)
+  ⎿  Done
+
+● Write(openspec/specs/temp-conversions/spec.md)
+  ⎿  Wrote 45 lines to openspec/specs/temp-conversions/spec.md
+       1 ## Purpose
+       2 Defines requirements for the temperature conversion utilities us
+         ed site-wide.
+       3 ## Requirements
+       4 ### Requirement: Temperature conversion functions are available
+       5 The system SHALL provide pure functions in `src/temperature.js` 
+         that convert a Celsius value to Fahrenheit, Kelvin, and Felsius.
+       6 
+       7 Conversion formulas:
+       8 - °F = °C × 9/5 + 32
+       9 - K = °C + 273.15
+      10 - °Ꞓ = °C × 7/5 + 16
+     … +35 lines (ctrl+o to expand)
+
+● Write(openspec/specs/temp-scale-toggle/spec.md)
+  ⎿  Wrote 48 lines to openspec/specs/temp-scale-toggle/spec.md
+       1 ## Purpose
+       2 Defines requirements for the global temperature scale toggle UI 
+         and its context.
+       3 ## Requirements
+       4 ### Requirement: Temperature scale context provides global scale
+          state
+       5 The system SHALL provide a `TempScaleContext` React context and 
+         a `TempScaleProvider` component in `src/TempScaleContext.jsx`. A
+          `useTempScale()` hook SHALL expose `{ scale, setScale }` to any
+          component in the tree.
+       6 
+       7 The default scale SHALL be `'celsius'`.
+       8 
+       9 #### Scenario: Default scale is celsius
+      10 - **WHEN** a component calls `useTempScale()` without the user h
+         aving changed the scale
+     … +38 lines (ctrl+o to expand)
+
+● Write(openspec/specs/what-is-felsius-page/spec.md)
+  ⎿  Wrote 30 lines to openspec/specs/what-is-felsius-page/spec.md
+      1 ## Purpose
+      2 Defines requirements for the What Is Felsius informational page a
+        t /what-is-felsius.
+      3 ## Requirements
+      4 ### Requirement: What Is Felsius page is accessible
+      5 The app SHALL render a `WhatIsFelsiusPage` component at `/what-is
+        -felsius` that explains the Felsius temperature scale.
+      6 
+      7 #### Scenario: Page renders at correct route
+      8 - **WHEN** a user navigates to `/what-is-felsius`
+      9 - **THEN** the What Is Felsius page is displayed
+     … +20 lines (ctrl+o to expand)
+
+● Now update the two modified existing specs:
+
+● Update(openspec/specs/home-climate-page/spec.md)
+  ⎿  Added 20 lines, removed 4 lines
+      27  - **THEN** each station shows its fetch status (pending, loadin
+          g, or complete) so the user can track progress
+      28  
+      29  ### Requirement: Climate data is displayed per station
+      30 -The home page SHALL display monthly climate data for each stati
+         -on after fetching completes.                                   
+      30 +The home page SHALL display monthly climate data for each stati
+         +on after fetching completes. Temperature values SHALL be conver
+         +ted from the stored Celsius values to the currently active temp
+         +erature scale using `convertTemp()`. Row labels SHALL reflect t
+         +he active scale symbol (e.g., `Max °F`, `Min K`, `Max °Ꞓ`). Pre
+         +cipitation is always displayed in mm regardless of scale.      
+      31  
+      32 -#### Scenario: Climate data rendered                           
+      33 -- **WHEN** climate data has been fetched or loaded from the def
+         -ault dataset                                                   
+      34 -- **THEN** each station shows its name, coordinates, and 12-mon
+         -th arrays for average max temp, average min temp, and total pre
+         -cipitation                                                     
+      32 +#### Scenario: Climate data rendered in Celsius (default)      
+      33 +- **WHEN** climate data has been fetched or loaded from the def
+         +ault dataset and the scale is `'celsius'`                      
+      34 +- **THEN** each station shows its name, coordinates, and 12-mon
+         +th arrays for average max temp (°C), average min temp (°C), and
+         + total precipitation (mm)                                      
+      35  
+      36 +#### Scenario: Climate data rendered in Fahrenheit             
+      37 +- **WHEN** the active scale is `'fahrenheit'`                  
+      38 +- **THEN** temperature values are converted to °F and row label
+         +s show `Max °F` and `Min °F`                                   
+      39 +                                                               
+      40 +#### Scenario: Climate data rendered in Kelvin                 
+      41 +- **WHEN** the active scale is `'kelvin'`                      
+      42 +- **THEN** temperature values are converted to K and row labels
+         + show `Max K` and `Min K`                                      
+      43 +                                                               
+      44 +#### Scenario: Climate data rendered in Felsius                
+      45 +- **WHEN** the active scale is `'felsius'`                     
+      46 +- **THEN** temperature values are converted to °Ꞓ and row label
+         +s show `Max °Ꞓ` and `Min °Ꞓ`                                   
+      47 +                                                               
+      48 +#### Scenario: Scale change updates displayed values reactively
+      49 +- **WHEN** the user changes the active scale via the toggle    
+      50 +- **THEN** all temperature cells on the climate data page updat
+         +e immediately without re-fetching                              
+      51 +                                                               
+      52  ### Requirement: User can download enriched JSON
+      53  The home page SHALL provide a button to download the current da
+          taset as a JSON file containing both transect and climate data.
+      54  
+
+● Update(openspec/specs/app-routing/spec.md)
+  ⎿  Added 1 line, removed 1 line
+      2  Defines the client-side routing structure and navigation header 
+         for the app.
+      3  ## Requirements
+      4  ### Requirement: App uses client-side routing
+      5 -The app SHALL use React Router to serve five routes: `/` (landin
+        -g page), `/builder` (transect builder), `/climate-data` (climate
+        - data page), `/analysis` (analysis placeholder), and `/create-a-
+        -transect` (guided workflow).                                    
+      5 +The app SHALL use React Router to serve six routes: `/` (landing
+        + page), `/builder` (transect builder), `/climate-data` (climate 
+        +data page), `/analysis` (analysis placeholder), `/create-a-trans
+        +ect` (guided workflow), and `/what-is-felsius` (Felsius informat
+        +ional page).                                                    
+      6  
+      7  #### Scenario: Root route renders landing page
+      8  - **WHEN** a user navigates to `/`
+
+● Update(openspec/specs/app-routing/spec.md)
+  ⎿  Added 4 lines
+      24  - **WHEN** a user navigates to `/create-a-transect`
+      25  - **THEN** the create-a-transect guided workflow page is render
+          ed
+      26  
+      27 +#### Scenario: What Is Felsius route renders informational page
+      28 +- **WHEN** a user navigates to `/what-is-felsius`              
+      29 +- **THEN** the What Is Felsius page is rendered                
+      30 +                                                               
+      31  #### Scenario: Unknown route
+      32  - **WHEN** a user navigates to an unrecognized path
+      33  - **THEN** the app redirects to `/`
+
+● Specs synced. Now archive:
+
+● Bash(mkdir -p /home/dusk/Documents/frcc-met1050/transect/transect-project/open
+      spec/changes/archive && mv
+      /home/dusk/Documents/frcc-met1050/transect/transect-project/…)
+  ⎿  Done
+
+● ---
+  Archive Complete
+
+  Change: temp-scale-toggle
+  Schema: spec-driven
+  Archived to: openspec/changes/archive/2026-05-03-temp-scale-toggle/
+  Specs synced: ✓
+  - Created: temp-conversions, temp-scale-toggle, what-is-felsius-page
+  - Updated: home-climate-page, app-routing
+
+  All 21 tasks complete. All artifacts complete.
+
+✻ Churned for 1m 43s
+
+❯ push it                                                                       
+
+● Bash(git push -u origin feature/temp-scale)
+  ⎿  remote:
+     remote: Create a pull request for 'feature/temp-scale' on GitHub by vi
+     siting:
+     … +7 lines (ctrl+o to expand)
+
+● Pushed. Branch is live at origin/feature/temp-scale.
+
+❯ commit the archive                                                            
+
+● Bash(git add openspec/ && git commit -m "$(cat <<'EOF'
+      Archive temp-scale-toggle change; sync specs to main…)
+  ⎿  [feature/temp-scale e1e72e2] Archive temp-scale-toggle change; sync sp
+     ecs to main
+      14 files changed, 152 insertions(+), 9 deletions(-)
+     … +17 lines (ctrl+o to expand)
+
+● Bash(git push)
+  ⎿  To github.com:duskvirkus/transect-project.git
+        ce658a6..e1e72e2  feature/temp-scale -> feature/temp-scale
+
+● Done — e1e72e2 pushed.
+  ⎿  SessionStart:resume hook error
