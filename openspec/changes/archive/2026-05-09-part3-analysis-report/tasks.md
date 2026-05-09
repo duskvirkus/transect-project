@@ -58,4 +58,4 @@
 
 - [x] 10.1 Verify `<Cite>` usage can be added to relevant pages (CollectDataPage, AnalysisPage at minimum)
 - [x] 10.2 Run existing tests and confirm nothing is broken
-- [ ] 10.3 Manually verify: analysis page layout, Koppen classification lookup accuracy, chart alignment, precipitation unit toggle, bibliography deep links
+- [x] 10.3 Manually verify: analysis page layout, Koppen classification lookup accuracy, chart alignment, precipitation unit toggle, bibliography deep links

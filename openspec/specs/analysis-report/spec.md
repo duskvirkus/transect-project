@@ -1,16 +1,9 @@
-# analysis-page Specification
+# analysis-report Specification
 
 ## Purpose
-Defines requirements for the analysis report page, which renders a full visualized climate analysis of the transect including maps, charts, climatic control sections, and per-station details.
+Defines requirements for the analysis report page content: dataset loading, vertically-aligned transect layout, Koppen classification per station, temperature heatmap, precipitation chart, elevation profile, 7-controls analysis sections, and per-station blurbs/photos.
 
 ## Requirements
-
-### Requirement: Analysis page renders the full analysis report
-The `/analysis` route SHALL render the full Part 3 analysis report page. The page SHALL display a vertically-aligned transect layout (Koppen map + charts), per-station Koppen classifications, climate charts, and — for the default dataset — the 7-controls analysis and per-station blurbs/photos. The "Under Construction" placeholder SHALL be removed.
-
-#### Scenario: Analysis page renders report content
-- **WHEN** a user navigates to `/analysis`
-- **THEN** the page displays the Koppen map, temperature heatmap, precipitation chart, elevation profile, and station information — not an "Under Construction" message
 
 ### Requirement: Analysis page loads default or uploaded dataset
 The analysis page SHALL load the default enriched dataset automatically on mount. A file upload control SHALL allow the user to replace the dataset with an uploaded enriched transect JSON. When an external dataset is loaded, the 7-controls sections and per-station blurbs/photos SHALL be hidden (those are default-dataset-only content).

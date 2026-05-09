@@ -20,9 +20,20 @@ The climate fetch module SHALL aggregate daily ERA5 values by calendar month acr
 - **WHEN** daily `precipitation_sum` values are returned for 1991–2020
 - **THEN** the module sums daily precipitation within each month then averages across years to produce `monthlyPrecip[0]` through `monthlyPrecip[11]`
 
-### Requirement: Enriched JSON schema includes climateData per station
-The enriched transect JSON SHALL include a `climateData` field on each station object containing the 12-month climate normal arrays.
+### Requirement: Enriched JSON schema includes climateData and elevation per station
+The enriched transect JSON SHALL include a `climateData` field on each station object containing the 12-month climate normal arrays and an `elevation` field (meters, number) at the station object level (not nested inside `climateData`).
 
 #### Scenario: Enriched JSON structure
 - **WHEN** climate data has been fetched for all stations
 - **THEN** each station object in the output JSON contains a `climateData` object with `monthlyMaxTemp` (°C, 12 values), `monthlyMinTemp` (°C, 12 values), and `monthlyPrecip` (mm, 12 values)
+
+#### Scenario: Enriched JSON structure includes elevation
+- **WHEN** climate data has been fetched for all stations
+- **THEN** each station object in the output JSON contains a top-level `elevation` field (meters, numeric) alongside the existing `climateData` object
+
+### Requirement: fetchStationClimate returns elevation
+The `fetchStationClimate` function SHALL return the `elevation` field from the Open-Meteo API response alongside the existing `monthlyMaxTemp`, `monthlyMinTemp`, and `monthlyPrecip` arrays.
+
+#### Scenario: Elevation included in return value
+- **WHEN** `fetchStationClimate(lat, lng)` completes successfully
+- **THEN** the returned object includes an `elevation` property (number, meters) in addition to the three monthly arrays
