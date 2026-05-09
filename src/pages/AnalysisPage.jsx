@@ -47,21 +47,10 @@ function tempColor(value, minVal, maxVal) {
   }
 }
 
-function TempHeatmap({ stations, scale }) {
+function TempHeatmap({ stations, scale, mode, minVal, maxVal }) {
   const { symbol } = TEMP_SCALES.find(s => s.key === scale)
-
-  // Compute all avg temps to find global min/max for color scaling
-  const allAvgs = []
-  for (const st of stations) {
-    const cd = st.climateData
-    if (!cd) continue
-    for (let m = 0; m < 12; m++) {
-      const avg = (cd.monthlyMaxTemp[m] + cd.monthlyMinTemp[m]) / 2
-      allAvgs.push(convertTemp(avg, scale))
-    }
-  }
-  const minVal = Math.min(...allAvgs)
-  const maxVal = Math.max(...allAvgs)
+  const dataKey = mode === 'high' ? 'monthlyMaxTemp' : 'monthlyMinTemp'
+  const title = mode === 'high' ? 'Average High Temperature' : 'Average Low Temperature'
 
   const cellH = 28
   const svgH = 12 * cellH
@@ -71,7 +60,7 @@ function TempHeatmap({ stations, scale }) {
 
   return (
     <div className="analysis-chart-section">
-      <h3 className="analysis-chart-title">Temperature Heatmap ({symbol})</h3>
+      <h3 className="analysis-chart-title">{title} ({symbol})</h3>
       <div className="analysis-heatmap-wrap">
         <div className="analysis-heatmap-months">
           {MONTHS.map(m => (
@@ -100,8 +89,7 @@ function TempHeatmap({ stations, scale }) {
               stations.map((st, si) => {
                 const cd = st.climateData
                 if (!cd) return null
-                const avg = (cd.monthlyMaxTemp[mi] + cd.monthlyMinTemp[mi]) / 2
-                const val = convertTemp(avg, scale)
+                const val = convertTemp(cd[dataKey][mi], scale)
                 const color = tempColor(val, minVal, maxVal)
                 const cx = padX + si * 60
                 return (
@@ -119,7 +107,7 @@ function TempHeatmap({ stations, scale }) {
                       y={mi * cellH + cellH / 2 + 4}
                       textAnchor="middle"
                       fontSize="8"
-                      fill={val > (minVal + maxVal) / 2 ? '#000' : '#fff'}
+                      fill="#000"
                       opacity="0.8"
                     >
                       {val?.toFixed(1)}
@@ -131,6 +119,21 @@ function TempHeatmap({ stations, scale }) {
           </svg>
         </div>
       </div>
+    </div>
+  )
+}
+
+function PrecipTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null
+  const sorted = [...payload].sort((a, b) => MONTHS.indexOf(a.dataKey) - MONTHS.indexOf(b.dataKey))
+  return (
+    <div style={{ background: '#1a1a2e', border: '1px solid #444', color: '#fff', padding: '8px 12px', fontSize: 11 }}>
+      <p style={{ margin: '0 0 6px', fontWeight: 600 }}>{label}</p>
+      {sorted.map(entry => (
+        <p key={entry.dataKey} style={{ margin: '2px 0', color: entry.fill }}>
+          {entry.dataKey}: {entry.value}
+        </p>
+      ))}
     </div>
   )
 }
@@ -151,7 +154,7 @@ function PrecipChart({ stations, precipUnit }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#333" />
           <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} padding={{ left: 40, right: 40 }} />
           <YAxis tick={{ fill: '#ccc', fontSize: 11 }} label={{ value: precipUnit, angle: -90, position: 'insideLeft', fill: '#aaa', fontSize: 11 }} />
-          <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid #444', color: '#fff' }} />
+          <Tooltip content={<PrecipTooltip />} />
           {MONTHS.map((m, i) => (
             <Bar key={m} dataKey={m} stackId="a" fill={`hsl(${200 + i * 12},70%,${40 + i * 2}%)`} />
           ))}
@@ -233,7 +236,7 @@ export default function AnalysisPage() {
       }
       setError(null)
       setTransect(parsed)
-      setIsDefault(isDefaultDataset(parsed))
+      setIsDefault(false)
       e.target.value = ''
     }
     reader.readAsText(file)
@@ -264,7 +267,7 @@ export default function AnalysisPage() {
             stations={stations}
             showTransect
             interactive={false}
-            bearing={188}
+            bearing={isDefault ? 188 : 0}
             fitStations
           />
         </div>
@@ -281,7 +284,21 @@ export default function AnalysisPage() {
       {/* Aligned Charts */}
       <section className="analysis-section analysis-charts-section">
         <h2>Transect Climate Overview <Cite id="open-meteo" /></h2>
-        <TempHeatmap stations={stations} scale={scale} />
+        {(() => {
+          const allVals = stations.flatMap(st => {
+            if (!st.climateData) return []
+            return [
+              ...st.climateData.monthlyMaxTemp,
+              ...st.climateData.monthlyMinTemp,
+            ].map(v => convertTemp(v, scale))
+          })
+          const sharedMin = Math.min(...allVals)
+          const sharedMax = Math.max(...allVals)
+          return <>
+            <TempHeatmap stations={stations} scale={scale} mode="high" minVal={sharedMin} maxVal={sharedMax} />
+            <TempHeatmap stations={stations} scale={scale} mode="low" minVal={sharedMin} maxVal={sharedMax} />
+          </>
+        })()}
         <PrecipChart stations={stations} precipUnit={precipUnit} />
         <ElevationChart stations={stations} />
       </section>
