@@ -77,7 +77,7 @@ export default function CollectDataPage() {
           const climateData = await fetchStationClimate(station.lat, station.lng, (t) => {
             setCountdowns(prev => ({ ...prev, [station.id]: t || null }))
           })
-          working[i] = { ...station, climateData }
+          working[i] = { ...station, climateData, elevation: climateData.elevation }
           setTransect(t => ({ ...t, stations: [...working] }))
           setStatuses(prev => ({ ...prev, [station.id]: 'done' }))
           setCountdowns(prev => ({ ...prev, [station.id]: null }))

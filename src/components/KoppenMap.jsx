@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from 'react'
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { KOPPEN_IMAGE_URL, KOPPEN_CLASSES } from '../lib/koppen.js'
@@ -22,6 +22,7 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
   const [opacity, setOpacity] = useState(0.65)
   const [legendOpen, setLegendOpen] = useState(false)
   const mapRef = useRef(null)
+  const mapLoadedRef = useRef(false)
 
   const lineGeoJSON = useMemo(() => {
     if (!showTransect || stations.length < 2) return null
@@ -34,15 +35,24 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
     }
   }, [stations, showTransect])
 
-  const handleLoad = useCallback(() => {
+  const fitToBounds = useCallback((animated = false) => {
     if (!fitStations || stations.length < 1 || !mapRef.current) return
     const lngs = stations.map(stationLng)
     const lats = stations.map(stationLat)
     mapRef.current.fitBounds(
       [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]],
-      { padding: 80, duration: 0, bearing }
+      { padding: 80, duration: animated ? 800 : 0, bearing }
     )
   }, [fitStations, stations, bearing])
+
+  const handleLoad = useCallback(() => {
+    mapLoadedRef.current = true
+    fitToBounds(false)
+  }, [fitToBounds])
+
+  useEffect(() => {
+    if (mapLoadedRef.current) fitToBounds(true)
+  }, [fitToBounds])
 
   return (
     <div className="koppen-map-wrapper">
