@@ -41,3 +41,58 @@ export const KOPPEN_CLASSES = [
   { code: 'ET',  name: 'Tundra',                                    color: '#B2B2B2' },
   { code: 'EF',  name: 'Ice cap',                                   color: '#666666' },
 ]
+
+// Canvas cached after first load for pixel-color classification
+let _canvas = null
+let _ctx = null
+
+function hexToRgb(hex) {
+  return [
+    parseInt(hex.slice(1, 3), 16),
+    parseInt(hex.slice(3, 5), 16),
+    parseInt(hex.slice(5, 7), 16),
+  ]
+}
+
+function loadKoppenCanvas() {
+  if (_canvas) return Promise.resolve()
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      _canvas = document.createElement('canvas')
+      _canvas.width = img.naturalWidth
+      _canvas.height = img.naturalHeight
+      _ctx = _canvas.getContext('2d')
+      _ctx.drawImage(img, 0, 0)
+      resolve()
+    }
+    img.onerror = reject
+    img.src = KOPPEN_IMAGE_URL
+  })
+}
+
+// The PNG is in Web Mercator projection — latitude must use the Mercator formula
+function toRad(deg) { return deg * Math.PI / 180 }
+
+function latToMercY(lat, h) {
+  const m = Math.log(Math.tan(Math.PI / 4 + toRad(lat) / 2))
+  const mercMax = Math.log(Math.tan(Math.PI / 4 + toRad(85.051129) / 2))
+  const mercMin = Math.log(Math.tan(Math.PI / 4 + toRad(-85.051129) / 2))
+  return Math.round(((mercMax - m) / (mercMax - mercMin)) * (h - 1))
+}
+
+export async function classifyStation(lat, lng) {
+  await loadKoppenCanvas()
+  const x = Math.round(((lng + 180) / 360) * (_canvas.width - 1))
+  const y = latToMercY(lat, _canvas.height)
+  const [r, g, b] = _ctx.getImageData(x, y, 1, 1).data
+  let best = null
+  let bestDist = Infinity
+  for (const cls of KOPPEN_CLASSES) {
+    const [cr, cg, cb] = hexToRgb(cls.color)
+    const dist = (r - cr) ** 2 + (g - cg) ** 2 + (b - cb) ** 2
+    if (dist < bestDist) { bestDist = dist; best = cls }
+  }
+  return best
+}

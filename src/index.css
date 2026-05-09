@@ -25,7 +25,7 @@ body {
 
 .page-content {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -826,7 +826,7 @@ body {
 
 /* ── Temperature scale toggle overlay ───────────────────── */
 
-.temp-scale-overlay {
+.global-overlay {
   position: fixed;
   bottom: 16px;
   right: 16px;
@@ -1152,3 +1152,519 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ── Analysis Page ───────────────────────────────────────────────── */
+.analysis-page-outer {
+  flex: 1;
+  overflow-y: auto;
+  background: #0f1015;
+}
+
+.analysis-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 2.604vw 60px;
+}
+
+.analysis-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.analysis-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin: 0;
+}
+
+.analysis-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.analysis-error {
+  margin-bottom: 16px;
+}
+
+.analysis-section {
+  margin-bottom: 40px;
+}
+
+.analysis-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  border-bottom: 1px solid #2a2a3e;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.analysis-map-strip {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Charts */
+.analysis-charts-section .analysis-chart-section + .analysis-chart-section {
+  margin-top: 24px;
+}
+
+.analysis-chart-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #a0aec0;
+  margin: 0 0 8px;
+}
+
+/* Heatmap */
+.analysis-heatmap-wrap {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.analysis-heatmap-months {
+  display: flex;
+  flex-direction: column;
+  padding-top: 68px; /* label row height (60px) + label row margin-bottom (8px) */
+  flex-shrink: 0;
+}
+
+.analysis-heatmap-month-label {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #888;
+  width: 28px;
+}
+
+.analysis-heatmap-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  margin-right: 34px; /* mirrors months col (28px) + gap (6px) to centre the grid */
+}
+
+.analysis-heatmap-station-labels {
+  display: flex;
+  height: 60px;
+  overflow: visible;
+  margin-bottom: 8px; /* gap so labels don't touch the first cell row */
+}
+
+.analysis-heatmap-slabel-wrap {
+  flex: 1;
+  position: relative;
+  overflow: visible;
+}
+
+/* Right edge at column centre; rotate(45deg) swings left end upward, right end stays at anchor */
+.analysis-heatmap-slabel {
+  position: absolute;
+  right: 50%;
+  bottom: 0;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 9px;
+  color: #ccc;
+  line-height: 1;
+  transform: rotate(45deg);
+  transform-origin: right bottom;
+}
+
+.analysis-heatmap-svg {
+  min-width: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Station cards */
+.station-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.station-card {
+  background: #141422;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.station-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+}
+
+.station-elevation {
+  font-size: 0.72rem;
+  color: #64b5f6;
+  margin-top: 2px;
+}
+
+.station-koppen {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.koppen-swatch-small {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: block;
+  align-self: flex-end;
+}
+
+.koppen-code {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.koppen-name-small {
+  font-size: 0.65rem;
+  color: #777;
+  text-align: right;
+  max-width: 120px;
+}
+
+.station-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #1e1e2e;
+}
+
+.station-blurb {
+  font-size: 0.8rem;
+  color: #aab;
+  line-height: 1.5;
+  padding: 10px 12px 12px;
+  margin: 0;
+}
+
+/* Station Tabs */
+.station-tabs {
+  margin-bottom: 32px;
+}
+
+/* Wrap gives overflow-x scroll while keeping the inner strip as a flex row */
+.station-tabs-strip-wrap {
+  overflow-x: auto;
+  /* Match left and right padding so buttons span the same width as the chart plot area */
+  padding-left: 68px;
+  padding-right: 68px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5c transparent;
+}
+
+.station-tabs-strip {
+  display: flex;
+  gap: 4px;
+}
+
+.station-tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  background: #141422;
+  border: 1px solid #2a2a3e;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  color: #777;
+  transition: background 0.15s, color 0.15s;
+  flex: 1;
+  min-width: 0;
+}
+
+.station-tab-btn:hover {
+  background: #1a1a30;
+  color: #aab;
+}
+
+.station-tab-btn-active {
+  background: #1e1e38;
+  border-color: #4a4a6e;
+  color: #c8d0e0;
+}
+
+.station-tab-num {
+  font-size: 0.65rem;
+  color: #556;
+  font-variant-numeric: tabular-nums;
+}
+
+.station-tab-btn-active .station-tab-num {
+  color: #888;
+}
+
+.station-tab-name {
+  font-size: 0.7rem;
+  white-space: nowrap;
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.station-tab-panel {
+  display: flex;
+  gap: 20px;
+  background: #1e1e38;
+  border: 1px solid #4a4a6e;
+  border-radius: 0 8px 8px 8px;
+  overflow: hidden;
+}
+
+.station-tab-photo-col {
+  flex-shrink: 0;
+  width: 260px;
+}
+
+.station-tab-photo {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  display: block;
+  background: #141422;
+}
+
+.station-tab-photo-credit {
+  font-size: 0.65rem;
+  color: #556;
+  text-align: center;
+  padding: 4px 6px;
+  background: #141422;
+  margin: 0;
+}
+
+.station-tab-photo-credit a {
+  color: #5577aa;
+  text-decoration: none;
+}
+
+.station-tab-photo-credit a:hover {
+  text-decoration: underline;
+}
+
+.station-tab-info {
+  flex: 1;
+  padding: 16px 16px 16px 0;
+  overflow: auto;
+  max-height: 400px;
+}
+
+.station-tab-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.station-tab-city-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e0e8f0;
+  margin: 0;
+  flex: 1;
+}
+
+.station-tab-pop {
+  font-size: 0.78rem;
+  color: #778;
+  margin: 0 0 10px;
+}
+
+.station-tab-source-link {
+  color: #5588bb;
+  text-decoration: none;
+}
+
+.station-tab-source-link:hover {
+  text-decoration: underline;
+}
+
+.station-tab-blurb {
+  font-size: 0.85rem;
+  color: #a0b0c0;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+
+.station-tab-controls-heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #8899aa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 8px;
+}
+
+.station-tab-control-row {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 8px;
+  padding: 5px 0;
+  border-top: 1px solid #2a2a4e;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.station-tab-control-label {
+  color: #7080a0;
+  font-weight: 600;
+  padding-top: 1px;
+}
+
+.station-tab-control-answer {
+  color: #9ab0c8;
+}
+
+.station-tab-needs-info {
+  color: #c08040;
+  font-style: italic;
+}
+
+/* 7-controls (legacy global sections — kept for reference, not rendered) */
+.climate-control-section {
+  margin-bottom: 28px;
+}
+
+.climate-control-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  margin-bottom: 8px;
+}
+
+.climate-control-section p {
+  font-size: 0.88rem;
+  color: #9aa;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+/* Precip unit toggle */
+.precip-unit-strip {
+  display: flex;
+  border: 1px solid #3a3a5c;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.precip-unit-btn {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.precip-unit-btn:hover {
+  background: #2a2a40;
+  color: #ccc;
+}
+
+.precip-unit-btn-active {
+  background: #2d2d50;
+  color: #e0e0f0;
+}
+
+/* Bibliography */
+.bibliography-page-outer {
+  flex: 1;
+  overflow-y: auto;
+  background: #0f1015;
+}
+
+.bibliography-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 2.604vw 60px;
+}
+
+.bibliography-page h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin-bottom: 24px;
+}
+
+.bib-section {
+  margin-bottom: 36px;
+}
+
+.bib-section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c8d0e0;
+  border-bottom: 1px solid #2a2a3e;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.bib-entry {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  scroll-margin-top: 80px;
+}
+
+.bib-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #555;
+  flex-shrink: 0;
+  font-family: ui-monospace, Consolas, monospace;
+  margin-top: 2px;
+}
+
+.bib-body {
+  font-size: 0.82rem;
+  color: #9aa;
+  line-height: 1.6;
+}
+
+.bib-authors { color: #bbc; }
+.bib-year { color: #888; }
+.bib-title { color: #c8d0e0; font-style: italic; }
+.bib-publisher { color: #888; }
+.bib-url { color: #64b5f6; word-break: break-all; }
+
+/* Cite component */
+.cite a {
+  color: #64b5f6;
+  font-size: 0.75em;
+  text-decoration: none;
+}
+.cite a:hover { text-decoration: underline; }
+.cite-unknown a, .cite-unknown { color: #888; }

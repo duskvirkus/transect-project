@@ -17,6 +17,7 @@ export default function BuilderPage() {
   const [heading, setHeading] = useState(transectData.heading)
   const [headingInput, setHeadingInput] = useState(String(transectData.heading))
   const [cityRadius, setCityRadius] = useState(transectData.cityRadius)
+  const [stationSpacing, setStationSpacing] = useState(300)
   const [stations, setStations] = useState(transectData.stations)
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('Fuji, Shizuoka Prefecture')
@@ -86,7 +87,7 @@ export default function BuilderPage() {
   const generateTransect = async () => {
     if (!startPoint) return
     setLoading(true)
-    const raw = computeStations(startPoint.lng, startPoint.lat, heading)
+    const raw = computeStations(startPoint.lng, startPoint.lat, heading, stationSpacing)
     setStations(raw.map(s => ({ ...s, name: '…' })))
     const named = [...raw]
     for (let i = 0; i < named.length; i++) {
@@ -115,7 +116,7 @@ export default function BuilderPage() {
       <aside className="sidebar">
         <div className="sidebar-header">
           <h1>Transect Builder</h1>
-          <p className="subtitle">MET 1050 · 10 stations · ~300 mi apart</p>
+          <p className="subtitle">MET 1050 · 10 stations · ~{stationSpacing} mi apart</p>
         </div>
 
         <section className="section">
@@ -198,6 +199,19 @@ export default function BuilderPage() {
               ? 'Stations placed at exact transect points'
               : `Snap to nearest city within ${cityRadius} mi of each point`}
           </p>
+        </section>
+
+        <section className="section">
+          <label className="field-label">Station spacing: {stationSpacing} mi</label>
+          <input
+            type="range"
+            min="5"
+            max="500"
+            step="5"
+            value={stationSpacing}
+            onChange={e => setStationSpacing(Number(e.target.value))}
+            className="heading-slider"
+          />
         </section>
 
         <button

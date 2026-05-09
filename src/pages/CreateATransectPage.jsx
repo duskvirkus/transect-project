@@ -20,8 +20,7 @@ const STEPS = [
     title: 'Analysis',
     path: '/analysis',
     description:
-      'Analyze and visualize the climate data across your transect stations to identify patterns with elevation and geography.',
-    comingSoon: true,
+      'Visualize climate data across your transect with temperature heatmaps, precipitation charts, and an elevation profile. For the default transect, explore per-station breakdowns of the 7 climatic controls that explain each location\'s climate.',
   },
 ]
 

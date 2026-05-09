@@ -3,6 +3,10 @@ import defaultData from '../../data/default-climate.json'
 import { fetchStationClimate } from '../lib/climate.js'
 import { useTempScale } from '../components/TempScaleContext.jsx'
 import { convertTemp, TEMP_SCALES } from '../lib/temperature.js'
+import { usePrecipUnit } from '../components/PrecipUnitContext.jsx'
+import { convertPrecip } from '../lib/precipitation.js'
+import PrecipUnitToggle from '../components/PrecipUnitToggle.jsx'
+import Cite from '../components/Cite.jsx'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -24,6 +28,7 @@ function validateTransect(obj) {
 export default function CollectDataPage() {
   const { scale } = useTempScale()
   const { symbol } = TEMP_SCALES.find(s => s.key === scale)
+  const { unit: precipUnit } = usePrecipUnit()
   const [transect, setTransect] = useState(defaultData)
   const [statuses, setStatuses] = useState(() =>
     Object.fromEntries(defaultData.stations.map(s => [s.id, 'done']))
@@ -72,7 +77,7 @@ export default function CollectDataPage() {
           const climateData = await fetchStationClimate(station.lat, station.lng, (t) => {
             setCountdowns(prev => ({ ...prev, [station.id]: t || null }))
           })
-          working[i] = { ...station, climateData }
+          working[i] = { ...station, climateData, elevation: climateData.elevation }
           setTransect(t => ({ ...t, stations: [...working] }))
           setStatuses(prev => ({ ...prev, [station.id]: 'done' }))
           setCountdowns(prev => ({ ...prev, [station.id]: null }))
@@ -124,7 +129,7 @@ export default function CollectDataPage() {
 
       {fetching && (
         <div className="fetch-banner">
-          Fetching climate data from Open-Meteo — this may take a few minutes. Please keep this tab open.
+          Fetching climate data from Open-Meteo <Cite id="open-meteo" /> — this may take a few minutes. Please keep this tab open.
         </div>
       )}
 
@@ -177,9 +182,9 @@ export default function CollectDataPage() {
                         ))}
                       </tr>
                       <tr>
-                        <td className="row-label">Precip mm</td>
+                        <td className="row-label">Precip ({precipUnit})</td>
                         {cd.monthlyPrecip.map((v, m) => (
-                          <td key={m}>{v ?? '–'}</td>
+                          <td key={m}>{convertPrecip(v, precipUnit) ?? '–'}</td>
                         ))}
                       </tr>
                     </tbody>

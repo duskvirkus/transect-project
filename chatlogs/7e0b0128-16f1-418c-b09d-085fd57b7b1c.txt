@@ -1,0 +1,936 @@
+╭─── Claude Code v2.1.114 ─────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                 Welcome back Dawn!                 │ started                 │
+│                                                    │ Run /init to create a … │
+│                       ▐▛███▜▌                      │ ─────────────────────── │
+│                      ▝▜█████▛▘                     │ Recent activity         │
+│                        ▘▘ ▝▝                       │ No recent activity      │
+│      Sonnet 4.6 · Claude Pro ·                     │                         │
+│               ~/dev/transect-project               │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+❯ Are there any tasks remaining for openspec                                    
+
+  Searched for 2 patterns, read 1 file (ctrl+o to expand)
+
+● One remaining task: 10.3 — manual verification of the analysis page (layout,
+  Koppen classification, chart alignment, precip unit toggle, bibliography deep
+  links). Everything else is checked off.
+
+❯ We need to fix the alignment for the chart. I'd like the transcet to show the 
+   line same as when the user loads the Builder page. Right now it looks like   
+  the dotted line goes between each point on the transcet which isn't quite     
+  right. I'd also like Fuji to be on the left so we need to rotate the map 188  
+  degrees by default. Fuji (and all cities should be centered in the koppen     
+  viewer on the analysis page. Let's add a 50px margin from the left of the     
+  edge of the widget. 50 px on a 1080p screen but we should use a percentage so 
+   it scales properly. Please update the background to the the same grey on the 
+   climate data page on both the anlysis and bibligraphy page.                  
+
+● Let me explore the current state of the relevant files first.
+
+● Explore(Explore analysis page and related components)
+  ⎿  Done (8 tool uses · 46.0k tokens · 17s)
+  (ctrl+o to expand)
+
+● Let me read the key files directly.
+
+  Read 3 files (ctrl+o to expand)
+
+● Now let me check the CSS and how BuilderPage draws the transect line.
+
+  Searched for 2 patterns (ctrl+o to expand)
+
+● Let me check the station data structure to understand transectLng/transectLat
+  vs lng/lat.
+
+  Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+● Let me check App.jsx to understand the page layout structure.
+
+  Searched for 3 patterns (ctrl+o to expand)
+
+● Now I have everything I need. Here's what I'll change:
+
+  1. KoppenMap: use transectLng/transectLat for the line (matching Builder), add
+   bearing + fitStations props with fitBounds on load
+  2. AnalysisPage: pass bearing={188} + fitStations to KoppenMap, wrap in outer
+  div for background
+  3. BibliographyPage: wrap in outer div for background
+  4. CSS: add outer wrapper backgrounds, update padding-left to 2.604vw (≈50px
+  at 1920px)
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 4 lines, removed 1 line
+      1 -import { useState, useMemo } from 'react'                       
+      1 +import { useState, useMemo, useRef, useCallback } from 'react'  
+      2  import Map, { Marker, Source, Layer, NavigationControl } from 'r
+         eact-map-gl/maplibre'
+      3  import 'maplibre-gl/dist/maplibre-gl.css'
+      4  import { KOPPEN_IMAGE_URL, KOPPEN_CLASSES } from '../lib/koppen.
+         js'
+     ...
+       7  
+       8  const DEFAULT_VIEW = { longitude: 114, latitude: 37, zoom: 3 }
+       9  
+      10 +function stationLng(s) { return s.transectLng ?? s.lng }       
+      11 +function stationLat(s) { return s.transectLat ?? s.lat }       
+      12 +                                                               
+      13  // Blend a hex color with white to simulate raster-opacity over
+           a light base map
+      14  function blendWithWhite(hex, opacity) {
+      15    const r = parseInt(hex.slice(1, 3), 16)
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 13 lines, removed 2 lines
+      18    return `rgb(${Math.round(opacity * r + (1 - opacity) * 255)},
+          ${Math.round(opacity * g + (1 - opacity) * 255)},${Math.round(o
+          pacity * b + (1 - opacity) * 255)})`
+      19  }
+      20  
+      21 -export default function KoppenMap({ stations = [], showTransect
+         - = false, initialViewState, interactive = true }) {            
+      21 +export default function KoppenMap({ stations = [], showTransect
+         + = false, initialViewState, interactive = true, bearing = 0, fi
+         +tStations = false }) {                                         
+      22    const [opacity, setOpacity] = useState(0.65)
+      23    const [legendOpen, setLegendOpen] = useState(true)
+      24 +  const mapRef = useRef(null)                                  
+      25  
+      26    const lineGeoJSON = useMemo(() => {
+      27      if (!showTransect || stations.length < 2) return null
+     ...
+      29        type: 'Feature',
+      30        geometry: {
+      31          type: 'LineString',
+      31 -        coordinates: stations.map(s => [s.lng, s.lat]),        
+      32 +        coordinates: stations.map(s => [stationLng(s), stationL
+         +at(s)]),                                                       
+      33        },
+      34      }
+      35    }, [stations, showTransect])
+      36  
+      37 +  const handleLoad = useCallback(() => {                       
+      38 +    if (!fitStations || stations.length < 1 || !mapRef.current)
+         + return                                                        
+      39 +    const lngs = stations.map(stationLng)                      
+      40 +    const lats = stations.map(stationLat)                      
+      41 +    mapRef.current.fitBounds(                                  
+      42 +      [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lng
+         +s), Math.max(...lats)]],                                       
+      43 +      { padding: 80, duration: 0, bearing }                    
+      44 +    )                                                          
+      45 +  }, [fitStations, stations, bearing])                         
+      46 +                                                               
+      47    return (
+      48      <div className="koppen-map-wrapper">
+      49        <div className="koppen-legend">
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 3 lines, removed 1 line
+      72  
+      73        <div className="koppen-map-container">
+      74          <Map
+      75 -          initialViewState={initialViewState ?? DEFAULT_VIEW}  
+      75 +          ref={mapRef}                                         
+      76 +          initialViewState={{ bearing, ...(initialViewState ?? 
+         +DEFAULT_VIEW) }}                                               
+      77            style={{ width: '100%', height: '100%' }}
+      78            mapStyle={MAP_STYLE}
+      79            interactive={interactive}
+      80 +          onLoad={handleLoad}                                  
+      81          >
+      82            <NavigationControl position="top-right" />
+      83  
+
+● Now fix the marker coordinates to also use transectLng/transectLat:
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 1 line, removed 1 line
+      114            )}
+      115  
+      116            {stations.map((s, i) => (
+      117 -            <Marker key={s.id ?? i} longitude={s.lng} latitude
+          -={s.lat} anchor="center">                                     
+      117 +            <Marker key={s.id ?? i} longitude={stationLng(s)} 
+          +latitude={stationLat(s)} anchor="center">                     
+      118                <div className="koppen-marker" title={s.name}>
+      119                  {i + 1}
+      120                </div>
+
+● Now update AnalysisPage to use bearing={188} and fitStations, plus add the
+  outer wrapper:
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 2 lines, removed 1 line
+      305              stations={stations}
+      306              showTransect
+      307              interactive={false}
+      308 -            initialViewState={{ longitude: 114, latitude: 37.5
+          -, zoom: 3.2 }}                                                
+      308 +            bearing={188}                                     
+      309 +            fitStations                                       
+      310            />
+      311          </div>
+      312        </section>
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 1 line
+      284    const stations = transect.stations
+      285  
+      286    return (
+      287 +    <div className="analysis-page-outer">                     
+      288      <div className="analysis-page">
+      289        <div className="analysis-toolbar">
+      290          <h1 className="analysis-title">Transect Analysis Repor
+           t</h1>
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Error editing file
+  Read 1 file (ctrl+o to expand)
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 1 line
+      351          </section>
+      352        )}
+      353      </div>
+      354 +    </div>                                                    
+      355    )
+      356  }
+
+● Now update BibliographyPage:
+
+● Update(src/pages/BibliographyPage.jsx)
+  ⎿  Added 2 lines
+      30    const toolEntries = TOOLS.map(c => ({ citation: c, index: glo
+          balIndex++ }))
+      31  
+      32    return (
+      33 +    <div className="bibliography-page-outer">                  
+      34      <div className="bibliography-page">
+      35        <h1>Bibliography</h1>
+      36  
+     ...
+      48          ))}
+      49        </section>
+      50      </div>
+      51 +    </div>                                                     
+      52    )
+      53  }
+
+● Now update the CSS:
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(src/index.css)
+  ⎿  Added 7 lines, removed 1 line
+      1154  }
+      1155  
+      1156  /* ── Analysis Page ─────────────────────────────────────────
+            ──────── */
+      1157 +.analysis-page-outer {                                       
+      1158 +  flex: 1;                                                   
+      1159 +  overflow-y: auto;                                          
+      1160 +  background: #0f1015;                                       
+      1161 +}                                                            
+      1162 +                                                             
+      1163  .analysis-page {
+      1164    max-width: 1200px;
+      1165    margin: 0 auto;
+      1160 -  padding: 24px 16px 60px;                                   
+      1166 +  padding: 24px 2.604vw 60px;                                
+      1167  }
+      1168  
+      1169  .analysis-toolbar {
+
+● Update(src/index.css)
+  ⎿  Added 7 lines, removed 1 line
+      1380  }
+      1381  
+      1382  /* Bibliography */
+      1383 +.bibliography-page-outer {                                   
+      1384 +  flex: 1;                                                   
+      1385 +  overflow-y: auto;                                          
+      1386 +  background: #0f1015;                                       
+      1387 +}                                                            
+      1388 +                                                             
+      1389  .bibliography-page {
+      1390    max-width: 860px;
+      1391    margin: 0 auto;
+      1386 -  padding: 24px 16px 60px;                                   
+      1392 +  padding: 24px 2.604vw 60px;                                
+      1393  }
+      1394  
+      1395  .bibliography-page h1 {
+
+● Let me verify the final state of KoppenMap:
+
+  Read 1 file (ctrl+o to expand)
+
+● One fix needed — the spread order should put bearing last so it wins:
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 1 line, removed 1 line
+      73        <div className="koppen-map-container">
+      74          <Map
+      75            ref={mapRef}
+      76 -          initialViewState={{ bearing, ...(initialViewState ?? 
+         -DEFAULT_VIEW) }}                                               
+      76 +          initialViewState={{ ...(initialViewState ?? DEFAULT_V
+         +IEW), bearing }}                                               
+      77            style={{ width: '100%', height: '100%' }}
+      78            mapStyle={MAP_STYLE}
+      79            interactive={interactive}
+
+● All changes are done. Summary of what changed:
+
+  - KoppenMap.jsx: Transect line + markers now use transectLng/transectLat
+  (actual path points, matching Builder). Added bearing and fitStations props;
+  when fitStations is true, fitBounds is called on load with the bearing
+  applied.
+  - AnalysisPage.jsx: KoppenMap now uses bearing={188} + fitStations
+  (auto-centers all stations, Fuji on the left). Added analysis-page-outer
+  wrapper for background.
+  - BibliographyPage.jsx: Added bibliography-page-outer wrapper for background.
+  - index.css: Both outer wrappers get flex: 1; overflow-y: auto; background: 
+  #0f1015. Left padding changed to 2.604vw (≈50px at 1920px wide).
+
+✻ Worked for 4m 21s
+
+❯ Please change the koppen legend toggle to be collapsed by default.            
+
+● Update(src/components/KoppenMap.jsx)
+  ⎿  Added 1 line, removed 1 line
+      20  
+      21  export default function KoppenMap({ stations = [], showTransect
+           = false, initialViewState, interactive = true, bearing = 0, fi
+          tStations = false }) {
+      22    const [opacity, setOpacity] = useState(0.65)
+      23 -  const [legendOpen, setLegendOpen] = useState(true)           
+      23 +  const [legendOpen, setLegendOpen] = useState(false)          
+      24    const mapRef = useRef(null)
+      25  
+      26    const lineGeoJSON = useMemo(() => {
+
+● Done.
+
+❯ On the heatmap some of the names are too long to view fully can we change     
+  them so they are all legable. Also would be ideal if graphs perfectly aligned 
+   with the transcet at default zoom so the same margin of 2.604vw but that     
+  that doesn't account for the labels on the graphs. As a result the graphs     
+  might not be perfectly centered horizontally. That's okay. Also looks like    
+  some of the graphs have a fencepost problem where others do not so they need  
+  to be approached individually.                                                
+
+● Let me read the station names and the full chart CSS to understand the layout
+  before making changes.
+
+  Searched for 2 patterns (ctrl+o to expand)
+
+● Now I understand the situation:
+  - Long names like "Rongcheng City", "Yangxin County", "Dunhuang City" overflow
+   their 60px heatmap cells → rotate -45°
+  - ElevationChart (AreaChart): first/last data points sit exactly at the plot
+  edges (fencepost) → add XAxis padding
+  - PrecipChart (BarChart): band scale already adds implicit half-band padding
+  on each side → no change needed
+  - Heatmap cell grid: station centers are at 5%/95% (consistent with BarChart)
+  → no change needed
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 1 line, removed 2 lines
+      63    const minVal = Math.min(...allAvgs)
+      64    const maxVal = Math.max(...allAvgs)
+      65  
+      66 -  const cellW = 100 / stations.length                          
+      66    const cellH = 28
+      68 -  const labelH = 40                                            
+      67 +  const labelH = 65                                            
+      68    const svgH = 12 * cellH + labelH
+      69  
+      70    return (
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 4 lines, removed 3 lines
+      82            preserveAspectRatio="none"
+      83            style={{ width: '100%', height: `${svgH}px` }}
+      84          >
+      85 -          {/* Station name labels */}                          
+      85 +          {/* Station name labels — rotated -45° so long names 
+         +stay legible */}                                               
+      86            {stations.map((st, si) => (
+      87              <text
+      88                key={st.id}
+      89 +              transform={`rotate(-45, ${si * 60 + 30}, ${labelH
+         + - 6})`}                                                       
+      90                x={si * 60 + 30}
+      91                y={labelH - 6}
+      91 -              textAnchor="middle"                              
+      92 -              fontSize="10"                                    
+      92 +              textAnchor="end"                                 
+      93 +              fontSize="9"                                     
+      94                fill="#ccc"
+      95                className="heatmap-station-label"
+      96              >
+
+● Now fix the CSS padding-top for the month labels column to match the new
+  labelH:
+
+● Update(src/index.css)
+  ⎿  Added 1 line, removed 1 line
+      1236  .analysis-heatmap-months {
+      1237    display: flex;
+      1238    flex-direction: column;
+      1239 -  padding-top: 40px; /* align with station label row */      
+      1239 +  padding-top: 65px; /* align with station label row height *
+           +/                                                            
+      1240    flex-shrink: 0;
+      1241  }
+      1242  
+
+● Now fix the ElevationChart fencepost. AreaChart with categorical XAxis places
+  first/last points at the plot edges — add padding to push them inward to match
+   the BarChart's implicit band padding:
+
+● Update(src/pages/AnalysisPage.jsx)  ⎿  Added 1 line, removed 1 line
+      179              </linearGradient>
+      180            </defs>
+      181            <CartesianGrid strokeDasharray="3 3" stroke="#333" /
+           >
+      182 -          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize
+          -: 11 }} angle={-35} textAnchor="end" interval={0} />          
+      182 +          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize
+          +: 11 }} angle={-35} textAnchor="end" interval={0} padding={{ l
+          +eft: 40, right: 40 }} />                                      
+      183            <YAxis tick={{ fill: '#ccc', fontSize: 11 }} label={
+           { value: 'm', angle: -90, position: 'insideLeft', fill: '#aaa'
+           , fontSize: 11 }} />
+      184            <Tooltip contentStyle={{ background: '#1a1a2e', bord
+           er: '1px solid #444', color: '#fff' }} formatter={v => [`${v} 
+           m`, 'Elevation']} />
+      185            <Area type="monotone" dataKey="elevation" stroke="#6
+           4b5f6" fill="url(#elevGrad)" strokeWidth={2} dot={{ fill: '#64
+           b5f6', r: 4 }} />
+
+● Done. Three targeted changes:
+
+  - Heatmap labels: rotated -45°, textAnchor="end" so the label ends at the
+  column center, labelH bumped 40→65px (and CSS padding-top updated to match) to
+   give the diagonal text room.
+  - ElevationChart: padding={{ left: 40, right: 40 }} on the XAxis pushes the
+  first/last data points in from the edges, matching the implicit band-padding
+  behavior of the BarChart.
+  - PrecipChart: no change — BarChart's band scale already handles this
+  correctly.
+
+✻ Baked for 3m 29s
+
+※ recap: Working on the analysis page: fixed heatmap label rotation, elevation chart fencepost, map bearing and auto-fit. Next step is to visually verify these changes in the browser. (disable recaps in /config)
+
+❯ Graphs look mostly good. Let's align the right side too so that Lopnur is     
+  aligned with the maps as well. The heatmap still needs a little work now the  
+  top labels are too low and covered by the actual heatmap. Also I want the     
+  same spacing on the heatmap so it aligns with the map.                        
+
+● Let me look at the full heatmap CSS and chart sections in detail.
+
+  Read 2 files (ctrl+o to expand)
+
+● The root cause of the covered labels is preserveAspectRatio="none" — it
+  stretches x without scaling y, which visually distorts the SVG rotation so the
+   labels swing lower than their coordinate values suggest. The fix is to move
+  labels entirely outside the SVG as HTML with CSS rotation.
+
+  For the right-side alignment: the heatmap cells currently run edge-to-edge;
+  I'll add 30px padding on each side in SVG coordinates (half a cell = the
+  band-scale equivalent).
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 53 lines, removed 56 lines
+      64    const maxVal = Math.max(...allAvgs)
+      65  
+      66    const cellH = 28
+      67 -  const labelH = 65                                            
+      68 -  const svgH = 12 * cellH + labelH                             
+      67 +  const svgH = 12 * cellH                                      
+      68 +  // 30px SVG-unit padding on each side (half-cell) matches rec
+         +harts band-scale edge padding                                  
+      69 +  const padX = 30                                              
+      70 +  const viewW = stations.length * 60 + padX * 2                
+      71  
+      72    return (
+      73      <div className="analysis-chart-section">
+     ...
+       78              <div key={m} className="analysis-heatmap-month-lab
+           el">{m}</div>
+       79            ))}
+       80          </div>
+       79 -        <svg                                                  
+       80 -          className="analysis-heatmap-svg"                    
+       81 -          viewBox={`0 0 ${stations.length * 60} ${svgH}`}     
+       82 -          preserveAspectRatio="none"                          
+       83 -          style={{ width: '100%', height: `${svgH}px` }}      
+       84 -        >                                                     
+       85 -          {/* Station name labels — rotated -45° so long names
+          - stay legible */}                                             
+       86 -          {stations.map((st, si) => (                         
+       87 -            <text                                             
+       88 -              key={st.id}                                     
+       89 -              transform={`rotate(-45, ${si * 60 + 30}, ${label
+          -H - 6})`}                                                     
+       90 -              x={si * 60 + 30}                                
+       91 -              y={labelH - 6}                                  
+       92 -              textAnchor="end"                                
+       93 -              fontSize="9"                                    
+       94 -              fill="#ccc"                                     
+       95 -              className="heatmap-station-label"               
+       96 -            >                                                 
+       97 -              {st.name}                                       
+       98 -            </text>                                           
+       99 -          ))}                                                 
+      100 -          {/* Cells */}                                       
+      101 -          {MONTHS.map((_, mi) =>                              
+      102 -            stations.map((st, si) => {                        
+      103 -              const cd = st.climateData                       
+      104 -              if (!cd) return null                            
+      105 -              const avg = (cd.monthlyMaxTemp[mi] + cd.monthlyM
+          -inTemp[mi]) / 2                                               
+      106 -              const val = convertTemp(avg, scale)             
+      107 -              const color = tempColor(val, minVal, maxVal, sca
+          -le)                                                           
+      108 -              return (                                        
+      109 -                <g key={`${si}-${mi}`}>                       
+      110 -                  <rect                                       
+      111 -                    x={si * 60 + 1}                           
+      112 -                    y={labelH + mi * cellH + 1}               
+      113 -                    width={58}                                
+      114 -                    height={cellH - 2}                        
+      115 -                    fill={color}                              
+      116 -                    rx="2"                                    
+      117 -                  />                                          
+      118 -                  <text                                       
+      119 -                    x={si * 60 + 30}                          
+      120 -                    y={labelH + mi * cellH + cellH / 2 + 4}   
+      121 -                    textAnchor="middle"                       
+      122 -                    fontSize="8"                              
+      123 -                    fill={val > (minVal + maxVal) / 2 ? '#000'
+          - : '#fff'}                                                    
+      124 -                    opacity="0.8"                             
+      125 -                  >                                           
+      126 -                    {val?.toFixed(1)}                         
+      127 -                  </text>                                     
+      128 -                </g>                                          
+      129 -              )                                               
+      130 -            })                                                
+      131 -          )}                                                  
+      132 -        </svg>                                                
+       81 +        <div className="analysis-heatmap-right">              
+       82 +          {/* HTML labels outside SVG so CSS rotation isn't di
+          +storted by preserveAspectRatio="none" */}                     
+       83 +          <div className="analysis-heatmap-station-labels">   
+       84 +            {stations.map(st => (                             
+       85 +              <div key={st.id} className="analysis-heatmap-sla
+          +bel-wrap">                                                    
+       86 +                <span className="analysis-heatmap-slabel">{st.
+          +name}</span>                                                  
+       87 +              </div>                                          
+       88 +            ))}                                               
+       89 +          </div>                                              
+       90 +          <svg                                                
+       91 +            className="analysis-heatmap-svg"                  
+       92 +            viewBox={`0 0 ${viewW} ${svgH}`}                  
+       93 +            preserveAspectRatio="none"                        
+       94 +            style={{ width: '100%', height: `${svgH}px` }}    
+       95 +          >                                                   
+       96 +            {MONTHS.map((_, mi) =>                            
+       97 +              stations.map((st, si) => {                      
+       98 +                const cd = st.climateData                     
+       99 +                if (!cd) return null                          
+      100 +                const avg = (cd.monthlyMaxTemp[mi] + cd.monthl
+          +yMinTemp[mi]) / 2                                             
+      101 +                const val = convertTemp(avg, scale)           
+      102 +                const color = tempColor(val, minVal, maxVal, s
+          +cale)                                                         
+      103 +                const cx = padX + si * 60                     
+      104 +                return (                                      
+      105 +                  <g key={`${si}-${mi}`}>                     
+      106 +                    <rect                                     
+      107 +                      x={cx + 1}                              
+      108 +                      y={mi * cellH + 1}                      
+      109 +                      width={58}                              
+      110 +                      height={cellH - 2}                      
+      111 +                      fill={color}                            
+      112 +                      rx="2"                                  
+      113 +                    />                                        
+      114 +                    <text                                     
+      115 +                      x={cx + 30}                             
+      116 +                      y={mi * cellH + cellH / 2 + 4}          
+      117 +                      textAnchor="middle"                     
+      118 +                      fontSize="8"                            
+      119 +                      fill={val > (minVal + maxVal) / 2 ? '#00
+          +0' : '#fff'}                                                  
+      120 +                      opacity="0.8"                           
+      121 +                    >                                         
+      122 +                      {val?.toFixed(1)}                       
+      123 +                    </text>                                   
+      124 +                  </g>                                        
+      125 +                )                                             
+      126 +              })                                              
+      127 +            )}                                                
+      128 +          </svg>                                              
+      129 +        </div>                                                
+      130        </div>
+      131      </div>
+      132    )
+
+● Now update the CSS — replace the old month padding-top, add the new right-side
+   wrapper and HTML label styles:
+
+● Update(src/index.css)
+  ⎿  Added 34 lines, removed 2 lines
+      1236  .analysis-heatmap-months {
+      1237    display: flex;
+      1238    flex-direction: column;
+      1239 -  padding-top: 65px; /* align with station label row height *
+           -/                                                            
+      1239 +  padding-top: 60px; /* matches .analysis-heatmap-station-lab
+           +els height */                                                
+      1240    flex-shrink: 0;
+      1241  }
+      1242  
+     ...
+      1249    width: 28px;
+      1250  }
+      1251  
+      1252 -.analysis-heatmap-svg {                                      
+      1252 +.analysis-heatmap-right {                                    
+      1253    flex: 1;
+      1254    min-width: 0;
+      1255 +  display: flex;                                             
+      1256 +  flex-direction: column;                                    
+      1257 +}                                                            
+      1258 +                                                             
+      1259 +.analysis-heatmap-station-labels {                           
+      1260 +  display: flex;                                             
+      1261 +  height: 60px;                                              
+      1262 +  overflow: visible;                                         
+      1263 +}                                                            
+      1264 +                                                             
+      1265 +.analysis-heatmap-slabel-wrap {                              
+      1266 +  flex: 1;                                                   
+      1267 +  position: relative;                                        
+      1268 +  overflow: visible;                                         
+      1269 +}                                                            
+      1270 +                                                             
+      1271 +/* Right edge at column centre; rotate(-45deg) swings text up
+           +per-left */                                                  
+      1272 +.analysis-heatmap-slabel {                                   
+      1273 +  position: absolute;                                        
+      1274 +  right: 50%;                                                
+      1275 +  bottom: 0;                                                 
+      1276 +  display: inline-block;                                     
+      1277 +  white-space: nowrap;                                       
+      1278 +  font-size: 9px;                                            
+      1279 +  color: #ccc;                                               
+      1280 +  line-height: 1;                                            
+      1281 +  transform: rotate(-45deg);                                 
+      1282 +  transform-origin: right bottom;                            
+      1283 +}                                                            
+      1284 +                                                             
+      1285 +.analysis-heatmap-svg {                                      
+      1286 +  min-width: 0;                                              
+      1287    border-radius: 4px;
+      1288    overflow: hidden;
+      1289  }
+
+● Now verify the final AnalysisPage heatmap section looks correct:
+
+  Read 1 file (ctrl+o to expand)
+
+● Good. Here's what changed and why:
+
+  Labels now HTML, not SVG — preserveAspectRatio="none" stretches x without
+  scaling y, which warps any rotate() transform in SVG coordinates. Labels now
+  live in a 60px-tall flex row above the SVG; each label is absolutely
+  positioned with its right edge at the column centre (right: 50%) and
+  transform: rotate(-45deg); transform-origin: right bottom, which pins the
+  text's bottom-right to the column centre and swings the text upper-left
+  cleanly.
+
+  Right-side padding — The SVG viewBox now has padX=30 (half a cell width) on
+  each side, so the first cell starts 30 units in and the last ends 30 units
+  from the edge. This mirrors the half-band-width padding that recharts' band
+  scale applies to bar/area charts, making Fuji and Lopnur sit symmetrically
+  inset on all charts.
+
+  Month label alignment — padding-top: 60px on the months column now matches the
+   HTML label row height instead of the old SVG labelH.
+
+✻ Cooked for 5m 31s
+
+❯ Lopnur still too far to the right. Just for the graphs. The heatmap total     
+  width of information is spot on however it's not centered because of the      
+  legend on the left so we need to add more spacing on the right. Also labels   
+  for the heatmap need to be higher up because they are floating on top of the  
+  first row.                                                                    
+
+● Let me read the current PrecipChart and relevant CSS sections.
+
+  Read 2 files (ctrl+o to expand)
+
+● Three targeted fixes:
+  - Lopnur on graphs: PrecipChart's BarChart has no explicit XAxis padding, so
+  Lopnur sits at the plot edge — same fix as ElevationChart
+  - Heatmap centering: months column is 28px + 6px gap = 34px of left offset
+  with nothing balancing the right — add margin-right: 34px to
+  .analysis-heatmap-right
+  - Labels too low: label anchor (bottom: 0) sits exactly at the SVG top
+  boundary, so even font descenders overlap cell 1 — lift it with margin-bottom:
+   8px on the label row and sync the months padding-top
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 1 line, removed 1 line
+      146        <ResponsiveContainer width="100%" height={260}>
+      147          <BarChart data={stationTotals} margin={{ top: 4, right
+           : 8, left: 8, bottom: 40 }}>
+      148            <CartesianGrid strokeDasharray="3 3" stroke="#333" /
+           >
+      149 -          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize
+          -: 11 }} angle={-35} textAnchor="end" interval={0} />          
+      149 +          <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize
+          +: 11 }} angle={-35} textAnchor="end" interval={0} padding={{ l
+          +eft: 40, right: 40 }} />                                      
+      150            <YAxis tick={{ fill: '#ccc', fontSize: 11 }} label={
+           { value: precipUnit, angle: -90, position: 'insideLeft', fill:
+            '#aaa', fontSize: 11 }} />
+      151            <Tooltip contentStyle={{ background: '#1a1a2e', bord
+           er: '1px solid #444', color: '#fff' }} />
+      152            {MONTHS.map((m, i) => (
+
+● Update(src/index.css)
+  ⎿  Added 1 line, removed 1 line
+      1236  .analysis-heatmap-months {
+      1237    display: flex;
+      1238    flex-direction: column;
+      1239 -  padding-top: 60px; /* matches .analysis-heatmap-station-lab
+           -els height */                                                
+      1239 +  padding-top: 68px; /* label row height (60px) + label row m
+           +argin-bottom (8px) */                                        
+      1240    flex-shrink: 0;
+      1241  }
+      1242  
+
+● Update(src/index.css)
+  ⎿  Added 2 lines
+      1254    min-width: 0;
+      1255    display: flex;
+      1256    flex-direction: column;
+      1257 +  margin-right: 34px; /* mirrors months col (28px) + gap (6px
+           +) to centre the grid */                                      
+      1258  }
+      1259  
+      1260  .analysis-heatmap-station-labels {
+      1261    display: flex;
+      1262    height: 60px;
+      1263    overflow: visible;
+      1264 +  margin-bottom: 8px; /* gap so labels don't touch the first 
+           +cell row */                                                  
+      1265  }
+      1266  
+      1267  .analysis-heatmap-slabel-wrap {
+
+● Done. Summary:
+
+  - PrecipChart: added padding={{ left: 40, right: 40 }} to match ElevationChart
+   — Lopnur now has symmetric inset on both recharts graphs
+  - Heatmap right balance: margin-right: 34px on .analysis-heatmap-right adds
+  blank space equal to the months column + gap, centring the grid horizontally
+  - Label gap: margin-bottom: 8px on .analysis-heatmap-station-labels lifts all
+  labels 8px off the cells; padding-top on months updated from 60→68px to stay
+  in sync
+
+✻ Baked for 4m 33s
+
+❯ We need to try a different approach for changing the heatmap labels because   
+  it doesn't seem like they moved at all                                        
+
+● The margin-bottom approach was wrong — the labels are position: absolute; 
+  bottom: 0 inside their wrap, so they just overflow downward visually
+  regardless of the parent's margin. But more fundamentally, the rotation
+  direction is backwards.
+
+  With rotate(-45deg) and transform-origin: right bottom, the left end of the 
+  text swings downward (below the pivot), overlapping the cells. The correct
+  direction is rotate(45deg) — that makes the left end swing upward, so the text
+   runs from upper-left down to the anchor at the column centre. This matches
+  recharts' angle={-35} convention exactly.
+
+● Update(src/index.css)
+  ⎿  Added 2 lines, removed 2 lines
+      1270    overflow: visible;
+      1271  }
+      1272  
+      1273 -/* Right edge at column centre; rotate(-45deg) swings text up
+           -per-left */                                                  
+      1273 +/* Right edge at column centre; rotate(45deg) swings left end
+           + upward, right end stays at anchor */                        
+      1274  .analysis-heatmap-slabel {
+      1275    position: absolute;
+      1276    right: 50%;
+     ...
+      1280    font-size: 9px;
+      1281    color: #ccc;
+      1282    line-height: 1;
+      1283 -  transform: rotate(-45deg);                                 
+      1283 +  transform: rotate(45deg);                                  
+      1284    transform-origin: right bottom;
+      1285  }
+      1286  
+
+● The text now reads from upper-left → down to the column-centre anchor, which
+  is the same visual convention as the rotated recharts axis labels. No part of
+  any label extends below the pivot point into the cell grid.
+
+✻ Sautéed for 2m 54s
+❯ Yes that worked but they aren't perfectly placed over the heatmap columns can 
+   we match the width of the heatmap for them.                                  
+
+● The label wraps divide the full width of .analysis-heatmap-right equally, but
+  the SVG cell grid is inset by padX=30 on each side out of viewW=660 total
+  units — so the cells only occupy the middle 90.9% of the SVG width. The labels
+   need the same proportional inset as padding.
+
+  Read 1 file (ctrl+o to expand)
+
+● Update(src/pages/AnalysisPage.jsx)
+  ⎿  Added 5 lines, removed 2 lines
+      79            ))}
+      80          </div>
+      81          <div className="analysis-heatmap-right">
+      82 -          {/* HTML labels outside SVG so CSS rotation isn't dis
+         -torted by preserveAspectRatio="none" */}                       
+      83 -          <div className="analysis-heatmap-station-labels">    
+      82 +          {/* Padding matches SVG padX inset so each flex item 
+         +spans exactly one cell column */}                              
+      83 +          <div                                                 
+      84 +            className="analysis-heatmap-station-labels"        
+      85 +            style={{ paddingLeft: `${(padX / viewW) * 100}%`, p
+         +addingRight: `${(padX / viewW) * 100}%` }}                     
+      86 +          >                                                    
+      87              {stations.map(st => (
+      88                <div key={st.id} className="analysis-heatmap-slab
+          el-wrap">
+      89                  <span className="analysis-heatmap-slabel">{st.n
+          ame}</span>
+
+● padX / viewW * 100% = 30/660 ≈ 4.545% on each side, which is exactly the
+  proportion of the SVG the left and right padding occupies. The remaining 90.9%
+   is divided equally among the 10 flex: 1 label wraps, making each one the same
+   width as its corresponding cell column.
+
+❯ Perfect let's make a commit for these graph changes.                          
+
+● Bash(git diff --stat && git status)
+  ⎿   src/components/KoppenMap.jsx   |  28 ++++++++--
+      src/index.css                  |  54 ++++++++++++++++--
+      src/pages/AnalysisPage.jsx     | 121 +++++++++++++++++++++-----------
+     … +14 lines (ctrl+o to expand)
+
+● Bash(git add src/components/KoppenMap.jsx src/index.css
+      src/pages/AnalysisPage.jsx src/pages/BibliographyPage.jsx && git commit -m
+       "$(cat <<'EOF'
+      Improve analysis pa…)
+  ⎿  [part3 f4996e4] Improve analysis page chart alignment and heatmap labe
+     ls
+      4 files changed, 136 insertions(+), 69 deletions(-)
+
+● Committed as f4996e4.
+
+❯ /openspec-archive-change                                                      
+
+● Bash(openspec list --json)
+  ⎿  {
+       "changes": [
+         {
+     … +8 lines (ctrl+o to expand)
+
+● Bash(openspec status --change "part3-analysis-report" --json)
+  ⎿  - Loading change status...
+     {
+       "changeName": "part3-analysis-report",
+     … +28 lines (ctrl+o to expand)
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+● One incomplete task (10.3 — manual verification). All artifacts are done. Let
+  me check for delta specs.
+
+  Listed 1 directory (ctrl+o to expand)
+
+● Explore(Compare delta specs to main specs)
+  ⎿  Done (17 tool uses · 29.6k tokens · 27s)
+  (ctrl+o to expand)
+
+● User answered Claude's questions:
+  ⎿  · Task 10.3 (manual verification of the analysis page) is still incomplete.
+      Proceed with archive anyway? → Archive anyway
+     · 8 delta specs exist covering new and modified capabilities. Sync them to 
+     main specs before archiving? → Sync then archive (Recommended)
+
+● Agent(Sync delta specs to main specs)
+  ⎿  Done (21 tool uses · 32.9k tokens · 10m 3s)
+  (ctrl+o to expand)
+
+  Listed 1 directory (ctrl+o to expand)
+
+● The agent didn't actually sync — it just did a code review. Let me invoke the
+  sync skill directly.
+
+● Skill(openspec-apply-change)
+  ⎿  Successfully loaded skill
+
+● This launched the wrong skill. Let me sync the specs manually by reading each
+  delta spec and applying it to the main specs directly.
+
+● Agent(Sync all delta specs to main specs)
+  ⎿  Done (23 tool uses · 31.4k tokens · 2m 34s)
+  (ctrl+o to expand)
+● Specs synced. Now archiving.
+
+● Bash(mkdir -p openspec/changes/archive && mv
+      openspec/changes/part3-analysis-report
+      openspec/changes/archive/2026-05-09-part3-analysis-report)
+  ⎿  Done
+
+  Listed 1 directory (ctrl+o to expand)
+
+● Archive Complete
+
+  Change: part3-analysis-report
+  Schema: spec-driven
+  Archived to: openspec/changes/archive/2026-05-09-part3-analysis-report/
+  Specs: ✓ Synced — 5 existing specs updated, 3 new specs created
+  (analysis-report, bibliography-page, precip-unit-toggle)
+
+  ⚠ Task 10.3 (manual verification) was incomplete at archive time.
+
+✻ Worked for 6m 16s
+
+❯ Commit the archive changes                                                    
+
+● Bash(git status && git log --oneline -3)
+  ⎿  On branch part3
+     Changes not staged for commit:
+       (use "git add/rm <file>..." to update what will be committed)
+     … +23 lines (ctrl+o to expand)
+
+● Bash(git add openspec/ && git commit -m "$(cat <<'EOF'
+      Archive part3-analysis-report change and sync specs…)
+  ⎿  [part3 8fd3ed1] Archive part3-analysis-report change and sync specs
+      20 files changed, 348 insertions(+), 19 deletions(-)
+      rename openspec/changes/{part3-analysis-report => archive/2026-05-09-
+     … +23 lines (ctrl+o to expand)
+
+● Committed as 8fd3ed1.

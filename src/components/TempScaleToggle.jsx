@@ -6,7 +6,7 @@ export default function TempScaleToggle() {
   const { scale, setScale } = useTempScale()
 
   return (
-    <div className="temp-scale-overlay">
+    <>
       {scale === 'felsius' && (
         <Link to="/what-is-felsius" className="felsius-info-link">
           What is Felsius?
@@ -23,6 +23,6 @@ export default function TempScaleToggle() {
           </button>
         ))}
       </div>
-    </div>
+    </>
   )
 }

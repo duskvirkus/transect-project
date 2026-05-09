@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import Map, { Marker, Source, Layer, NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { KOPPEN_IMAGE_URL, KOPPEN_CLASSES } from '../lib/koppen.js'
@@ -6,6 +6,9 @@ import { KOPPEN_IMAGE_URL, KOPPEN_CLASSES } from '../lib/koppen.js'
 const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
 
 const DEFAULT_VIEW = { longitude: 114, latitude: 37, zoom: 3 }
+
+function stationLng(s) { return s.transectLng ?? s.lng }
+function stationLat(s) { return s.transectLat ?? s.lat }
 
 // Blend a hex color with white to simulate raster-opacity over a light base map
 function blendWithWhite(hex, opacity) {
@@ -15,9 +18,11 @@ function blendWithWhite(hex, opacity) {
   return `rgb(${Math.round(opacity * r + (1 - opacity) * 255)},${Math.round(opacity * g + (1 - opacity) * 255)},${Math.round(opacity * b + (1 - opacity) * 255)})`
 }
 
-export default function KoppenMap({ stations = [], showTransect = false, initialViewState }) {
+export default function KoppenMap({ stations = [], showTransect = false, initialViewState, interactive = true, bearing = 0, fitStations = false }) {
   const [opacity, setOpacity] = useState(0.65)
-  const [legendOpen, setLegendOpen] = useState(true)
+  const [legendOpen, setLegendOpen] = useState(false)
+  const mapRef = useRef(null)
+  const mapLoadedRef = useRef(false)
 
   const lineGeoJSON = useMemo(() => {
     if (!showTransect || stations.length < 2) return null
@@ -25,10 +30,29 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
       type: 'Feature',
       geometry: {
         type: 'LineString',
-        coordinates: stations.map(s => [s.lng, s.lat]),
+        coordinates: stations.map(s => [stationLng(s), stationLat(s)]),
       },
     }
   }, [stations, showTransect])
+
+  const fitToBounds = useCallback((animated = false) => {
+    if (!fitStations || stations.length < 1 || !mapRef.current) return
+    const lngs = stations.map(stationLng)
+    const lats = stations.map(stationLat)
+    mapRef.current.fitBounds(
+      [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]],
+      { padding: 80, duration: animated ? 800 : 0, bearing }
+    )
+  }, [fitStations, stations, bearing])
+
+  const handleLoad = useCallback(() => {
+    mapLoadedRef.current = true
+    fitToBounds(false)
+  }, [fitToBounds])
+
+  useEffect(() => {
+    if (mapLoadedRef.current) fitToBounds(true)
+  }, [fitToBounds])
 
   return (
     <div className="koppen-map-wrapper">
@@ -58,9 +82,12 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
 
       <div className="koppen-map-container">
         <Map
-          initialViewState={initialViewState ?? DEFAULT_VIEW}
+          ref={mapRef}
+          initialViewState={{ ...(initialViewState ?? DEFAULT_VIEW), bearing }}
           style={{ width: '100%', height: '100%' }}
           mapStyle={MAP_STYLE}
+          interactive={interactive}
+          onLoad={handleLoad}
         >
           <NavigationControl position="top-right" />
 
@@ -97,7 +124,7 @@ export default function KoppenMap({ stations = [], showTransect = false, initial
           )}
 
           {stations.map((s, i) => (
-            <Marker key={s.id ?? i} longitude={s.lng} latitude={s.lat} anchor="center">
+            <Marker key={s.id ?? i} longitude={stationLng(s)} latitude={stationLat(s)} anchor="center">
               <div className="koppen-marker" title={s.name}>
                 {i + 1}
               </div>

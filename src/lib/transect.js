@@ -2,7 +2,6 @@ import * as turf from '@turf/turf'
 
 export const STATION_COUNT = 10
 export const INTERVAL_MILES = 300
-const INTERVAL_KM = turf.convertLength(INTERVAL_MILES, 'miles', 'kilometers')
 
 /**
  * Compute STATION_COUNT evenly-spaced transect points using rhumb-line
@@ -13,12 +12,13 @@ const INTERVAL_KM = turf.convertLength(INTERVAL_MILES, 'miles', 'kilometers')
  * Using turf.destination() (great-circle) instead would arc toward lower
  * latitudes on an east/west heading at mid-latitudes.
  */
-export function computeStations(startLng, startLat, heading) {
+export function computeStations(startLng, startLat, heading, intervalMiles = INTERVAL_MILES) {
+  const intervalKm = turf.convertLength(intervalMiles, 'miles', 'kilometers')
   const stations = []
   for (let i = 0; i < STATION_COUNT; i++) {
     const pt = turf.rhumbDestination(
       turf.point([startLng, startLat]),
-      i * INTERVAL_KM,
+      i * intervalKm,
       heading,
       { units: 'kilometers' }
     )
