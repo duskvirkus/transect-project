@@ -86,7 +86,7 @@ Source: [1]
 
 ### Köppen-Geiger Classification Map
 
-*[Insert screenshot of Köppen-Geiger map with transect overlay]*
+![screenshot of Köppen-Geiger map with transect overlay](public/report/koppen.png)
 
 The transect crosses the following Köppen-Geiger climate zones west to east [2]:
 
